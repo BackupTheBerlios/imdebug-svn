@@ -1,0 +1,250 @@
+//Microsoft Developer Studio generated resource script.
+//
+#include "imdbgdisp_res.h"
+
+#define APSTUDIO_READONLY_SYMBOLS
+/////////////////////////////////////////////////////////////////////////////
+//
+// Generated from the TEXTINCLUDE 2 resource.
+//
+#include "afxres.h"
+
+/////////////////////////////////////////////////////////////////////////////
+#undef APSTUDIO_READONLY_SYMBOLS
+
+/////////////////////////////////////////////////////////////////////////////
+// English (U.S.) resources
+
+#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_ENU)
+#ifdef _WIN32
+LANGUAGE LANG_ENGLISH, SUBLANG_ENGLISH_US
+#pragma code_page(1252)
+#endif //_WIN32
+
+#ifdef APSTUDIO_INVOKED
+/////////////////////////////////////////////////////////////////////////////
+//
+// TEXTINCLUDE
+//
+
+1 TEXTINCLUDE DISCARDABLE 
+BEGIN
+    "imdbgdisp_res.h\0"
+END
+
+2 TEXTINCLUDE DISCARDABLE 
+BEGIN
+    "#include ""afxres.h""\r\n"
+    "\0"
+END
+
+3 TEXTINCLUDE DISCARDABLE 
+BEGIN
+    "\r\n"
+    "\0"
+END
+
+#endif    // APSTUDIO_INVOKED
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Menu
+//
+
+IMDBGDISPLAY MENU DISCARDABLE 
+BEGIN
+    POPUP "&File"
+    BEGIN
+        MENUITEM "Save &As...\tCtrl+S",         IDM_FILE_SAVE
+        MENUITEM SEPARATOR
+        MENUITEM "E&xit\tAlt+F4",               IDM_FILE_EXIT
+    END
+    POPUP "&Edit"
+    BEGIN
+        MENUITEM "&Copy\tCtrl+C",               IDM_EDIT_COPY
+        MENUITEM SEPARATOR
+        MENUITEM "&Options...",                 IDM_EDIT_OPTIONS
+    END
+    POPUP "&View"
+    BEGIN
+        MENUITEM "&Next Image\tCtrl+N",         IDM_VIEW_NEXT
+        MENUITEM "&Previous Image\tCtrl+P",     IDM_VIEW_PREV
+        MENUITEM SEPARATOR
+        MENUITEM "Checker &Background\tCtrl+B", IDM_VIEW_CHECK
+        MENUITEM "Pixel &Grid\tCtrl+G",         IDM_VIEW_GRID
+        MENUITEM SEPARATOR
+        MENUITEM "&Stretch to Fit\tCtrl+T",     IDM_VIEW_STRETCH, CHECKED
+        MENUITEM "&Rescale\t/",                 IDM_VIEW_RESCALE
+        MENUITEM "Zoom &In\tCtrl+=",            IDM_VIEW_ZOOMIN
+        MENUITEM "Zoom &Out\tCtrl+-",           IDM_VIEW_ZOOMOUT
+        MENUITEM "&Flip\tCtrl+F",               IDM_VIEW_FLIP
+        MENUITEM SEPARATOR
+        MENUITEM "Scale && Bias &Ctrls",        IDM_VIEW_SB_CONTROLS
+        MENUITEM SEPARATOR
+        MENUITEM "Block &Updates\tCtrl+I",      IDM_VIEW_IGNORE
+        MENUITEM "Share Output &Window",        IDM_VIEW_SHARE, CHECKED
+    END
+    POPUP "&Channels"
+    BEGIN
+        MENUITEM "RGBA\tCtrl+1",                IDM_CHAN_RGBA, CHECKED
+        MENUITEM "RGB\tCtrl+2",                 IDM_CHAN_RGB
+        MENUITEM "Red\tCtrl+3",                 IDM_CHAN_RED
+        MENUITEM "Green\tCtrl+4",               IDM_CHAN_GREEN
+        MENUITEM "Blue\tCtrl+5",                IDM_CHAN_BLUE
+        MENUITEM "Alpha\tCtrl+6",               IDM_CHAN_ALPHA
+    END
+    POPUP "&Help"
+    BEGIN
+        MENUITEM "&About",                      IDM_HELP_ABOUT
+    END
+END
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Accelerator
+//
+
+IMDBGDISPLAY ACCELERATORS DISCARDABLE 
+BEGIN
+    "-",            IDM_VIEW_ZOOMOUT,       ASCII,  NOINVERT
+    "/",            IDM_VIEW_RESCALE,       ASCII,  NOINVERT
+    "1",            IDM_CHAN_RGBA,          VIRTKEY, CONTROL, NOINVERT
+    187,            IDM_VIEW_ZOOMIN,        VIRTKEY, CONTROL, NOINVERT
+    189,            IDM_VIEW_ZOOMOUT,       VIRTKEY, CONTROL, NOINVERT
+    "2",            IDM_CHAN_RGB,           VIRTKEY, CONTROL, NOINVERT
+    "3",            IDM_CHAN_RED,           VIRTKEY, CONTROL, NOINVERT
+    "4",            IDM_CHAN_GREEN,         VIRTKEY, CONTROL, NOINVERT
+    "5",            IDM_CHAN_BLUE,          VIRTKEY, CONTROL, NOINVERT
+    "6",            IDM_CHAN_ALPHA,         VIRTKEY, CONTROL, NOINVERT
+    "=",            IDM_VIEW_ZOOMIN,        ASCII,  NOINVERT
+    "B",            IDM_VIEW_CHECK,         VIRTKEY, CONTROL, NOINVERT
+    "C",            IDM_EDIT_COPY,          VIRTKEY, CONTROL, NOINVERT
+    "F",            IDM_VIEW_FLIP,          VIRTKEY, CONTROL, NOINVERT
+    "G",            IDM_VIEW_GRID,          VIRTKEY, CONTROL, NOINVERT
+    "I",            IDM_VIEW_IGNORE,        VIRTKEY, CONTROL, NOINVERT
+    "K",            IDM_VIEW_CHECK,         VIRTKEY, CONTROL, NOINVERT
+    "N",            IDM_VIEW_NEXT,          VIRTKEY, CONTROL, NOINVERT
+    "P",            IDM_VIEW_PREV,          VIRTKEY, CONTROL, NOINVERT
+    "S",            IDM_FILE_SAVE,          VIRTKEY, CONTROL, NOINVERT
+    "T",            IDM_VIEW_STRETCH,       VIRTKEY, CONTROL, NOINVERT
+    VK_F4,          IDM_FILE_EXIT,          VIRTKEY, ALT, NOINVERT
+    VK_LEFT,        IDM_VIEW_PREV,          VIRTKEY, ALT, NOINVERT
+    VK_NEXT,        IDM_VIEW_NEXT,          VIRTKEY, NOINVERT
+    VK_PRIOR,       IDM_VIEW_PREV,          VIRTKEY, NOINVERT
+    VK_RIGHT,       IDM_VIEW_NEXT,          VIRTKEY, ALT, NOINVERT
+END
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Icon
+//
+
+// Icon with lowest ID value placed first to ensure application icon
+// remains consistent on all systems.
+IMDBGDISPLAY            ICON    DISCARDABLE     "../res/imdbgdisplay.ico"
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Dialog
+//
+
+ABOUTBOX DIALOG DISCARDABLE  0, 0, 186, 95
+STYLE DS_MODALFRAME | DS_3DLOOK | WS_POPUP | WS_CAPTION
+CAPTION "About..."
+FONT 10, "MS Sans Serif Bold"
+BEGIN
+    DEFPUSHBUTTON   "OK",IDOK,71,74,50,14
+    CTEXT           "The Image Debugger  v0.952b  -  Feb 2003",IDC_STATIC,26,
+                    5,149,11,SS_CENTERIMAGE
+    CTEXT           "Image Viewer Application",IDC_STATIC,26,16,157,13,
+                    SS_CENTERIMAGE
+    CTEXT           "(c) William V. Baxter, 2002, 2003",IDC_STATIC,15,36,159,
+                    15,SS_CENTERIMAGE
+    ICON            "IMDBGDISPLAY",IDC_STATIC,11,8,20,20
+    CTEXT           "University of North Carolina @ Chapel Hill",IDC_STATIC,
+                    12,51,161,15,SS_CENTERIMAGE
+    GROUPBOX        "",IDC_STATIC,11,27,165,45
+END
+
+OPTIONSBOX DIALOG DISCARDABLE  0, 0, 186, 95
+STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "Image Debugger Options"
+FONT 8, "MS Sans Serif"
+BEGIN
+    DEFPUSHBUTTON   "OK",IDOK,74,74,50,14
+    PUSHBUTTON      "Cancel",IDCANCEL,129,74,50,14
+    LTEXT           "Image History Buffer &Size:",IDC_STATIC,7,9,82,8
+    CONTROL         "Spin1",IDC_NUMSPIN,"msctls_updown32",UDS_SETBUDDYINT | 
+                    UDS_ARROWKEYS,138,7,11,14
+    EDITTEXT        IDC_NUMEDIT,97,7,40,14,ES_RIGHT | ES_AUTOHSCROLL | 
+                    ES_NUMBER
+    CONTROL         "Copy scale && bias of images with same title",
+                    IDC_COPYSCALE,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,7,26,
+                    149,10
+END
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Toolbar
+//
+
+IMDBGDISPLAY TOOLBAR DISCARDABLE  16, 15
+BEGIN
+    BUTTON      ID_BUTTON40010
+    BUTTON      ID_BUTTON40011
+    SEPARATOR
+    BUTTON      ID_BUTTON40012
+    BUTTON      ID_BUTTON40013
+END
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Bitmap
+//
+
+IDB_AUTOSCALE           BITMAP  DISCARDABLE     "../res/autoscale.bmp"
+IDB_UPARROW             BITMAP  DISCARDABLE     "../res/uparrow.bmp"
+IDB_DNARROW             BITMAP  DISCARDABLE     "../res/dnarrow.bmp"
+IDB_LFARROW             BITMAP  DISCARDABLE     "../res/lfarrow.bmp"
+IDB_RTARROW             BITMAP  DISCARDABLE     "../res/rtarrow.bmp"
+IDB_SCROLLBG            BITMAP  DISCARDABLE     "../res/scrollbg.bmp"
+IDB_UNITYSCALE          BITMAP  DISCARDABLE     "../res/unityscale.bmp"
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// DESIGNINFO
+//
+
+#ifdef APSTUDIO_INVOKED
+GUIDELINES DESIGNINFO DISCARDABLE 
+BEGIN
+    "OPTIONSBOX", DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 179
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 88
+    END
+END
+#endif    // APSTUDIO_INVOKED
+
+#endif    // English (U.S.) resources
+/////////////////////////////////////////////////////////////////////////////
+
+
+
+#ifndef APSTUDIO_INVOKED
+/////////////////////////////////////////////////////////////////////////////
+//
+// Generated from the TEXTINCLUDE 3 resource.
+//
+
+
+/////////////////////////////////////////////////////////////////////////////
+#endif    // not APSTUDIO_INVOKED
+

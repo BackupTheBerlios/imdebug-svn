@@ -1,0 +1,950 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+  <title>The Image Debugger</title>
+  <meta http-equiv="content-type"
+ content="text/html; charset=ISO-8859-1">
+</head>
+<body text="#000000" bgcolor="#ffffff" link="#000099" vlink="#990099"
+ alink="#000099">
+<!-- <blockquote> -->
+<table cellpadding="10" cellspacing="2" border="1" width="640"
+ align="center">
+  <tbody>
+    <tr>
+      <td valign="top"><img src="icon64.png" alt="The Image Debugger"
+ width="64" height="64"> <img src="title.png" alt="The Image Debugger"
+ width="500" height="64">
+      <div align="right"><i><big>A utility for simple printf-style
+debugging of images in Win32 C/C++ applications.<br>
+(and soon to be Linux!) </big></i><br>
+      <div align="left">
+      <div style="text-align: center;">[ <a href="#_About_">About</a>
+| <a href="#_Screenshots_">Screenshots</a> | <a href="#_Installation_">Installation</a>
+| <a href="#Usage">Usage</a> | <a href="#_Bugs">Bugs</a> | <a
+ href="#_History_">History</a> | <a href="#_Acknowledgements_">Acknowledgements</a>
+| <a href="#Download">Download</a> | <a href="#Contact">Contact</a> ]<br>
+      </div>
+      <br>
+      <a name="_About_"></a><img src="about.png" alt="* About"
+ width="110" height="34"> <br>
+      <br>
+      <blockquote>"The
+Image Debugger" is a programmer's utility to
+make debugging of Win32 applications that use images and grid data
+easier. &nbsp;Examples of such applications include 3D games and
+visualization applications, as well as grid-based numerical PDE
+simulation codes. "The Image Debugger" could even conceivably be used
+to
+debug dense matrices. &nbsp; The code is for Windows only for now, but
+the Linux port has been started and should be completed any day now.<br>
+        <br>
+Often when creating graphical applications you have a chunk of memory
+that you know is supposed to look some certain way. &nbsp;Unfortunately
+debuggers don't typically have a way to view that memory as an image,
+and so it's a real pain to figure out whether the image is correct or
+not. &nbsp;That's where "The Image Debugger" comes in. &nbsp;The
+typical solution -- if looking at the raw numbers in a debugger is not
+sufficient -- is to write a bit of code that will dump the data to a
+file, which can then be looked at using something like <a
+ href="http://www.mathworks.com">Matlab</a>, or if you already have a
+graphical app, you can write some code to splat some images up on the
+screen on top of the actual graphical output you're trying to generate.
+&nbsp;Either way it takes some effort. &nbsp;And often it's a real
+hassle if you're working with double-buffered graphics, because if you
+want to see drawing as it's happening you have to switch to drawing on
+the front buffer, and even then if you're stopped at a breakpoint in
+the
+debugger and your window gets partially covered, you lose the image.<br>
+        <br>
+With "The Image Debugger" your data pops up in a separate window with
+none of those problems and with just a single line of code. &nbsp;
+That's all it takes! &nbsp;You can go from a bare bones "hello world"
+console application to visual output with just one line of code. &nbsp;
+Basically you can think of this utility as a "printf" for images. So
+aside from debugging images, one thing you could use imdebug for, for
+example, would be as a really quick-and-dirty front end for a ray
+tracer. You write the ray-tracer, then you can make one call to
+imdebug to show the results.<br>
+        <br>
+But debugging is the primary purpose for imdebug. To debug a simple
+variable, x, one way is to toss a&nbsp; '<code><font
+ face="Courier New, Courier, monospace">printf("%d\n", x)</font></code>'
+at a strategic location in your code. &nbsp; With The Image Debugger if
+you have an 128x128 RGB image in <i>img</i><i>, </i>you can simply
+"printf" it with a call like '<code>imdebug("rgb w=128 h=128 %p", img)</code>'
+. &nbsp; For more details see the <a href="#Usage">Usage </a>section
+below.<br>
+      </blockquote>
+      <br>
+      <a name="_Screenshots_"></a><img src="screenshots.png"
+ alt="* Screenshots" width="199" height="34"> <br>
+      <br>
+      <blockquote>Here's a screen capture of The Image Debugger's
+output viewer application.<br>
+        <br>
+        <div align="center"><img src="screen1.png"
+ alt="A screenshot of the Image Debugger" width="539" height="401"> <br>
+        </div>
+        <br>
+        <br>
+        <i>(NOTE:
+the rest of the screenshots are from an older version of imdebug, but
+the functionality&nbsp; of the latest version is pretty similar.)</i><br>
+        <br>
+These next few annotated screen shots explain some of the status
+messages and UI elements.<br>
+        <br>
+        <div align="center"><img src="screendescrip1.png" title=""
+ alt="Status messages give image info."
+ style="width: 465px; height: 323px;"><br>
+        <br>
+        <img src="screendescrip2.png" title=""
+ alt="Another example screenshot." style="width: 313px; height: 186px;"><br>
+        <br>
+        <br>
+        <img src="screendescrip3.png" title=""
+ alt="The status also gives you pixel information."
+ style="width: 480px; height: 384px;">&nbsp; <br>
+        <br>
+        <img src="screendescrip4.png" title=""
+ alt="Scale and bias controls" style="width: 462px; height: 238px;"><br>
+        </div>
+        <br>
+        <br>
+      </blockquote>
+      <a name="_Installation_"></a><img src="installation.png"
+ alt="* Installation" width="195" height="34"> <br>
+      <br>
+      <blockquote>First <a href="#Download">download</a> either the
+src
+or bin distribution. &nbsp;Then to install, just unzip the files into a
+temp directory. &nbsp; Then copy these files into the following
+locations:<br>
+        <br>
+        <table border="1" cellpadding="2" cellspacing="2"
+ style="background-color: rgb(0, 0, 0);">
+          <tbody>
+            <tr>
+              <td valign="top"
+ style="background-color: rgb(255, 255, 255);"><font
+ face="Helvetica, Arial, sans-serif"><b>FILE<br>
+              </b></font></td>
+              <td valign="top"
+ style="background-color: rgb(255, 255, 255);"><font
+ face="Helvetica, Arial, sans-serif"><b>INSTALL
+LOCATION<br>
+              </b></font></td>
+            </tr>
+            <tr>
+              <td style="background-color: rgb(255, 255, 255);"><font
+ face="Helvetica, Arial, sans-serif">imdebug.h</font></td>
+              <td rowspan="1" colspan="1"
+ style="background-color: rgb(255, 255, 255);"><font
+ face="Helvetica, Arial, sans-serif"> Put someplace where your compiler
+knows to look for include files.</font></td>
+            </tr>
+            <tr>
+              <td style="background-color: rgb(255, 255, 255);"><font
+ face="Helvetica, Arial, sans-serif">imdebug.lib</font></td>
+              <td rowspan="1" colspan="1"
+ style="background-color: rgb(255, 255, 255);"><font
+ face="Helvetica, Arial, sans-serif"> Put someplace where your compiler
+knows to look for library files.</font></td>
+            </tr>
+            <tr>
+              <td style="background-color: rgb(255, 255, 255);"><font
+ face="Helvetica, Arial, sans-serif">imdebug.dll<br>
+imdbgdisplay.exe</font></td>
+              <td rowspan="1" colspan="1"
+ style="background-color: rgb(255, 255, 255);"><font
+ face="Helvetica, Arial, sans-serif"> Put someplace on your path, or in
+the same dir as the app you're debugging.<br>
+              </font></td>
+            </tr>
+          </tbody>
+        </table>
+        <br>
+If you download the src package you'll find precompiled versions of the
+binaries in the "lib" directory.<br>
+        <br>
+That's all there is to installation!<br>
+      </blockquote>
+      <br>
+      <a name="Usage"></a><img src="usage.png" alt="* Usage" width="104"
+ height="41"> <br>
+      <blockquote>There are two parts to usage: calling imdebug from
+your code, and using the displayer to look at the output from your
+application.<br>
+        <h2>1. Using The Image Debugger in your code</h2>
+The first thing to do is put this in the file you want to debug:
+        <blockquote><code>&nbsp;#include &lt;imdebug.h&gt;</code><br>
+          <br>
+        </blockquote>
+The next step is to call it. &nbsp;The one function exported from the
+imdebug DLL has this prototype:<br>
+        <blockquote><code>&nbsp;void imdebug(const char *format, ...);</code><br>
+          <br>
+        </blockquote>
+That doesn't tell you a whole lot. &nbsp;But basically that's the same
+argument list as printf(): a format string followed by a variable
+number
+of arguments. &nbsp;The operation of imdebug is similar to printf.
+&nbsp;The format string contains all the information about how to parse
+the rest of the arguments passed to the function. &nbsp;The format
+string is basically a snippet of code in a mini-language that I
+devised.<br>
+        <br>
+Before going into the format syntax ins and outs, let's just take a
+look at a few usage examples (from testapp.cpp distributed in the
+source
+zip above). &nbsp;Here are the declarations of the images we're going
+to try to display:<br>
+        <br>
+        <blockquote>
+          <pre><code>unsigned char testRGB[16*17*3]; &nbsp;// 16x17 &nbsp;3 8-bit channels<br>unsigned char testRGBA[16*17*4]; &nbsp;// 16x17 &nbsp;4 8-bit channels<br>unsigned short testRGB16[16*17*3];// 16x17 &nbsp;3 16-bit channels<br>float testRGBf[16*17*3]; // 16x17 &nbsp;3 32-bit float channels<br>unsigned char testBigRGBA[512*512*4]; // 512x512 &nbsp;4 8-bit chan<br></code></pre>
+        </blockquote>
+        <br>
+Now here's a bunch of different examples of ways to call imdebug.
+&nbsp;Basically the minimum requirement is that you specify the width
+and height of your image, how many channels it has, and how many bits
+are in each channel.<br>
+        <br>
+The first example does just that:<br>
+        <blockquote>
+          <pre>imdebug("rgb w=%d h=%d %p", 16, 17, testRGB);<br></pre>
+        </blockquote>
+The 'rgb' says this is a 3 channel, &nbsp;RGB format image. &nbsp;You
+could also say 'bgr' if that's the order of your images channels.
+&nbsp;8 bits per channel is assumed if nothing is specified. &nbsp;The
+'w=' and 'h=' statements tell imdebug the width and height of the
+image. &nbsp;The actual values could be entered directly in the format
+string, like 'w=16 h=17' &nbsp;but it's also possible to use the '%d'
+specifier to tell imdebug to get the value from an input argument
+instead. &nbsp;Finally the '%p' indicates the image pointer argument.<br>
+        <br>
+Here's another example
+        <blockquote>
+          <pre>imdebug("rgb rbga=__gg w=%d h=%d %p", 16, 17, testRGB);<br></pre>
+        </blockquote>
+This is just like the last one exept for the <b>swizzling </b>statement
+"rbga=__gg". &nbsp; This tells imdebug to remap the input channels when
+displaying the image. &nbsp;An '_' indicates a channel should be
+discarded. &nbsp;In this case we see the green input value will be used
+both as an alpha channel and as the green channel, while red and blue
+channels will just be ignored. &nbsp;Note that that's "r<b>BG</b>a" not
+"r<b>GB</b>a". &nbsp;Originally when I typed it I made a typo, but
+Imdebug can interpret the statement either way. &nbsp;If I had typed
+the
+latter, then imdebug would map the green input to the blue and alpha
+channels instead of green and alpha.<br>
+        <br>
+To specify the bit-depth of your channels use the 'b=' statement:
+        <blockquote>
+          <pre>imdebug("rgb rbga=gggg&nbsp; b=32f w=%d h=%d %p", 16, 17, testRGBf);<br></pre>
+        </blockquote>
+The 'f' indicates floating point values instead of integer values.
+&nbsp;<br>
+Using '*auto' tells imdebug to autoscale (and bias) the values in the
+floating point image to a [0,1) range for output. Useful if you're
+looking at non-image floating point data which isn't in the [0,1)
+range:
+        <blockquote>
+          <pre>imdebug("rgb rbga=gggg *auto b=32f w=%d h=%d %p", 16, 17, testRGBf);<br></pre>
+        </blockquote>
+Here are some other examples:<br>
+        <blockquote>
+          <pre>imdebug("rgb rbga=__gg b=16 w=%d h=%d %p", 16, 17, testRGB16);<br>imdebug("rgb rbga=gggg w=%d h=%d %p", 16, 17, testRGB);<br>imdebug("lum b=32f w=%d h=%d %p", 16*3, 17, testRGBf);<br>imdebug("rgba&nbsp; w=%d h=%d %p", 512, 512, testBigRGBA);</pre>
+        </blockquote>
+        <br>
+And finally here's the syntax description from the imdebug.h.
+&nbsp;It's not necessarily all 100% correct or 100% tested. &nbsp;If
+something doesn't work <a href="#Contact">let me know</a>.<br>
+        <br>
+        <blockquote><code>&nbsp;VARIABLE SPEC:<br>
+&nbsp; %d&nbsp; -&nbsp; int<br>
+&nbsp; %f&nbsp; -&nbsp; float<br>
+&nbsp; %s&nbsp; -&nbsp; string<br>
+&nbsp; %p&nbsp; -&nbsp; picture (pointer to raw image data)<br>
+&nbsp; <br>
+&nbsp;INPUT FORMAT SPEC:<br>
+&nbsp; rgb<br>
+&nbsp; bgr<br>
+&nbsp; abgr<br>
+&nbsp; rgba...&nbsp;&nbsp; - specify input image channel order<br>
+&nbsp; lum&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; - 1-channel image:
+lumninance<br>
+&nbsp; luma&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; - 2-channel image: lumninance
++ alpha<br>
+&nbsp; #7 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- Generic 7-channel
+image<br>
+&nbsp; ---&gt; (default is rgb)<br>
+          <br>
+&nbsp; b=8&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; - size of all channels
+is 8 bits<br>
+&nbsp; b=5,6,5&nbsp;&nbsp; - size of channels is 5bits(R) 6bits(G)
+5bits(B)<br>
+&nbsp; b=32f&nbsp;&nbsp;&nbsp;&nbsp; - size of all channels is 32 bits,
+float format<br>
+&nbsp; ---&gt; (default is b=8)<br>
+          <br>
+&nbsp;OUTPUT FORMAT SPEC:<br>
+&nbsp; rgba=rg__ - just display the red and green chanels<br>
+&nbsp; rgba=aaa_ - display alpha as grayscale<br>
+&nbsp; lum=g&nbsp;&nbsp;&nbsp;&nbsp; - display green as grayscale<br>
+&nbsp; rgba=#0512 - map channels by number<br>
+&nbsp; ---&gt; (default is 1-1 mapping with no translation or swizzling)<br>
+          <br>
+&nbsp;ATTRIBUTE SPEC:<br>
+&nbsp; w=23&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; - width&nbsp; is 23 (default
+0)<br>
+&nbsp; h=17&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; - height is 17 (default 0)<br>
+&nbsp; rs=1&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; - skip 1 row after every
+row&nbsp; (default 0)<br>
+&nbsp; cs=2&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; - skip 2 columns after every
+column (default 0)<br>
+&nbsp; t='img2' &nbsp;- title to put in displayer titlebar<br>
+          <br>
+&nbsp;SCALE AND BIAS:<br>
+&nbsp; *1.2&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; - scale by 1.2<br>
+&nbsp; /1.2&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; - scale by 1/1.2<br>
+&nbsp; +128&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; - bias&nbsp; by 128<br>
+&nbsp; -0.5&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; - bias&nbsp; by -0.5<br>
+&nbsp; *auto&nbsp;&nbsp;&nbsp;&nbsp; - automatically scale &amp; bias
+based on max &amp; min values<br>
+&nbsp; --&gt; Default is scale=1 and bias=0<br>
+&nbsp; --&gt; Output value is computed by first scaling, then biasing,
+i.e.<br>
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;out =
+(in*scale)+bias, <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; the same order as with OpenGL
+glPixelTransfer functions.<br>
+          <br>
+&nbsp; Order of specifiers is mostly not important, but channel
+swizzeling should come after input format specifier. <br>
+&nbsp; (i.e. do "rgb bgr=rgb",&nbsp;&nbsp; not "bgr=rgb&nbsp; rgb")<br>
+          <br>
+&nbsp; If no image is specified (with '%p'), then the previous <br>
+&nbsp; image data is used.<br>
+          <br>
+          </code><br>
+          <br>
+          <br>
+If you have installed the header file and .lib file where your compiler
+can find them, then compiling your app with imdebug should be just like
+compiling without. &nbsp;You shouldn't have to do anything special to
+get it to link. &nbsp; The header file uses a special "#pragma comment"
+to tell the linker to link with the DLL, so you don't have to add it
+explicitly to your link command. &nbsp;(Recent versions of GLUT use
+this technique too).<code><br>
+          </code></blockquote>
+        <h3>Using imdebug with OpenGL&nbsp;</h3>
+Here's an example of some utility functions for looking at OpenGL
+textures using imdebug:
+        <p><a href="http://www.cs.unc.edu/%7Eharrism">Mark Harris</a>
+and I have put together imdebug utility functions for OpenGL: <a
+ href="imdebuggl.h">imdebuggl.h</a>.
+The main imdebug function in this header is : </p>
+        <blockquote><code>imdebugTexImage{f}(target,myTextureID,level,format).</code>
+        </blockquote>
+There are also functions that read the color, depth, and stencil out of
+the current frame buffer
+and dump those pixels to the imdebug window.
+        <p>The header is for C++ only.&nbsp;<br>
+        </p>
+        <h2>2. Using the Output Viewer&nbsp;</h2>
+        <blockquote>When you call the imdebug() function, the
+imdebug.dll launches the output viewer, imdbgdisplay.exe (show in the
+screenshots above) and sends it a copy of the image data that you
+passed in as the '%p' argument. &nbsp;Once the output viewer app has
+the data, the app can make whatever changes it wants; the viewer's
+local
+copy will not change. &nbsp;(For the curious, this inter-process
+communication is accomplished using a memory-mapped file). &nbsp;<br>
+          <br>
+Repeated calls to imdebug() cause the viewer to buffer up the images.
+&nbsp;You can use the GUI to navigate and inspect the most recently
+output images. The history holds up to 10 images initially, but is
+user-configurable. <br>
+          <br>
+The main GUI functions are as follows:<br>
+          <br>
+          <table border="1" cellpadding="2" cellspacing="2"
+ style="background-color: rgb(0, 0, 0);">
+            <tbody>
+              <tr>
+                <td align="center"
+ style="background-color: rgb(255, 255, 255);">Mouse drag</td>
+                <td style="background-color: rgb(255, 255, 255);">translate
+image around</td>
+              </tr>
+              <tr>
+                <td align="center"
+ style="background-color: rgb(255, 255, 255);">Mouse wheel</td>
+                <td style="background-color: rgb(255, 255, 255);">zoom
+image in and out</td>
+              </tr>
+              <tr>
+                <td align="center"
+ style="background-color: rgb(255, 255, 255);">Ctrl+Mouse wheel</td>
+                <td style="background-color: rgb(255, 255, 255);">navigate
+back and forth in the history buffer</td>
+              </tr>
+              <tr>
+                <td
+ style="vertical-align: top; text-align: center; background-color: rgb(255, 255, 255);">Up&nbsp;
+Down</td>
+                <td
+ style="vertical-align: top; background-color: rgb(255, 255, 255);">navigate
+back and
+forth in the history buffer <br>
+                </td>
+              </tr>
+              <tr>
+                <td align="center"
+ style="background-color: rgb(255, 255, 255);">PgUp PgDn</td>
+                <td style="background-color: rgb(255, 255, 255);">also
+navigates, but skips directly to the next or
+previous<br>
+image whose title matches the current image.<br>
+(Image titles are set by putting a t='a title' in the format string.<br>
+                </td>
+              </tr>
+              <tr>
+                <td align="center"
+ style="background-color: rgb(255, 255, 255);">Ctrl+G</td>
+                <td style="background-color: rgb(255, 255, 255);">toggle
+the pixel grid lines on and off</td>
+              </tr>
+              <tr>
+                <td align="center"
+ style="background-color: rgb(255, 255, 255);">Ctrl+F</td>
+                <td style="background-color: rgb(255, 255, 255);">toggle
+flipping in the Y direction</td>
+              </tr>
+              <tr>
+                <td align="center"
+ style="background-color: rgb(255, 255, 255);">Ctrl+B<br>
+                </td>
+                <td style="background-color: rgb(255, 255, 255);">toggle
+background type (solid gray or checkerboard)</td>
+              </tr>
+              <tr>
+                <td align="center"
+ style="background-color: rgb(255, 255, 255);">Ctrl+I</td>
+                <td style="background-color: rgb(255, 255, 255);">Block
+new images coming from the app (ignore
+output from app)</td>
+              </tr>
+              <tr>
+                <td valign="top" align="center"
+ style="background-color: rgb(255, 255, 255);">-<br>
+                </td>
+                <td valign="top"
+ style="background-color: rgb(255, 255, 255);">zoom out<br>
+                </td>
+              </tr>
+              <tr>
+                <td valign="top" align="center"
+ style="background-color: rgb(255, 255, 255);">=<br>
+                </td>
+                <td valign="top"
+ style="background-color: rgb(255, 255, 255);">zoom in<br>
+                </td>
+              </tr>
+              <tr>
+                <td align="center"
+ style="background-color: rgb(255, 255, 255);">/</td>
+                <td style="background-color: rgb(255, 255, 255);">rescale
+image to fit in window</td>
+              </tr>
+              <tr>
+                <td
+ style="vertical-align: top; text-align: center; background-color: rgb(255, 255, 255);">Shift+0
+- Shift+9<br>
+                </td>
+                <td
+ style="vertical-align: top; background-color: rgb(255, 255, 255);">zoom
+to preset
+magnifications <br>
+(Shift+1=100% ... Shift+9=900%, Shift+0=1000%)<br>
+                </td>
+              </tr>
+              <tr>
+                <td align="center"
+ style="background-color: rgb(255, 255, 255);">Ctrl+1 - Ctrl+6</td>
+                <td style="background-color: rgb(255, 255, 255);">change
+color channels being displayed </td>
+              </tr>
+            </tbody>
+          </table>
+          <br>
+          <br>
+        </blockquote>
+      </blockquote>
+      <a name="_Bugs"></a><img src="bugs.png" alt="* Bugs" width="85"
+ height="41">
+      <blockquote>I had to leave a few bugs in to keep life
+interesting. &nbsp;There are also many features that could make things
+even more groovy.<br>
+        <br>
+Top on the list are:
+        <h3>Known Bugs</h3>
+        <ul>
+<!--        <li>Non-byte-aligned data doesn't work (e.g. 5 6 5 format images)
+[blitters need some tweeking to be able to extract non-aligned values (requires
+some bit shifting and masking) &nbsp;A general solution may be tough, but
+it would be easy enough to support specific common formats like 5 6 5.]</li>
+-->
+          <li>The
+row stride and column stride settings (rs=,cs=) need work. &nbsp;I
+think they're currently broken. You'll have to use densely packed data
+for now.<br>
+          </li>
+          <li>Can't handle non-native endian data. &nbsp;For 8-bit
+channels, of course you can just call your RGBA image AGBR and you're
+set. &nbsp;But for 16-, 32-, and 64- bit channels there's trouble.</li>
+          <li>I'm probably not handling the distinction between signed
+and unsigned data types correctly, but I haven't really had much need
+for such a thing..<br>
+          </li>
+        </ul>
+      </blockquote>
+      <blockquote>
+        <h3>Desiderata</h3>
+        <ul>
+<!--
+          <li>The scale and bias settings should be settable on a per-channel
+basis. &nbsp;That would solve my dilemma of whether to scale and bias alpha
+or not.</li> 
+-->
+          <li>The
+ability to control the channel selection and swizzling from the GUI
+would be handy. </li>
+          <li>A way to change to other backgrounds in the viewer.
+&nbsp;Either provide a larger selection of built-in backgrounds or a
+way
+to load an external image to use as a background. &nbsp;Often that
+checkboard background can look way too much like the data you're trying
+to see.</li>
+          <li>Allow OpenGL texture IDs as the %p argument and have the
+imdebug() function automatically snarf the data for you with an
+apropriate glGetTexImage. Maybe same thing for glReadPixels too
+&nbsp;so you can imdebug() the usually non-visible depth and stencil
+buffers easily.</li>
+          <li>"Pixel watch".&nbsp; The ability to click on one or more
+pixels of an image and have those values appear in a list.&nbsp; Then
+you could see what's happening to a value over time without having to
+make sure the mouse is over the right pixel.<br>
+          </li>
+          <li>A new version of Visual C++ that just has this sort of
+image viewing built in!<br>
+          </li>
+        </ul>
+      </blockquote>
+      <br>
+      <a name="_History_"></a><img src="history.png" alt="* History"
+ width="127" height="42">
+      <blockquote>
+        <table border="1" cellpadding="4" cellspacing="2"
+ style="background-color: rgb(0, 0, 0);">
+          <tbody>
+            <tr>
+              <td
+ style="vertical-align: top; background-color: rgb(255, 255, 255);">Aug
+30, 2003</td>
+              <td
+ style="vertical-align: top; background-color: rgb(255, 255, 255);">Version
+1.13-beta<br>
+Fixed a couple of bugs with images past the buffer size getting
+dropped, and with the blocking mode causing long delays.<br>
+              </td>
+            </tr>
+            <tr>
+              <td
+ style="vertical-align: top; background-color: rgb(255, 255, 255);">Aug
+18, 2003</td>
+              <td
+ style="vertical-align: top; background-color: rgb(255, 255, 255);">Version
+1.12-beta<br>
+Fixed bug with images getting dropped when sent rapidly back-to-back.<br>
+              </td>
+            </tr>
+            <tr>
+              <td
+ style="vertical-align: top; background-color: rgb(255, 255, 255);">Aug
+7, 2003<br>
+              </td>
+              <td
+ style="vertical-align: top; background-color: rgb(255, 255, 255);">Version
+1.1-beta.<br>
+Added some more UI and a "linked image" mode that syncs all image
+changes so that if you zoom and scale one image, all images with the
+same title will be zoomed and scaled the same way.<br>
+              </td>
+            </tr>
+            <tr>
+              <td valign="top"
+ style="background-color: rgb(255, 255, 255);">Aug 4, 2003<br>
+              </td>
+              <td valign="top"
+ style="background-color: rgb(255, 255, 255);">Version 1.0-beta.<br>
+Ported GUI front-end from straight Win32 to <a
+ href="http://www.fox-toolkit.org">FOX toolkit</a>.<br>
+FOX allows me to handle status and tooltip help more nicely, and
+support image load and save. It also enabled me to use nice UI controls
+for scale and bias, rather than the cheesy static bitmaps I had that
+didn't
+respond in any way. <br>
+Using FOX also means that imdebug can now be ported over to Linux/Unix
+pretty easily.<br>
+Some other specific new features added:<br>
+              <ul>
+                <li>"Link Image" mode.&nbsp; In this mode, when you
+drag or zoom or change scale and bias on any image, the same changes
+are also made to all other images with the same title currently in the
+history buffer.&nbsp; This makes it easier to go back and forth to
+compare differences between different instances of the same image.
+(Similar but slightly different from the old "Propagate Scale&amp;Bias
+mode")<br>
+                </li>
+                <li>"Replace Images" mode. In this mode when a new
+image is recieved with a particular title, like 'foo', that image
+overwrites the last image with that title.&nbsp; This way if you
+imdebug an image titled 'bar' once early on and then imdebug 'foo' 100
+times in a loop, 'bar' will remain in the history buffer, along with
+the most recent version of 'foo'.<br>
+                </li>
+                <li>"Hold on image" mode.&nbsp; Causes the display
+window not to automatically jump to the the most recent image.&nbsp;
+Particularly useful with "Replace Images" mode.<br>
+                </li>
+                <li>Navigation by title.&nbsp; Using PgUp and PgDn now
+takes you back and forth directly to the previous and next images with
+same title, skipping all images in between.&nbsp; Just like getting on
+the express train!&nbsp; Using Up and Down arrows takes you on the
+"local train" with all&nbsp; the stops along the way (like PgUp and
+PgDown used to).<br>
+                </li>
+                <li>Tooltips!&nbsp; You now get the pixel info directly
+under your mouse so you don't have to look down at the statusbar
+constantly.&nbsp; You can flip back and forth between two versions of
+the same image now using PgDn/PgUp, and if you leave your mouse in
+place you can see the change in values in the tooltip.<br>
+                </li>
+              </ul>
+              </td>
+            </tr>
+            <tr>
+              <td
+ style="vertical-align: top; background-color: rgb(255, 255, 255);">Apr
+4, 2003<br>
+              </td>
+              <td
+ style="vertical-align: top; background-color: rgb(255, 255, 255);">Version
+0.954b.<br>
+Fixed "alpha" on "channels" menu. Now alpha displays as grayscale.<br>
+              </td>
+            </tr>
+            <tr>
+              <td
+ style="vertical-align: top; background-color: rgb(255, 255, 255);">Apr
+2, 2003<br>
+              </td>
+              <td
+ style="vertical-align: top; background-color: rgb(255, 255, 255);">Version
+0.953b.<br>
+Added a "channels" menu, basically to allow turning off the alpha
+channel interactively.&nbsp; If alpha is all 0, you can't see the other
+data, which is annoying.&nbsp; Of course you can specify "rgba=rgb_" in
+your format string, but you'd like to be able to get the same effect on
+the fly, and now you can.<br>
+              </td>
+            </tr>
+            <tr>
+              <td valign="top"
+ style="background-color: rgb(255, 255, 255);">Mar 7, 2003<br>
+              </td>
+              <td valign="top"
+ style="background-color: rgb(255, 255, 255);">Version 0.952b.<br>
+Fixed aligment of images in the window when "flip" is checked.<br>
+Fixed auto-scaling of images that are all one color.<br>
+              </td>
+            </tr>
+            <tr>
+              <td valign="top"
+ style="background-color: rgb(255, 255, 255);">Feb 23, 2003<br>
+              </td>
+              <td valign="top"
+ style="background-color: rgb(255, 255, 255);">Version 0.951b.<br>
+Added option to automatically copy the scale &amp; bias of a tagged
+image to the next image with the same tag. Currently it's overridden by
+any specific scale or bias set on the image itself using the format
+string.<br>
+              </td>
+            </tr>
+            <tr>
+              <td valign="top"
+ style="background-color: rgb(255, 255, 255);">Feb 18, 2003<br>
+              </td>
+              <td valign="top"
+ style="background-color: rgb(255, 255, 255);">Version 0.95b.<br>
+Added button to set scale and bias back to identity.<br>
+Changed "Ready" message to give info on image (resolution, bit depth,
+etc.)<br>
+              </td>
+            </tr>
+            <tr>
+              <td valign="top"
+ style="background-color: rgb(255, 255, 255);">Feb 17, 2003<br>
+              </td>
+              <td valign="top"
+ style="background-color: rgb(255, 255, 255);">Version 0.942b.<br>
+Fixed parsing of bias syntax in format string.<br>
+Added some UI to allow interactive munging of scale and bias.<br>
+              </td>
+            </tr>
+            <tr>
+              <td valign="top"
+ style="background-color: rgb(255, 255, 255);">Jan 26, 2003<br>
+              </td>
+              <td valign="top"
+ style="background-color: rgb(255, 255, 255);">Version 0.94b.<br>
+-Added somewhat meaningful error status messages for some cases.<br>
+-Increased memory mapped file limit be able to handle RGBA images of
+32f &nbsp;2048x2048.<br>
+-Added dialog to change number of images saved in history buffer.<br>
+-Fixed bug with flipped images not getting the status correct.<br>
+-Fixed error trying to allocate negative memory when window made too
+small.<br>
+-Made it so status message isn't set to "Ready" so often when it could
+say something useful.<br>
+-Made status message indicate which values are mapped to which output
+channels.<br>
+-Added option for reusing/sharing the display window so you don't end
+up with like 23 "Image Debugger Display" windows hanging around all the
+time.<br>
+-Added t='label' to format string so you can give images intelligible
+labels that will make it easier to distinguish which of 10 all black
+images is the one you're looking for.<br>
+-Added big red "BLOCK" status indicator to let you know when the
+displayer is not listening (in case you accidentally hit Ctrl-I or
+something)<br>
+              </td>
+            </tr>
+            <tr>
+              <td valign="top"
+ style="background-color: rgb(255, 255, 255);">Sept 19, 2002<br>
+              </td>
+              <td valign="top"
+ style="background-color: rgb(255, 255, 255);">Version 0.931b.<br>
+I think I fixed the clipboard Edit-&gt;Copy problem. &nbsp;Maybe.
+&nbsp;It worked for me, anyway, though I can't say why for sure.<br>
+              </td>
+            </tr>
+            <tr>
+              <td valign="top"
+ style="background-color: rgb(255, 255, 255);">Sept 15, 2002<br>
+              </td>
+              <td valign="top"
+ style="background-color: rgb(255, 255, 255);">Version 0.93b.<br>
+Added state save and restore using windows registry. (remebers window
+position and checked menu items)<br>
+              </td>
+            </tr>
+            <tr>
+              <td valign="top"
+ style="background-color: rgb(255, 255, 255);">Sept 13, 2002<br>
+              </td>
+              <td valign="top"
+ style="background-color: rgb(255, 255, 255);">Version 0.921b.<br>
+Reports errors when imdbgdisplay not found.<br>
+Added alt-left and alt-right keys for navigating images.<br>
+              </td>
+            </tr>
+            <tr>
+              <td valign="top"
+ style="background-color: rgb(255, 255, 255);">Sept 11, 2002<br>
+              </td>
+              <td valign="top"
+ style="background-color: rgb(255, 255, 255);">Version 0.92b.<br>
+Added support for packed bit formats like 5,6,5. &nbsp;Will work as
+long as the total bits are a multiple of 8, which most real formats are.<br>
+Added support for independent scaling and biasing on a per-chanel
+basis, like OpenGL allows.<br>
+              </td>
+            </tr>
+            <tr>
+              <td valign="top" nowrap="nowrap"
+ style="background-color: rgb(255, 255, 255);">Sept 10, 2002</td>
+              <td style="background-color: rgb(255, 255, 255);">Version
+0.91b.<br>
+Added the '#8' type format specifications for dealing with data having
+more than 4 channels. &nbsp;Just something that I had forgotten to
+include in the parser.</td>
+            </tr>
+            <tr>
+              <td valign="top" nowrap="nowrap"
+ style="background-color: rgb(255, 255, 255);">Sept 9, 2002</td>
+              <td style="background-color: rgb(255, 255, 255);">Version
+0.9b<br>
+First release.</td>
+            </tr>
+          </tbody>
+        </table>
+      </blockquote>
+      <br>
+      <a name="Download"></a><img src="download.png" alt="* Download"
+ width="179" height="34"> <br>
+      <br>
+      <blockquote>The Image Debugger 1.13 beta is now available! The
+major change is that the GUI has been totally rewritten using the <a
+ href="http://www.fox-toolkit.org">FOX toolkit</a>
+which also means that a port to Linux should not be far behind.&nbsp;
+I'm just putting up Win32 binaries.&nbsp; Source code is still
+available, though, on request. <br>
+        <ul>
+          <li><b>Win32 binaries:</b> &nbsp; &nbsp; &nbsp;<a
+ href="imdebug-1.13b-bin.zip"> <font
+ face="Helvetica, Arial, sans-serif">imdebug-1.13b-bin.zip</font></a> </li>
+        </ul>
+      </blockquote>
+      <br>
+      <blockquote>The older Image Debugger version 0.954b can be
+downloaded
+from the links below:<br>
+        <ul>
+          <li>Binary only distribution: &nbsp; &nbsp; &nbsp;<a
+ href="imdebug-0.954b-bin.zip"> <font
+ face="Helvetica, Arial, sans-serif">imdebug-0.954b-bin.zip</font></a><br>
+This has everything you need to use The Image Debugger: &nbsp;</li>
+        </ul>
+        <dl>
+          <dd><b>imdebug.h</b> &nbsp;- &nbsp;header to #include in your
+app<br>
+          </dd>
+        </dl>
+        <dl>
+          <dd><b>imdebug.dll</b> &nbsp;- &nbsp;dll to link with your
+app
+(note this happens automatically)</dd>
+        </dl>
+        <dl>
+          <dd><b>imdebug.lib</b> &nbsp;- &nbsp;export library necessary
+for compiling your app agains the dll.</dd>
+        </dl>
+        <dl>
+          <dd><b>imdbgdisplay.exe</b> - &nbsp;the output viewer
+application. &nbsp;(Launched automatically when you call <code>imdebug()</code>)</dd>
+        </dl>
+        <blockquote><b>testapp.exe</b> - &nbsp;a very basic test
+program
+made with OpenGL/GLUT that spits out a few images in its display
+function and draws a lame-looking teapot in its GL window. &nbsp;You
+may
+need to grab <a href="http://www.xmission.com/%7Enate/glut.html">the
+GLUT dlls</a> to get it to run.</blockquote>
+        <ul>
+          <li>Binaries + full source code: &nbsp; &nbsp; <font
+ face="Helvetica, Arial, sans-serif"><a href="imdebug-0.954b-src.zip">imdebug-0.954b-src.zip</a></font><br>
+This has everything the binary only distribution has, plus all the
+source code. &nbsp;It also includes project files for MSVC++ 6.0, as
+well as a makefile that works with Microsoft's NMAKE.</li>
+        </ul>
+        <br>
+      </blockquote>
+      <a name="_Acknowledgements_"></a><img src="acknowledgements.png"
+ alt="* Acknowledgements" width="335" height="43"> <br>
+      <blockquote> Thanks to the developers of the <a
+ href="http://www.fox-toolkit.org">FOX Toolkit</a>
+and especially Jeroen van der Zijp, for his helpful replies on the
+foxgui-users mailing list.&nbsp; I've worked with a number of GUI
+toolkits, and I have to say FOX is one of the nicer ones I've
+tried.&nbsp; The library has a nice feel to it (even though the
+messaging system is kind of difficult to get the hang of).&nbsp; The
+documentation is a bit sparse, but the source code itself is quite
+clean and readable for the times when you can't figure out what you
+need in the doc.&nbsp; And there are a good number of example programs
+to go
+from, where you often find exactly the code you need to steal.<br>
+        <br>
+Thanks to Jeffrey Richter and Charles Petzold,
+without whose books (<a
+ href="http://www.amazon.com/exec/obidos/tg/detail/-/1556156766/qid=1031585132/sr=1-1/ref=sr_1_1/002-8392552-8760048?v=glance&amp;s=books">this
+one</a> and <a
+ href="http://www.amazon.com/exec/obidos/tg/detail/-/1572315482/qid=1031585081/sr=1-1/ref=sr_1_1/002-8392552-8760048?v=glance&amp;s=books">that
+one</a>)
+there's no way I could have figured out how to do the original imdebug
+(i.e.
+figure out how to write a straight Win32 C program that uses memory
+mapped files to
+communicate inter-process data). &nbsp;Thanks also to Willem van Schaik
+who wrote "VisualPNG". &nbsp;The image display code in the original
+straight Win32 imdbgdisplay.exe (versions v0.9b-v0.954b)&nbsp; were
+based initally off of his source code. More info
+at Willem's website <a href="http://www.schaik.com/png/visualpng.html">here</a>.<br>
+        <br>
+Thanks to the person over at&nbsp; <a href="http://www.codeproject.com">http://www.codeproject.com</a>
+(I think!) whose comment about an image debugger got me thinking about
+this idea. &nbsp;I got excited because when I saw him use "image" and
+"debug" in the same sentence, the first thought I had was that he had
+written something like the utility I ended up writing. &nbsp;It turned
+out, though, that his program was of a somewhat more limited scope.
+&nbsp; I'm not sure what his name was, and I haven't been able to find
+the link again since then.<br>
+        <br>
+Thanks to Andrew Z. whose one followup to my post on unccs.graphics was
+all the convincing I needed to go and write this, and thanks to Mark
+Harris for his copious and useful suggestions. </blockquote>
+      <br>
+      <br>
+      <a name="Contact"></a><img src="contact.png" alt="* Contact"
+ width="130" height="33"> <br>
+      <br>
+      <blockquote>The Image Debugger was developed by <a
+ href="http://www.cs.unc.edu/%7Ebaxter">William Baxter</a>. &nbsp;I'm
+currently a PhD student at the <a href="http://www.unc.edu">University
+of North Carolina at Chapel Hill</a> working on <a
+ href="http://www.cs.unc.edu/Research/ProjectIndex/GraphicsImage.html">graphics
+and interactive techniques</a>. &nbsp; If you're interested, have a
+look at <a href="http://www.cs.unc.edu/%7Ebaxter/projects/index.html">the
+other projects I've worked on</a>.<br>
+        <br>
+If you find this software useful, or make any improvements, please let
+me know. &nbsp;If you have patches you'd like to contribute by all
+means
+please send 'em in!<br>
+        <br>
+&lt;EMAIL ADDRESS&gt; You can contact me by by sending email to my last
+name @cs.unc.edu.&nbsp; Or by going to my <a
+ href="../../cgi-bin/feedback/emailme.html">feedback page</a>.<br>
+        <br>
+Happy Image Debugging!<br>
+      </blockquote>
+      </div>
+      </div>
+      </td>
+    </tr>
+  </tbody>
+</table>
+<!--</blockquote>--><br>
+<center>
+<address>
+<script src="../../scripts/lastmod.js"></script></address>
+<br>
+<img
+ src="http://wwwx.cs.unc.edu/%7Ebaxter/cgi-bin/counter/countimdebug.cgi">
+</center>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+</body>
+</html>
