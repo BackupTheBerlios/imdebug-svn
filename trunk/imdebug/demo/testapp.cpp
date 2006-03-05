@@ -1,6 +1,6 @@
 /*============================================================================
  * testapp.cpp
- *   Very basic console program that calls imdebug() in a few different ways 
+ *   Very basic console program that calls imdebug() in a few different ways
  *   with a few different image formats.  Hit enter to cycle through the
  *   images.
  *============================================================================
@@ -47,18 +47,18 @@ int display(int which)
 {
   switch (which)
   {
-  
+
   case 0: imdebug("rgb w=16 h=17 t='first' %p", testRGB);
     break;
-//  case 0: imdebug("rgb b=5,6,5 w=%d h=%d t='foo' %p", 16, 17, testRGB565); 
+//  case 0: imdebug("rgb b=5,6,5 w=%d h=%d t='foo' %p", 16, 17, testRGB565);
 //    break;
-  case 1: imdebug("rgb rbga=__gg w=%d h=%d t='can\\'t touch dis' %p", 16, 17, testRGB); 
+  case 1: imdebug("rgb rbga=__gg w=%d h=%d t='can\\'t touch dis' %p", 16, 17, testRGB);
     break;
-  case 2: imdebug("rgb rbga=gggg *auto b=32f w=%d h=%d t=%s %p", 16, 17, "purty huh?", testRGBf); 
+  case 2: imdebug("rgb rbga=gggg *auto b=32f w=%d h=%d t=%s %p", 16, 17, "purty huh?", testRGBf);
     break;
-  case 3: imdebug("rgb *0.2 b=32f w=%d h=%d t=12 %p", 16, 17, testRGBf); 
+  case 3: imdebug("rgb *0.2 b=32f w=%d h=%d t=12 %p", 16, 17, testRGBf);
     break;
-  case 4: imdebug("rgb w=%d h=%d %p", 9000, 9000, testRGB);//error too big 
+  case 4: imdebug("rgb w=%d h=%d %p", 9000, 9000, testRGB);//error too big
     break;
   case 5: imdebug("rgb w=%d h=%d %p", 10, 10, 0);// error null ptr
     break;
@@ -73,7 +73,6 @@ int display(int which)
   }
   return which + 1;
 }
-
 
 void setup()
 {
@@ -93,13 +92,12 @@ void setup()
       testRGB16[off+1] = 1<<15;
       testRGB16[off+2] = 1<<15;
 
-
       off = 4*i;
       testRGBA[off+0] = 0;
       testRGBA[off+1] = 255;
       testRGBA[off+2] = 0;
       testRGBA[off+3] = 255;
-      
+
       //                   r:5      g:6       b:5
       //                   1.0      0.5       0.5
       // testRGB565[i] = ( (31) | (32<<5) | (16<<11) );
@@ -107,7 +105,6 @@ void setup()
       testRGB565[i].r = 31;
       testRGB565[i].g = 32;
       testRGB565[i].b = 16;
-
     } else {
       testRGB[off+0] = 0;
       testRGB[off+1] = 255;
@@ -129,19 +126,17 @@ void setup()
 
       //                    r:5      g:6       b:5
       //                    0.0      1.0       1.0
-      // testRGB565[i] = (  (0) |  (63<<5) | (31<<11) | 
+      // testRGB565[i] = (  (0) |  (63<<5) | (31<<11) |
       testRGB565[i].r = 0;
       testRGB565[i].g = 63;
       testRGB565[i].b = 31;
     }
   }
-  
+
   for (i=0; i<512*512*4; i++) {
     testBigRGBA[i] = rand()%255;
   }
-
 }
-
 
 int main()
 {

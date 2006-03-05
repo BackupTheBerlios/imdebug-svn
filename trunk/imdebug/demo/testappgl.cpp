@@ -71,11 +71,8 @@ void display()
 
   imdebug("#6 rgba=#0145 w=%d h=%d t='last' %p", 8, 17, testRGB);
 
-
-
   glutSwapBuffers();
 }
-
 
 void keyboard(unsigned char key, int x, int y)
 {
@@ -88,7 +85,6 @@ void keyboard(unsigned char key, int x, int y)
 
 void setup()
 {
-
   glutInitDisplayMode(GLUT_RGBA|GLUT_DEPTH|GLUT_DOUBLE);
   glutCreateWindow("Hi there");
   glutDisplayFunc(display);
@@ -115,7 +111,7 @@ void setup()
       testRGBA[off+1] = 255;
       testRGBA[off+2] = 0;
       testRGBA[off+3] = 255;
-      
+
       //                   r:5      g:6       b:5
       //                   1.0      0.5       0.5
       // testRGB565[i] = ( (31) | (32<<5) | (16<<11) );
@@ -145,27 +141,23 @@ void setup()
 
       //                    r:5      g:6       b:5
       //                    0.0      1.0       1.0
-      // testRGB565[i] = (  (0) |  (63<<5) | (31<<11) | 
+      // testRGB565[i] = (  (0) |  (63<<5) | (31<<11) |
       testRGB565[i].r = 0;
       testRGB565[i].g = 63;
       testRGB565[i].b = 31;
     }
   }
-  
+
   for (i=0; i<512*512*4; i++) {
     testBigRGBA[i] = rand()%255;
   }
-
 }
-
 
 int main()
 {
   setup();
 
-
   glutMainLoop();
-
 
   return 0;
 }
