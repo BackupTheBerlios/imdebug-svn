@@ -2,7 +2,7 @@
 <VisualStudioProject
 	ProjectType="Visual C++"
 	Version="7.10"
-	Name="imdbgdisplay2"
+	Name="imdbgdisplay_fox"
 	SccProjectName=""
 	SccLocalPath="">
 	<Platforms>
@@ -24,7 +24,7 @@
 				PreprocessorDefinitions="_DEBUG;WIN32;_WINDOWS"
 				RuntimeLibrary="3"
 				RuntimeTypeInfo="TRUE"
-				PrecompiledHeaderFile=".\Debug/imdbgdisplay2.pch"
+				PrecompiledHeaderFile=".\Debug/imdbgdisplay_fox.pch"
 				AssemblerListingLocation=".\Debug/"
 				ObjectFile=".\Debug/"
 				ProgramDataBaseFileName=".\Debug/"
@@ -36,12 +36,12 @@
 			<Tool
 				Name="VCLinkerTool"
 				AdditionalDependencies="foxd-1.4.lib ws2_32.lib comctl32.lib wsock32.lib mpr.lib"
-				OutputFile="../../lib/imdbgdisplay.exe"
+				OutputFile="../../lib/imdbgdisplay_fox.exe"
 				LinkIncremental="0"
 				SuppressStartupBanner="TRUE"
 				AdditionalLibraryDirectories="$(FOXDIR)/lib"
 				GenerateDebugInformation="TRUE"
-				ProgramDatabaseFile=".\Debug/imdbgdisplay.pdb"
+				ProgramDatabaseFile=".\Debug/imdbgdisplay_fox.pdb"
 				SubSystem="2"
 				EntryPointSymbol="mainCRTStartup"
 				TargetMachine="1"/>
@@ -51,7 +51,7 @@
 				MkTypLibCompatible="TRUE"
 				SuppressStartupBanner="TRUE"
 				TargetEnvironment="1"
-				TypeLibraryName=".\Debug/imdbgdisplay2.tlb"
+				TypeLibraryName=".\Debug/imdbgdisplay_fox.tlb"
 				HeaderFileName=""/>
 			<Tool
 				Name="VCPostBuildEventTool"/>
@@ -91,7 +91,7 @@
 				RuntimeLibrary="2"
 				EnableFunctionLevelLinking="TRUE"
 				RuntimeTypeInfo="TRUE"
-				PrecompiledHeaderFile=".\Release/imdbgdisplay2.pch"
+				PrecompiledHeaderFile=".\Release/imdbgdisplay_fox.pch"
 				AssemblerListingLocation=".\Release/"
 				ObjectFile=".\Release/"
 				ProgramDataBaseFileName=".\Release/"
@@ -103,11 +103,11 @@
 			<Tool
 				Name="VCLinkerTool"
 				AdditionalDependencies="fox-1.4.lib comctl32.lib wsock32.lib mpr.lib"
-				OutputFile="../../lib/imdbgdisplay.exe"
+				OutputFile="../../lib/imdbgdisplay_fox.exe"
 				LinkIncremental="0"
 				SuppressStartupBanner="TRUE"
 				AdditionalLibraryDirectories="$(FOXDIR)/lib"
-				ProgramDatabaseFile=".\Release/imdbgdisplay.pdb"
+				ProgramDatabaseFile=".\Release/imdbgdisplay_fox.pdb"
 				SubSystem="2"
 				EntryPointSymbol="mainCRTStartup"
 				TargetMachine="1"/>
@@ -117,7 +117,7 @@
 				MkTypLibCompatible="TRUE"
 				SuppressStartupBanner="TRUE"
 				TargetEnvironment="1"
-				TypeLibraryName=".\Release/imdbgdisplay2.tlb"
+				TypeLibraryName=".\Release/imdbgdisplay_fox.tlb"
 				HeaderFileName=""/>
 			<Tool
 				Name="VCPostBuildEventTool"/>
@@ -176,7 +176,7 @@
 			Name="res"
 			Filter="">
 			<File
-				RelativePath="..\..\imdbgdisplayfox\images.list">
+				RelativePath="..\..\imdbgdisplay_fox\images.list">
 				<FileConfiguration
 					Name="Debug|Win32">
 					<Tool
@@ -197,28 +197,28 @@ reswrap -o &quot;$(InputDir)\imdbgicons.h&quot; autoscale.bmp unityscale.bmp ico
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath="..\..\imdbgdisplayfox\imdbgdisplay.ico">
+				RelativePath="..\..\imdbgdisplay_fox\imdbgdisplay.ico">
 			</File>
 			<File
-				RelativePath="..\..\imdbgdisplayfox\imdbgdisplayfox.rc">
+				RelativePath="..\..\imdbgdisplay_fox\imdbgdisplay_fox.rc">
 				<FileConfiguration
 					Name="Debug|Win32">
 					<Tool
 						Name="VCResourceCompilerTool"
 						PreprocessorDefinitions=""
-						AdditionalIncludeDirectories="\bax\code\imdebug\imdbgdisplayfox"/>
+						AdditionalIncludeDirectories=""/>
 				</FileConfiguration>
 				<FileConfiguration
 					Name="Release|Win32">
 					<Tool
 						Name="VCResourceCompilerTool"
 						PreprocessorDefinitions=""
-						AdditionalIncludeDirectories="\bax\code\imdebug\imdbgdisplayfox"/>
+						AdditionalIncludeDirectories=""/>
 				</FileConfiguration>
 			</File>
 		</Filter>
 		<File
-			RelativePath="..\..\imdbgdisplayfox\CustomStatusBar.cpp">
+			RelativePath="..\..\imdbgdisplay_fox\CustomStatusBar.cpp">
 			<FileConfiguration
 				Name="Debug|Win32">
 				<Tool
@@ -237,10 +237,10 @@ reswrap -o &quot;$(InputDir)\imdbgicons.h&quot; autoscale.bmp unityscale.bmp ico
 			</FileConfiguration>
 		</File>
 		<File
-			RelativePath="..\..\imdbgdisplayfox\CustomStatusBar.h">
+			RelativePath="..\..\imdbgdisplay_fox\CustomStatusBar.h">
 		</File>
 		<File
-			RelativePath="..\..\imdbgdisplayfox\CustomToolTip.cpp">
+			RelativePath="..\..\imdbgdisplay_fox\CustomToolTip.cpp">
 			<FileConfiguration
 				Name="Debug|Win32">
 				<Tool
@@ -259,10 +259,10 @@ reswrap -o &quot;$(InputDir)\imdbgicons.h&quot; autoscale.bmp unityscale.bmp ico
 			</FileConfiguration>
 		</File>
 		<File
-			RelativePath="..\..\imdbgdisplayfox\CustomToolTip.h">
+			RelativePath="..\..\imdbgdisplay_fox\CustomToolTip.h">
 		</File>
 		<File
-			RelativePath="..\..\imdbgdisplayfox\displayFrame.cpp">
+			RelativePath="..\..\imdbgdisplay_fox\displayFrame.cpp">
 			<FileConfiguration
 				Name="Debug|Win32">
 				<Tool
@@ -284,7 +284,7 @@ reswrap -o &quot;$(InputDir)\imdbgicons.h&quot; autoscale.bmp unityscale.bmp ico
 			RelativePath="..\..\imdebug\imdebug_priv.h">
 		</File>
 		<File
-			RelativePath="..\..\imdbgdisplayfox\ImdebugImageView.cpp">
+			RelativePath="..\..\imdbgdisplay_fox\ImdebugImageView.cpp">
 			<FileConfiguration
 				Name="Debug|Win32">
 				<Tool
@@ -303,10 +303,10 @@ reswrap -o &quot;$(InputDir)\imdbgicons.h&quot; autoscale.bmp unityscale.bmp ico
 			</FileConfiguration>
 		</File>
 		<File
-			RelativePath="..\..\imdbgdisplayfox\ImdebugImageView.h">
+			RelativePath="..\..\imdbgdisplay_fox\ImdebugImageView.h">
 		</File>
 		<File
-			RelativePath="..\..\imdbgdisplayfox\memorymappedfile.cpp">
+			RelativePath="..\..\imdbgdisplay_fox\memorymappedfile.cpp">
 			<FileConfiguration
 				Name="Debug|Win32">
 				<Tool
@@ -325,10 +325,10 @@ reswrap -o &quot;$(InputDir)\imdbgicons.h&quot; autoscale.bmp unityscale.bmp ico
 			</FileConfiguration>
 		</File>
 		<File
-			RelativePath="..\..\imdbgdisplayfox\memorymappedfile.h">
+			RelativePath="..\..\imdbgdisplay_fox\memorymappedfile.h">
 		</File>
 		<File
-			RelativePath="..\..\imdbgdisplayfox\ToolBarButton.cpp">
+			RelativePath="..\..\imdbgdisplay_fox\ToolBarButton.cpp">
 			<FileConfiguration
 				Name="Debug|Win32">
 				<Tool
@@ -347,10 +347,10 @@ reswrap -o &quot;$(InputDir)\imdbgicons.h&quot; autoscale.bmp unityscale.bmp ico
 			</FileConfiguration>
 		</File>
 		<File
-			RelativePath="..\..\imdbgdisplayfox\ToolBarButton.h">
+			RelativePath="..\..\imdbgdisplay_fox\ToolBarButton.h">
 		</File>
 		<File
-			RelativePath="..\..\imdbgdisplayfox\ToolBarToggleButton.cpp">
+			RelativePath="..\..\imdbgdisplay_fox\ToolBarToggleButton.cpp">
 			<FileConfiguration
 				Name="Debug|Win32">
 				<Tool
@@ -369,13 +369,13 @@ reswrap -o &quot;$(InputDir)\imdbgicons.h&quot; autoscale.bmp unityscale.bmp ico
 			</FileConfiguration>
 		</File>
 		<File
-			RelativePath="..\..\imdbgdisplayfox\ToolBarToggleButton.h">
+			RelativePath="..\..\imdbgdisplay_fox\ToolBarToggleButton.h">
 		</File>
 		<File
-			RelativePath="..\..\imdbgdisplayfox\win32event.cpp">
+			RelativePath="..\..\imdbgdisplay_fox\win32event.cpp">
 		</File>
 		<File
-			RelativePath="..\..\imdbgdisplayfox\win32event.h">
+			RelativePath="..\..\imdbgdisplay_fox\win32event.h">
 		</File>
 	</Files>
 	<Globals>
