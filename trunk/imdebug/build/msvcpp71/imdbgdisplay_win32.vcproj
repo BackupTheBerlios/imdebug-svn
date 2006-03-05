@@ -2,8 +2,9 @@
 <VisualStudioProject
 	ProjectType="Visual C++"
 	Version="7.10"
-	Name="imdbgdisplay"
-	RootNamespace="imdbgdisplay"
+	Name="imdbgdisplay_win32"
+	ProjectGUID="{63704044-2F4E-4BBA-8ED2-28D8B08B9FB7}"
+	RootNamespace="imdbgdisplay_win32"
 	SccProjectName=""
 	SccLocalPath="">
 	<Platforms>
@@ -23,13 +24,13 @@
 				Name="VCCLCompilerTool"
 				Optimization="2"
 				InlineFunctionExpansion="1"
-				AdditionalIncludeDirectories="../../include,../../imdebug,../../imdbgdisplay,../../imdbgdisplay_blit"
+				AdditionalIncludeDirectories="../../include,../../imdebug,../../imdbgdisplay_win32,../../imdbgdisplay_blit"
 				PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS"
 				StringPooling="TRUE"
 				RuntimeLibrary="0"
 				EnableFunctionLevelLinking="TRUE"
 				UsePrecompiledHeader="2"
-				PrecompiledHeaderFile=".\Release/imdbgdisplay.pch"
+				PrecompiledHeaderFile=".\Release/imdbgdisplay_win32.pch"
 				AssemblerListingLocation=".\Release/"
 				ObjectFile=".\Release/"
 				ProgramDataBaseFileName=".\Release/"
@@ -40,10 +41,10 @@
 			<Tool
 				Name="VCLinkerTool"
 				AdditionalDependencies="comctl32.lib odbc32.lib odbccp32.lib"
-				OutputFile=".\Release/imdbgdisplay.exe"
+				OutputFile=".\Release/imdbgdisplay_win32.exe"
 				LinkIncremental="1"
 				SuppressStartupBanner="TRUE"
-				ProgramDatabaseFile=".\Release/imdbgdisplay.pdb"
+				ProgramDatabaseFile=".\Release/imdbgdisplay_win32.pdb"
 				SubSystem="2"
 				TargetMachine="1"/>
 			<Tool
@@ -52,7 +53,7 @@
 				MkTypLibCompatible="TRUE"
 				SuppressStartupBanner="TRUE"
 				TargetEnvironment="1"
-				TypeLibraryName=".\Release/imdbgdisplay.tlb"
+				TypeLibraryName=".\Release/imdbgdisplay_win32.tlb"
 				HeaderFileName=""/>
 			<Tool
 				Name="VCPostBuildEventTool"
@@ -87,12 +88,12 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories="../../include,../../imdebug,../../imdbgdisplay,../../imdbgdisplay_blit"
+				AdditionalIncludeDirectories="../../include,../../imdebug,../../imdbgdisplay_win32,../../imdbgdisplay_blit"
 				PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS"
 				BasicRuntimeChecks="3"
 				RuntimeLibrary="1"
 				UsePrecompiledHeader="2"
-				PrecompiledHeaderFile=".\Debug/imdbgdisplay.pch"
+				PrecompiledHeaderFile=".\Debug/imdbgdisplay_win32.pch"
 				AssemblerListingLocation=".\Debug/"
 				ObjectFile=".\Debug/"
 				ProgramDataBaseFileName=".\Debug/"
@@ -104,11 +105,11 @@
 			<Tool
 				Name="VCLinkerTool"
 				AdditionalDependencies="comctl32.lib odbc32.lib odbccp32.lib"
-				OutputFile=".\Debug/imdbgdisplay.exe"
+				OutputFile=".\Debug/imdbgdisplay_win32.exe"
 				LinkIncremental="2"
 				SuppressStartupBanner="TRUE"
 				GenerateDebugInformation="TRUE"
-				ProgramDatabaseFile=".\Debug/imdbgdisplay.pdb"
+				ProgramDatabaseFile=".\Debug/imdbgdisplay_win32.pdb"
 				SubSystem="2"
 				TargetMachine="1"/>
 			<Tool
@@ -117,7 +118,7 @@
 				MkTypLibCompatible="TRUE"
 				SuppressStartupBanner="TRUE"
 				TargetEnvironment="1"
-				TypeLibraryName=".\Debug/imdbgdisplay.tlb"
+				TypeLibraryName=".\Debug/imdbgdisplay_win32.tlb"
 				HeaderFileName=""/>
 			<Tool
 				Name="VCPostBuildEventTool"
@@ -208,26 +209,26 @@
 				RelativePath="..\..\res\imdbgdisplay.ico">
 			</File>
 			<File
-				RelativePath="..\..\imdbgdisplay\imdbgdisplay.rc">
+				RelativePath="..\..\imdbgdisplay_win32\imdbgdisplay.rc">
 			</File>
 		</Filter>
 		<File
-			RelativePath="..\..\imdbgdisplay\CmnHdr.h">
+			RelativePath="..\..\imdbgdisplay_win32\CmnHdr.h">
 		</File>
 		<File
-			RelativePath="..\..\imdbgdisplay\comcthlp.h">
+			RelativePath="..\..\imdbgdisplay_win32\comcthlp.h">
 		</File>
 		<File
-			RelativePath="..\..\imdbgdisplay\imdbgdisp_res.h">
+			RelativePath="..\..\imdbgdisplay_win32\imdbgdisp_res.h">
 		</File>
 		<File
-			RelativePath="..\..\imdbgdisplay\imdbgdispfile.c">
+			RelativePath="..\..\imdbgdisplay_win32\imdbgdispfile.c">
 		</File>
 		<File
-			RelativePath="..\..\imdbgdisplay\imdbgdispfile.h">
+			RelativePath="..\..\imdbgdisplay_win32\imdbgdispfile.h">
 		</File>
 		<File
-			RelativePath="..\..\imdbgdisplay\imdbgdisplay.c">
+			RelativePath="..\..\imdbgdisplay_win32\imdbgdisplay.c">
 		</File>
 		<File
 			RelativePath="..\..\imdebug\imdebug_priv.h">

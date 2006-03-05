@@ -3,6 +3,7 @@
 	ProjectType="Visual C++"
 	Version="7.10"
 	Name="imdbgdisplay_fox"
+	ProjectGUID="{33DA331E-82A0-402C-B3BA-E1F99BFDA9F6}"
 	SccProjectName=""
 	SccLocalPath="">
 	<Platforms>
