@@ -135,7 +135,7 @@
 	</References>
 	<Files>
 		<File
-			RelativePath="..\..\demo\testappgl.cpp">
+			RelativePath="..\..\test\testappgl.cpp">
 		</File>
 	</Files>
 	<Globals>
