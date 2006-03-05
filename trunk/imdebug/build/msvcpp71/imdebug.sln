@@ -1,21 +1,21 @@
 Microsoft Visual Studio Solution File, Format Version 8.00
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "imdbgdisplay", "imdbgdisplay\imdbgdisplay.vcproj", "{46C3E5FA-9BA5-4B46-8A14-495706FD65BD}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "imdbgdisplay", "imdbgdisplay.vcproj", "{46C3E5FA-9BA5-4B46-8A14-495706FD65BD}"
 	ProjectSection(ProjectDependencies) = postProject
 	EndProjectSection
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "imdbgdisplay2", "imdbgdisplayfox\imdbgdisplay2.vcproj", "{066B2146-9ABC-4368-99AB-7A7800DC0AEA}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "imdbgdisplay2", "imdbgdisplay2.vcproj", "{066B2146-9ABC-4368-99AB-7A7800DC0AEA}"
 	ProjectSection(ProjectDependencies) = postProject
 	EndProjectSection
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "imdebug", "imdebug\imdebug.vcproj", "{D70619F9-EEB0-4A47-9C6F-424E2B013F0D}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "imdebug", "imdebug.vcproj", "{D70619F9-EEB0-4A47-9C6F-424E2B013F0D}"
 	ProjectSection(ProjectDependencies) = postProject
 	EndProjectSection
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "testapp", "testapp\testapp.vcproj", "{0A5A4885-67B5-4666-822E-13EB3C1BF6D3}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "testapp", "testapp.vcproj", "{0A5A4885-67B5-4666-822E-13EB3C1BF6D3}"
 	ProjectSection(ProjectDependencies) = postProject
 	EndProjectSection
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "testappgl", "testappgl\testappgl.vcproj", "{CF334696-5AD7-41FE-8603-58903D46E27B}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "testappgl", "testappgl.vcproj", "{CF334696-5AD7-41FE-8603-58903D46E27B}"
 	ProjectSection(ProjectDependencies) = postProject
 	EndProjectSection
 EndProject
