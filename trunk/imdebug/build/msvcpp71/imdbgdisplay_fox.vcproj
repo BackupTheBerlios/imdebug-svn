@@ -201,7 +201,7 @@ reswrap -o &quot;$(InputDir)\imdbgicons.h&quot; autoscale.bmp unityscale.bmp ico
 				RelativePath="..\..\imdbgdisplay_fox\imdbgdisplay.ico">
 			</File>
 			<File
-				RelativePath="..\..\imdbgdisplay_fox\imdbgdisplay_fox.rc">
+				RelativePath="..\..\imdbgdisplay_fox\imdbgdisplay.rc">
 				<FileConfiguration
 					Name="Debug|Win32">
 					<Tool
