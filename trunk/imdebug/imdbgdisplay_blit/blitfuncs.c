@@ -1,7 +1,7 @@
 /*
  *============================================================================
  * blitfuncs.c
- *   This file implements all the blitter functions by including 
+ *   This file implements all the blitter functions by including
  *   the blit function template in blittemplate.h many times with slighly
  *   different setup before each inclusion.
  *============================================================================
@@ -43,7 +43,7 @@ void initBlitStats(BlitStats *bs)
   }
 }
 
-static float Clamp01f(float v) 
+static float Clamp01f(float v)
 {
   if (v<0.f) return 0.f;
   if (v>1.f) return 1.f;
@@ -131,15 +131,15 @@ static BYTE cvtNLongbits2Byte(unsigned long v, int N)
 
 unsigned int bytePtr2Val_BitOffsets(BYTE*x, int offset, int width)
 {
-  // example: packed 5,6,5 format color.  
+  // example: packed 5,6,5 format color.
   // 3rd component is offset 10, width 5.
-  // 0       8       16      24      
-  // |   .   |   .   |   .   |   .   
+  // 0       8       16      24
+  // |   .   |   .   |   .   |   .
   // ||||||||||||||||||||||||||||||||
   // rrrrrggggggbbbbb
   // ^       ^
-  // x      x+1   
-  // 
+  // x      x+1
+  //
   // hmmm... something like this anyway:
   int bytes=offset>>3;
   int bits=offset&0x7;
@@ -152,10 +152,10 @@ unsigned int bytePtr2Val_BitOffsets(BYTE*x, int offset, int width)
   //    with      offset =    11           5        0
   //               width =     5           6        5
   // and that's the same thing you get with this bit field struct:
-  // struct { 
+  // struct {
   //     unsigned r:5;
   //     unsigned g:5;
-  //     unsigned b:5; 
+  //     unsigned b:5;
   // };
   // ugh, little endian always makes my head hurt.
 }
@@ -212,8 +212,8 @@ void stretchBlitCoreIrregulari(
   char *channelOffsets, int *bitsPerChannel
   )
 {
-  // this version is assumes byte-aligned integer type channels, 
-  // but not necessarily equally sized channels.  
+  // this version is assumes byte-aligned integer type channels,
+  // but not necessarily equally sized channels.
   // It's got endian issues, and it implicity
   // restricts channels to sizeof(unsigend int) too!
   int i;
@@ -316,11 +316,11 @@ void stretchBlitCoreIrregularm(
   )
 {
   // this version is assumes byte-aligned channels,
-  // but different sizes and float and integer can be 
+  // but different sizes and float and integer can be
   // intermixed.
   // It's got endian issues, and it implicity
   // restricts channels to sizeof(unsigend int) too!
-  
+
   int i;
   int pixWidth = 0;
 
@@ -411,144 +411,143 @@ void stretchBlitCoreIrregularm(
 #define BLITNAME stretchBlitCoreRGBA16i
 #define SRCCVTTYPE unsigned short
 #define PTR2VAL(x,off) (*((unsigned short*)(x+off)))
-#define VAL2BYTE(x) cvtUShort2Byte(x)
+#define VAL2BYTE(x) cvtUShort2Byte((unsigned short)x)
 #include "blittemplate.h"
 
 #define BLITNAME stretchBlitCoreRGBA32i
 #define SRCCVTTYPE unsigned int
 #define PTR2VAL(x,off) (*((unsigned int*)(x+off)))
-#define VAL2BYTE(x) cvtUInt2Byte(x)
+#define VAL2BYTE(x) cvtUInt2Byte((unsigned int)x)
 #include "blittemplate.h"
 
 #define BLITNAME stretchBlitCoreRGBA32f
 #define SRCCVTTYPE float
 #define PTR2VAL(x,off) (*((float*)(x+off)))
-#define VAL2BYTE(x) cvtFloat2Byte(x)
+#define VAL2BYTE(x) cvtFloat2Byte((float)x)
 #include "blittemplate.h"
 
 #define BLITNAME stretchBlitCoreRGBA64f
 #define SRCCVTTYPE double
 #define PTR2VAL(x,off) (*((double*)(x+off)))
-#define VAL2BYTE(x) cvtDouble2Byte(x)
+#define VAL2BYTE(x) cvtDouble2Byte((double)x)
 #include "blittemplate.h"
 
 #define BLITNAME stretchBlitCoreRGBAByteColsBitOffsetsi
 #define SRCCVTTYPE unsigned int
 #define PTR2VAL_BIT_OFFSET(x,off,wid) bytePtr2Val_BitOffsets(x,off,wid)
-#define VALBITS2BYTE(x,N) cvtNbits2Byte(x,N)
+#define VALBITS2BYTE(x,N) cvtNbits2Byte((unsigned int)x,N)
 #include "blittemplate.h"
 
 // SCALING STRETCH BLITTERS
 #define BLITNAME stretchBlitSCoreRGBA8i
 #define SCALE
 #define SRCCVTTYPE int
-#define VAL2BYTE(x) cvtByteEx2Byte(x)
+#define VAL2BYTE(x) cvtByteEx2Byte((int)x)
 #include "blittemplate.h"
 
 #define BLITNAME stretchBlitSCoreRGBA16i
 #define SRCCVTTYPE unsigned short
 #define PTR2VAL(x,off) (*((unsigned short*)(x+off)))
-#define VAL2BYTE(x) cvtUShort2Byte(x)
+#define VAL2BYTE(x) cvtUShort2Byte((unsigned short)x)
 #include "blittemplate.h"
 
 #define BLITNAME stretchBlitSCoreRGBA32i
 #define SRCCVTTYPE unsigned int
 #define PTR2VAL(x,off) (*((unsigned int*)(x+off)))
-#define VAL2BYTE(x) cvtUInt2Byte(x)
+#define VAL2BYTE(x) cvtUInt2Byte((unsigned int)x)
 #include "blittemplate.h"
 
 #define BLITNAME stretchBlitSCoreRGBA32f
 #define SRCCVTTYPE float
 #define PTR2VAL(x,off) (*((float*)(x+off)))
-#define VAL2BYTE(x) cvtFloat2Byte(x)
+#define VAL2BYTE(x) cvtFloat2Byte((float)x)
 #include "blittemplate.h"
 
 #define BLITNAME stretchBlitSCoreRGBA64f
 #define SRCCVTTYPE double
 #define PTR2VAL(x,off) (*((double*)(x+off)))
-#define VAL2BYTE(x) cvtDouble2Byte(x)
+#define VAL2BYTE(x) cvtDouble2Byte((double)x)
 #include "blittemplate.h"
 
 #define BLITNAME stretchBlitSCoreRGBAByteColsBitOffsetsi
 #define SRCCVTTYPE unsigned int
 #define PTR2VAL_BIT_OFFSET(x,off,wid) bytePtr2Val_BitOffsets(x,off,wid)
-#define VALBITS2BYTE(x,N) cvtNbits2Byte(x,N)
+#define VALBITS2BYTE(x,N) cvtNbits2Byte((unsigned int)x,N)
 #include "blittemplate.h"
-
 
 // BIASING STRETCH BLITTERS
 #define BLITNAME stretchBlitBCoreRGBA8i
 #undef SCALE
 #define BIAS
 #define SRCCVTTYPE int
-#define VAL2BYTE(x) cvtByteEx2Byte(x)
+#define VAL2BYTE(x) cvtByteEx2Byte((int)x)
 #include "blittemplate.h"
 
 #define BLITNAME stretchBlitBCoreRGBA16i
 #define SRCCVTTYPE unsigned short
 #define PTR2VAL(x,off) (*((unsigned short*)(x+off)))
-#define VAL2BYTE(x) cvtUShort2Byte(x)
+#define VAL2BYTE(x) cvtUShort2Byte((unsigned short)x)
 #include "blittemplate.h"
 
 #define BLITNAME stretchBlitBCoreRGBA32i
 #define SRCCVTTYPE unsigned int
 #define PTR2VAL(x,off) (*((unsigned int*)(x+off)))
-#define VAL2BYTE(x) cvtUInt2Byte(x)
+#define VAL2BYTE(x) cvtUInt2Byte((unsigned int)x)
 #include "blittemplate.h"
 
 #define BLITNAME stretchBlitBCoreRGBA32f
 #define SRCCVTTYPE float
 #define PTR2VAL(x,off) (*((float*)(x+off)))
-#define VAL2BYTE(x) cvtFloat2Byte(x)
+#define VAL2BYTE(x) cvtFloat2Byte((float)x)
 #include "blittemplate.h"
 
 #define BLITNAME stretchBlitBCoreRGBA64f
 #define SRCCVTTYPE double
 #define PTR2VAL(x,off) (*((double*)(x+off)))
-#define VAL2BYTE(x) cvtDouble2Byte(x)
+#define VAL2BYTE(x) cvtDouble2Byte((double)x)
 #include "blittemplate.h"
 
 #define BLITNAME stretchBlitBCoreRGBAByteColsBitOffsetsi
 #define SRCCVTTYPE unsigned int
 #define PTR2VAL_BIT_OFFSET(x,off,wid) bytePtr2Val_BitOffsets(x,off,wid)
-#define VALBITS2BYTE(x,N) cvtNbits2Byte(x,N)
+#define VALBITS2BYTE(x,N) cvtNbits2Byte((unsigned int)x,N)
 #include "blittemplate.h"
 
 // SCALING & BIASING STRETCH BLITTERS
 #define BLITNAME stretchBlitSBCoreRGBA8i
 #define SCALE
 #define SRCCVTTYPE int
-#define VAL2BYTE(x) cvtByteEx2Byte(x)
+#define VAL2BYTE(x) cvtByteEx2Byte((int)x)
 #include "blittemplate.h"
 
 #define BLITNAME stretchBlitSBCoreRGBA16i
 #define SRCCVTTYPE unsigned short
 #define PTR2VAL(x,off) (*((unsigned short*)(x+off)))
-#define VAL2BYTE(x) cvtUShort2Byte(x)
+#define VAL2BYTE(x) cvtUShort2Byte((unsigned short)x)
 #include "blittemplate.h"
 
 #define BLITNAME stretchBlitSBCoreRGBA32i
 #define SRCCVTTYPE unsigned int
 #define PTR2VAL(x,off) (*((unsigned int*)(x+off)))
-#define VAL2BYTE(x) cvtUInt2Byte(x)
+#define VAL2BYTE(x) cvtUInt2Byte((unsigned int)x)
 #include "blittemplate.h"
 
 #define BLITNAME stretchBlitSBCoreRGBA32f
 #define SRCCVTTYPE float
 #define PTR2VAL(x,off) (*((float*)(x+off)))
-#define VAL2BYTE(x) cvtFloat2Byte(x)
+#define VAL2BYTE(x) cvtFloat2Byte((float)x)
 #include "blittemplate.h"
 
 #define BLITNAME stretchBlitSBCoreRGBA64f
 #define SRCCVTTYPE double
 #define PTR2VAL(x,off) (*((double*)(x+off)))
-#define VAL2BYTE(x) cvtDouble2Byte(x)
+#define VAL2BYTE(x) cvtDouble2Byte((double)x)
 #include "blittemplate.h"
 
 #define BLITNAME stretchBlitSBCoreRGBAByteColsBitOffsetsi
 #define SRCCVTTYPE unsigned int
 #define PTR2VAL_BIT_OFFSET(x,off,wid) bytePtr2Val_BitOffsets(x,off,wid)
-#define VALBITS2BYTE(x,N) cvtNbits2Byte(x,N)
+#define VALBITS2BYTE(x,N) cvtNbits2Byte((unsigned int)x,N)
 #include "blittemplate.h"
 
 #undef SCALE
@@ -565,69 +564,68 @@ void stretchBlitCoreIrregularm(
 #define BLITNAME blitCoreRGBA16i
 #define SRCCVTTYPE unsigned short
 #define PTR2VAL(x,off) (*((unsigned short*)(x+off)))
-#define VAL2BYTE(x) cvtUShort2Byte(x)
+#define VAL2BYTE(x) cvtUShort2Byte((unsigned short)x)
 #include "blittemplate.h"
 
 #define BLITNAME blitCoreRGBA32i
 #define SRCCVTTYPE unsigned int
 #define PTR2VAL(x,off) (*((unsigned int*)(x+off)))
-#define VAL2BYTE(x) cvtUInt2Byte(x)
+#define VAL2BYTE(x) cvtUInt2Byte((unsigned int)x)
 #include "blittemplate.h"
 
 #define BLITNAME blitCoreRGBA32f
 #define SRCCVTTYPE float
 #define PTR2VAL(x,off) (*((float*)(x+off)))
-#define VAL2BYTE(x) cvtFloat2Byte(x)
+#define VAL2BYTE(x) cvtFloat2Byte((float)x)
 #include "blittemplate.h"
 
 #define BLITNAME blitCoreRGBA64f
 #define SRCCVTTYPE double
 #define PTR2VAL(x,off) (*((double*)(x+off)))
-#define VAL2BYTE(x) cvtDouble2Byte(x)
+#define VAL2BYTE(x) cvtDouble2Byte((double)x)
 #include "blittemplate.h"
 
 #define BLITNAME blitCoreRGBAByteColsBitOffsetsi
 #define SRCCVTTYPE unsigned int
 #define PTR2VAL_BIT_OFFSET(x,off,wid) bytePtr2Val_BitOffsets(x,off,wid)
-#define VALBITS2BYTE(x,N) cvtNbits2Byte(x,N)
+#define VALBITS2BYTE(x,N) cvtNbits2Byte((unsigned int)x,N)
 #include "blittemplate.h"
-
 
 // SCALING BLITTERS
 #define BLITNAME blitSCoreRGBA8i
 #define SCALE
 #define SRCCVTTYPE int
-#define VAL2BYTE(x) cvtByteEx2Byte(x)
+#define VAL2BYTE(x) cvtByteEx2Byte((int)x)
 #include "blittemplate.h"
 
 #define BLITNAME blitSCoreRGBA16i
 #define SRCCVTTYPE unsigned short
 #define PTR2VAL(x,off) (*((unsigned short*)(x+off)))
-#define VAL2BYTE(x) cvtUShort2Byte(x)
+#define VAL2BYTE(x) cvtUShort2Byte((unsigned short)x)
 #include "blittemplate.h"
 
 #define BLITNAME blitSCoreRGBA32i
 #define SRCCVTTYPE unsigned int
 #define PTR2VAL(x,off) (*((unsigned int*)(x+off)))
-#define VAL2BYTE(x) cvtUInt2Byte(x)
+#define VAL2BYTE(x) cvtUInt2Byte((unsigned int)x)
 #include "blittemplate.h"
 
 #define BLITNAME blitSCoreRGBA32f
 #define SRCCVTTYPE float
 #define PTR2VAL(x,off) (*((float*)(x+off)))
-#define VAL2BYTE(x) cvtFloat2Byte(x)
+#define VAL2BYTE(x) cvtFloat2Byte((float)x)
 #include "blittemplate.h"
 
 #define BLITNAME blitSCoreRGBA64f
 #define SRCCVTTYPE double
 #define PTR2VAL(x,off) (*((double*)(x+off)))
-#define VAL2BYTE(x) cvtDouble2Byte(x)
+#define VAL2BYTE(x) cvtDouble2Byte((double)x)
 #include "blittemplate.h"
 
 #define BLITNAME blitSCoreRGBAByteColsBitOffsetsi
 #define SRCCVTTYPE unsigned int
 #define PTR2VAL_BIT_OFFSET(x,off,wid) bytePtr2Val_BitOffsets(x,off,wid)
-#define VALBITS2BYTE(x,N) cvtNbits2Byte(x,N)
+#define VALBITS2BYTE(x,N) cvtNbits2Byte((unsigned int)x,N)
 #include "blittemplate.h"
 
 // BIASING BLITTERS
@@ -635,75 +633,74 @@ void stretchBlitCoreIrregularm(
 #undef SCALE
 #define BIAS
 #define SRCCVTTYPE int
-#define VAL2BYTE(x) cvtByteEx2Byte(x)
+#define VAL2BYTE(x) cvtByteEx2Byte((int)x)
 #include "blittemplate.h"
 
 #define BLITNAME blitBCoreRGBA16i
 #define SRCCVTTYPE unsigned short
 #define PTR2VAL(x,off) (*((unsigned short*)(x+off)))
-#define VAL2BYTE(x) cvtUShort2Byte(x)
+#define VAL2BYTE(x) cvtUShort2Byte((unsigned short)x)
 #include "blittemplate.h"
 
 #define BLITNAME blitBCoreRGBA32i
 #define SRCCVTTYPE unsigned int
 #define PTR2VAL(x,off) (*((unsigned int*)(x+off)))
-#define VAL2BYTE(x) cvtUInt2Byte(x)
+#define VAL2BYTE(x) cvtUInt2Byte((unsigned int)x)
 #include "blittemplate.h"
 
 #define BLITNAME blitBCoreRGBA32f
 #define SRCCVTTYPE float
 #define PTR2VAL(x,off) (*((float*)(x+off)))
-#define VAL2BYTE(x) cvtFloat2Byte(x)
+#define VAL2BYTE(x) cvtFloat2Byte((float)x)
 #include "blittemplate.h"
 
 #define BLITNAME blitBCoreRGBA64f
 #define SRCCVTTYPE double
 #define PTR2VAL(x,off) (*((double*)(x+off)))
-#define VAL2BYTE(x) cvtDouble2Byte(x)
+#define VAL2BYTE(x) cvtDouble2Byte((double)x)
 #include "blittemplate.h"
 
 #define BLITNAME blitBCoreRGBAByteColsBitOffsetsi
 #define SRCCVTTYPE unsigned int
 #define PTR2VAL_BIT_OFFSET(x,off,wid) bytePtr2Val_BitOffsets(x,off,wid)
-#define VALBITS2BYTE(x,N) cvtNbits2Byte(x,N)
+#define VALBITS2BYTE(x,N) cvtNbits2Byte((unsigned int)x,N)
 #include "blittemplate.h"
-
 
 // SCALING & BIASING BLITTERS
 #define BLITNAME blitSBCoreRGBA8i
 #define SCALE
 #define SRCCVTTYPE int
-#define VAL2BYTE(x) cvtByteEx2Byte(x)
+#define VAL2BYTE(x) cvtByteEx2Byte((int)x)
 #include "blittemplate.h"
 
 #define BLITNAME blitSBCoreRGBA16i
 #define SRCCVTTYPE unsigned short
 #define PTR2VAL(x,off) (*((unsigned short*)(x+off)))
-#define VAL2BYTE(x) cvtUShort2Byte(x)
+#define VAL2BYTE(x) cvtUShort2Byte((unsigned short)x)
 #include "blittemplate.h"
 
 #define BLITNAME blitSBCoreRGBA32i
 #define SRCCVTTYPE unsigned int
 #define PTR2VAL(x,off) (*((unsigned int*)(x+off)))
-#define VAL2BYTE(x) cvtUInt2Byte(x)
+#define VAL2BYTE(x) cvtUInt2Byte((unsigned int)x)
 #include "blittemplate.h"
 
 #define BLITNAME blitSBCoreRGBA32f
 #define SRCCVTTYPE float
 #define PTR2VAL(x,off) (*((float*)(x+off)))
-#define VAL2BYTE(x) cvtFloat2Byte(x)
+#define VAL2BYTE(x) cvtFloat2Byte((float)x)
 #include "blittemplate.h"
 
 #define BLITNAME blitSBCoreRGBA64f
 #define SRCCVTTYPE double
 #define PTR2VAL(x,off) (*((double*)(x+off)))
-#define VAL2BYTE(x) cvtDouble2Byte(x)
+#define VAL2BYTE(x) cvtDouble2Byte((double)x)
 #include "blittemplate.h"
 
 #define BLITNAME blitSBCoreRGBAByteColsBitOffsetsi
 #define SRCCVTTYPE unsigned int
 #define PTR2VAL_BIT_OFFSET(x,off,wid) bytePtr2Val_BitOffsets(x,off,wid)
-#define VALBITS2BYTE(x,N) cvtNbits2Byte(x,N)
+#define VALBITS2BYTE(x,N) cvtNbits2Byte((unsigned int)x,N)
 #include "blittemplate.h"
 
 #undef SCALE
