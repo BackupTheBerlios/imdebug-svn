@@ -38,7 +38,7 @@
 			<Tool
 				Name="VCLinkerTool"
 				OutputFile="../../lib/testappgld.exe"
-				LinkIncremental="1"
+				LinkIncremental="2"
 				SuppressStartupBanner="TRUE"
 				AdditionalLibraryDirectories="../../lib"
 				GenerateDebugInformation="TRUE"
