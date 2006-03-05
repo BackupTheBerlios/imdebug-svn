@@ -198,7 +198,7 @@ reswrap -o &quot;$(InputDir)\imdbgicons.h&quot; autoscale.bmp unityscale.bmp ico
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath="..\..\imdbgdisplay_fox\imdbgdisplay.ico">
+				RelativePath="..\..\res\imdbgdisplay.ico">
 			</File>
 			<File
 				RelativePath="..\..\imdbgdisplay_fox\imdbgdisplay.rc">
