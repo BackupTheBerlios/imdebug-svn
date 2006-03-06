@@ -36,7 +36,7 @@
 				Name="VCCustomBuildTool"/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="foxd-1.4.lib ws2_32.lib comctl32.lib wsock32.lib mpr.lib"
+				AdditionalDependencies="FOXD-1.6.lib ws2_32.lib comctl32.lib wsock32.lib mpr.lib"
 				OutputFile="../../lib/imdbgdisplay_fox.exe"
 				LinkIncremental="0"
 				SuppressStartupBanner="TRUE"
@@ -103,7 +103,7 @@
 				Name="VCCustomBuildTool"/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="fox-1.4.lib comctl32.lib wsock32.lib mpr.lib"
+				AdditionalDependencies="FOX-1.6.lib comctl32.lib wsock32.lib mpr.lib"
 				OutputFile="../../lib/imdbgdisplay_fox.exe"
 				LinkIncremental="0"
 				SuppressStartupBanner="TRUE"
