@@ -104,17 +104,21 @@ enum { BF_STRETCH=0x1, BF_SCALE=0x2, BF_BIAS=0x4 };
 enum { BF_INT_OFFSET=0, BF_FLOAT_OFFSET = 5 };
 
 PBLITFUNC g_blitFuncTable[(BF_STRETCH|BF_SCALE|BF_BIAS)+1][10];
+
 /**********************************************************************/
 
 inline ImProps* mapProps(void *mapview)
 {
   return (ImProps*)mapview;
 }
+
 inline FXuchar* mapImage(void *mapview)
 {
   return ((FXuchar*)mapview)+sizeof(ImProps);
 }
+
 /**********************************************************************/
+
 // DataTarg is a simple template class that binds together in one entity
 // an FXDataTarget object and it's associated variable.
 template <class T>
@@ -132,9 +136,11 @@ class DataTarg
     FXDataTarget targ;
     T val;
 };
+
 typedef DataTarg<FXuint> UIntTarget;
 typedef DataTarg<FXint>  IntTarget;
 typedef DataTarg<FXuchar> BoolTarget;
+
 /**********************************************************************/
 
 struct DrawAttribs
@@ -171,6 +177,7 @@ struct DrawAttribs
   };
   unsigned char enabledChannels;
 };
+
 /**********************************************************************/
 
 struct ImPropsEx : public ImProps
@@ -183,8 +190,8 @@ struct ImPropsEx : public ImProps
   int imgNum;   // sequence number of image of all images with same title
 };
 
-
 /**********************************************************************/
+
 static void setScaleAndBias(BlitStats *bs,
                             float typeMin, float typeMax,
                             float *scale, float *bias)
@@ -217,16 +224,17 @@ static void setScaleAndBias(BlitStats *bs,
       bias[i]  = (typeMin-vmin) * scale[i];
     }
   }
-
 }
+
 double getTypemax(ImProps *props)
 {
   if (props->type[0] == IMDBG_FLOAT) return 1.0;
   double typeMax = (double)(~((~0UL)<<props->bpc[0]));
   return typeMax;
-
 }
+
 /**********************************************************************/
+
 static void mapWindowToImage(int xWin, int yWin, int hWin,
                              int* xImg, int *yImg,
                              const DrawAttribs *pAttrs,
@@ -238,13 +246,16 @@ static void mapWindowToImage(int xWin, int yWin, int hWin,
   *xImg = (int)floor((xWin - pProps->tx)/pProps->zoom);
   *yImg = (int)floor((yWin - pProps->ty)/pProps->zoom);
 }
+
 static void mapImageToWindow(int xImg, int yImg, int *xWin, int *yWin,
                              const DrawAttribs *pAttrs, const ImPropsEx *pProps)
 {
   *xWin = (int)floor((xImg*pProps->zoom) + pProps->tx);
   *yWin = (int)floor((yImg*pProps->zoom) + pProps->ty);
 }
+
 /**********************************************************************/
+
 static void initBlitFuncs()
 {
   // First get the complete list of available blitters
@@ -288,8 +299,8 @@ static void initBlitFuncs()
   }
 }
 
-
 /**********************************************************************/
+
 static const char *g_toolbarButtonText[] =
 {
 "&Delete\tDelete Image\tDelete current image.",
@@ -305,9 +316,7 @@ static const char *g_toolbarButtonText[] =
 "D&iff\tEnable image diffs\tEnable diffs with reference image"
 };
 
-
 /**********************************************************************/
-
 
 class ImageWindow : public FXMainWindow {
   FXDECLARE(ImageWindow)
@@ -391,7 +400,6 @@ protected:
   //BoolTarget btShowToolbar;
   //BoolTarget btShowStatusbar;
 
-
 protected:
   ImageWindow(){}
   void drawPixelGridOnImage(FXImage *img);
@@ -461,7 +469,7 @@ public:
   long onExternalNotify(FXObject*,FXSelector,void*);
 
 public:
-  enum{
+  enum {
     ID_ABOUT=FXMainWindow::ID_LAST,
     ID_OPEN,
     ID_SAVE_AS,
@@ -529,14 +537,17 @@ public:
     ID_DISPLAY_AREA,
     ID_LAST
     };
+
 public:
   ImageWindow(FXApp* a);
+
   virtual void create();
+
   bool loadimage(const FXString& file);
   bool saveimage(const FXString& file);
+
   virtual ~ImageWindow();
 };
-
 
 /***************************************************************************/
 
@@ -608,7 +619,6 @@ FXDEFMAP(ImageWindow) ImageWindowMap[]={
   FXMAPFUNCS(SEL_UPDATE,ImageWindow::ID_ZOOM_100,   ImageWindow::ID_ZOOM_1000, ImageWindow::onUpdateMenu),
   //FXMAPFUNC(SEL_UPDATE, ImageWindow::ID_RECENTFILE, ImageWindow::onUpdateMenu),
 
-
   FXMAPFUNCS(SEL_COMMAND, ImageWindow::ID_FIRST_TOGGLE,ImageWindow::ID_LAST_TOGGLE, ImageWindow::onCmdToggles),
   FXMAPFUNCS(SEL_COMMAND, ImageWindow::ID_FIRST_TOGGLE,ImageWindow::ID_LAST_TOGGLE, ImageWindow::onUpdateToggles),
   FXMAPFUNCS(SEL_COMMAND, ImageWindow::ID_RGBA,        ImageWindow::ID_ALPHA,       ImageWindow::onCmdChannels),
@@ -643,10 +653,8 @@ FXDEFMAP(ImageWindow) ImageWindowMap[]={
   */
 };
 
-
 // Object implementation
 FXIMPLEMENT(ImageWindow,FXMainWindow,ImageWindowMap,ARRAYNUMBER(ImageWindowMap))
-
 
 // Make some windows
 ImageWindow::ImageWindow(FXApp* a)
@@ -676,6 +684,7 @@ ImageWindow::ImageWindow(FXApp* a)
     appIcon = big;
     appIconMini = tiny;
   }
+
   // Add a few extra hotkeys
   {
     FXAccelTable *table;
@@ -687,7 +696,6 @@ ImageWindow::ImageWindow(FXApp* a)
 #endif
     }
   }
-
 
   // Make menu bar
   menubar=new FXMenuBar(this,LAYOUT_SIDE_TOP|LAYOUT_FILL_X|FRAME_RAISED);
@@ -755,7 +763,6 @@ ImageWindow::ImageWindow(FXApp* a)
   //FXHorizontalFrame *imagebox=new FXHorizontalFrame(this,FRAME_SUNKEN|FRAME_THICK|LAYOUT_FILL_X|LAYOUT_FILL_Y,0,0,0,0, 0,0,0,0);
   FXPacker *imagebox=new FXPacker(this,LAYOUT_TOP|LAYOUT_FILL_X|LAYOUT_FILL_Y,0,0,0,0, 0,2,0,0);
 
-
   //new FXDial(imagebox,&int_target,FXDataTarget::ID_VALUE,LAYOUT_CENTER_Y|LAYOUT_FILL_ROW|LAYOUT_FIX_WIDTH|DIAL_HORIZONTAL|DIAL_HAS_NOTCH,0,0,100);
 
   FXIcon *autoscale_icon=new FXBMPIcon(getApp(),autoscale);
@@ -800,7 +807,6 @@ ImageWindow::ImageWindow(FXApp* a)
   imageview->enable();
   // Sunken border for file list
   //filebox=new FXHorizontalFrame(splitter,LAYOUT_FILL_X|LAYOUT_FILL_Y,0,0,0,0, 0,0,0,0);
-
 
   // Make file list
   //FXHorizontalFrame* fileframe=new FXHorizontalFrame(filebox,FRAME_SUNKEN|FRAME_THICK|LAYOUT_FILL_X|LAYOUT_FILL_Y,0,0,0,0, 0,0,0,0, 0,0);
@@ -974,7 +980,6 @@ ImageWindow::ImageWindow(FXApp* a)
   //btShowStatusbar().setTarget(this);      btShowStatusbar().setSelector(ID_SHOW_STATUSBAR);
   btDiffImage().setTarget(this);          btDiffImage().setSelector(ID_DIFF_IMAGE);
 
-
   //btPropagateScaleOnTagged().setTarget(this);
   //btPropagateScaleOnTagged().setSelector(ID_);
 
@@ -983,11 +988,8 @@ ImageWindow::ImageWindow(FXApp* a)
     IMDBG_MEMMAP_FILENAME,MemoryMappedFile::OPEN_READ
     );
 
-
   initBlitFuncs();
-
 }
-
 
 // Clean up
 ImageWindow::~ImageWindow()
@@ -1000,7 +1002,6 @@ ImageWindow::~ImageWindow()
   if (pDiffData)
       delete [] pDiffData;
 }
-
 
 // About box
 long ImageWindow::onCmdAbout(FXObject*,FXSelector,void*){
@@ -1049,11 +1050,11 @@ void imageToImprops(FXImage *img, ImProps *props, const FXString &name)
   strncpy(props->title,name.text(),MAX_TITLE_LENGTH);
   props->title[MAX_TITLE_LENGTH]=0;
   props->flags = 0;
-
 }
+
 // Load file
 bool ImageWindow::loadimage(const FXString& file){
-  using namespace FXPath
+  using namespace FXPath;
 
   FXString ext=extension(file);
   FXImage *img=NULL;
@@ -1157,7 +1158,6 @@ bool ImageWindow::loadimage(const FXString& file){
   }
   return true;
 }
-
 
 // Save file
 bool ImageWindow::saveimage(const FXString& file){
@@ -1292,7 +1292,6 @@ void ImageWindow::setImageCountStatus()
   }
 }
 
-
 static bool getValueOfTypeAndSize(unsigned char *p, char t, int s, int off,
                                   long* lv, double *dv)
 {
@@ -1329,7 +1328,6 @@ static bool getValueOfTypeAndSize(unsigned char *p, char t, int s, int off,
   return false;
 }
 
-
 void ImageWindow::writeStatusMessage(
   char *msg, char *tmsg, int ImgX, int ImgY,
   Byte*rawptr, ImPropsEx *p, DrawAttribs *pAttr)
@@ -1346,7 +1344,6 @@ void ImageWindow::writeStatusMessage(
     tl += sprintf(tmsg+tl," %+.2g", p->bias[0]);
   }
   tl += sprintf(tmsg+tl,"\n");
-
 
   Byte *base = rawptr;
   base += (p->rowstride>>3)*ImgY + (p->colstride>>3)*ImgX;
@@ -1387,7 +1384,6 @@ void ImageWindow::writeStatusMessage(
       effectiveChanmap[2] = effectiveChanmap[3];
       effectiveChanmap[3] = -1;
     }
-
 
     isGrayScale = p->nchan == 1 &&
       effectiveChanmap[0] == effectiveChanmap[1] &&
@@ -1505,7 +1501,6 @@ void ImageWindow::writeStatusMessage(
     sprintf(numtmp,"%02x%02x%02x", swatchrgb[0],swatchrgb[1],swatchrgb[2]);
     strncpy(tmsg+2, numtmp,6);
   }
-
 }
 
 void ImageWindow::setHoverImageInfoStatus(int PtrX, int PtrY)
@@ -1547,6 +1542,7 @@ void ImageWindow::setHoverImageInfoStatus(int PtrX, int PtrY)
   lastHoverX=PtrX;
   lastHoverY=PtrY;
 }
+
 void ImageWindow::setHoverImageInfoStatus()
 {
   setHoverImageInfoStatus(lastHoverX,lastHoverY);
@@ -1617,7 +1613,6 @@ void ImageWindow::setNormalImageInfoStatus()
   statusbar->getStatusLine()->setNormalText( FXString(msg) );
 }
 
-
 // Open
 long ImageWindow::onCmdOpen(FXObject*,FXSelector,void*){
   FXFileDialog open(this,"Open Image");
@@ -1631,7 +1626,6 @@ long ImageWindow::onCmdOpen(FXObject*,FXSelector,void*){
     }
   return 1;
 }
-
 
 // Save
 long ImageWindow::onCmdSaveAs(FXObject*,FXSelector,void*){
@@ -1648,7 +1642,6 @@ long ImageWindow::onCmdSaveAs(FXObject*,FXSelector,void*){
     }
   return 1;
 }
-
 
 // Quit
 long ImageWindow::onCmdQuit(FXObject*,FXSelector,void*){
@@ -1723,7 +1716,6 @@ long ImageWindow::onCmdCopy(FXObject* sender,FXSelector,void*)
 // Paste image from clipboard
 long ImageWindow::onCmdPaste(FXObject* sender,FXSelector,void*)
 {
-
   return 1;
 }
 
@@ -1780,6 +1772,7 @@ long ImageWindow::onUpdTitle(FXObject* sender,FXSelector,void*){
   sender->handle(this,FXSEL(SEL_COMMAND,FXWindow::ID_SETSTRINGVALUE),(void*)&title);
   return 1;
 }
+
 /*
 long ImageWindow::onQueryTip(FXObject*sender,FXSelector,void*)
 {
@@ -1803,7 +1796,7 @@ long ImageWindow::onQueryStatus(FXObject*sender,FXSelector,void*)
 // Open recent file
 long ImageWindow::onCmdRecentFile(FXObject*,FXSelector,void* ptr){
   filename=(FXchar*)ptr;
-//  filelist->setCurrentFile(filename);
+  //filelist->setCurrentFile(filename);
   loadimage(filename);
   return 1;
 }
@@ -1888,6 +1881,7 @@ long ImageWindow::onCmdOptions(FXObject* sender,FXSelector sel,void* ptr)
   */
   return 1;
 }
+
 long ImageWindow::onCmdNavigate(FXObject* sender,FXSelector sel,void* ptr)
 {
   if (numImages<0) return 0;
@@ -2110,6 +2104,7 @@ long ImageWindow::onUpdateMenu(FXObject*sender,FXSelector sel,void*)
   }
   return 1;
 }
+
 long ImageWindow::onCmdRescale(FXObject* sender,FXSelector sel,void* ptr)
 {
   drawAttr.calcZoom = true;
@@ -2134,6 +2129,7 @@ void ImageWindow::setImageTranslationProp(float tx, float ty)
     improps[curImage].ty = ty;
   }
 }
+
 void ImageWindow::setImageZoomProp(float zoom)
 {
   if (!numImages) return;
@@ -2149,6 +2145,7 @@ void ImageWindow::setImageZoomProp(float zoom)
     improps[curImage].zoom = zoom;
   }
 }
+
 void ImageWindow::setImageScaleBiasProp(float scale, float bias)
 {
   if (!numImages) return;
@@ -2242,6 +2239,7 @@ void ImageWindow::clearScaleBiasHelpText()
   finebiasdial->setHelpText( "" );
   setNormalImageInfoStatus();
 }
+
 void ImageWindow::setScaleBiasHelpText()
 {
   FXString dialHelp;
@@ -2255,6 +2253,7 @@ void ImageWindow::setScaleBiasHelpText()
   statusbar->repaint();
   setNormalDialDraggingStatus();
 }
+
 void ImageWindow::setNormalDialDraggingStatus()
 {
   FXString dialHelp;
@@ -2289,6 +2288,7 @@ void ImageWindow::syncScaleBiasDials( bool doScale, bool doBias )
   }
   clearScaleBiasHelpText();
 }
+
 long ImageWindow::onScaleBias(FXObject*sender,FXSelector sel,void*)
 {
   if (!numImages) return 0;
@@ -2330,11 +2330,13 @@ long ImageWindow::onScaleBias(FXObject*sender,FXSelector sel,void*)
   imageview->repaint();
   return 1;
 }
+
 long ImageWindow::onScaleBiasRelease(FXObject*sender,FXSelector sel,void*)
 {
   clearScaleBiasHelpText();
   return 1;
 }
+
 long ImageWindow::onCmdScaleBias(FXObject*sender,FXSelector sel,void*)
 {
   if (!numImages) return 0;
@@ -2426,8 +2428,8 @@ void ImageWindow::clearImageToBackground(FXImage *img)
       //img->setPixel(x,y,color);
     }
   }
-
 }
+
 void ImageWindow::drawPixelGridOnImage(FXImage *img)
 {
   FXColor *pData = img->getData();
@@ -2473,8 +2475,6 @@ void ImageWindow::drawPixelGridOnImage(FXImage *img)
       dst+=WinW;
     }
   }
-
-
 }
 
 void ImageWindow::regenerateDiffImage(Byte* &pImage)
@@ -2805,7 +2805,6 @@ bool ImageWindow::regenerateDisplayImage()
   }
   pAttrs->calcZoom = false;
 
-
   // Choose a blitting function
   if (uniformType && (byteAligned || byteAlignedCol)) {
     pBlitFunc = g_blitFuncTable[blitFuncFlags][blitFuncIndex];
@@ -2842,8 +2841,8 @@ bool ImageWindow::regenerateDisplayImage()
         pProps,
         &bs
         );
-      // Save scale and bias:
 
+      // Save scale and bias:
       /*
        (actually this is really counterproductive.
        once we compute a good scale & bias we should continue to use it.
@@ -2956,6 +2955,7 @@ void ImageWindow::copyRawImageData(ImPropsEx *pProp, Byte **rawData)
   if (*rawData!=NULL)
     memcpy(*rawData, mapImage(mapview), rawSize);
 }
+
 void ImageWindow::addNewImageSlotToCircularBuffer()
 {
   int originalLastImage = lastImage;
@@ -3006,6 +3006,7 @@ int ImageWindow::findPreviousImageIndexByTag(const char *title, int start)
   if (match) return idx;
   else return -1;
 }
+
 int ImageWindow::findNextImageIndexByTag(const char *title, int start)
 {
   // search for a matching tag  starting from "start"
@@ -3120,6 +3121,7 @@ long ImageWindow::onNewImage(FXObject*,FXSelector , void* )
 #endif
   return 1;
 }
+
 /*
 long ImageWindow::onIdleTask(FXObject*o,FXSelector s,void* p)
 {
@@ -3136,7 +3138,8 @@ long ImageWindow::onIdleTask(FXObject*o,FXSelector s,void* p)
   // Re-register the chore
   getApp()->addChore(this, ID_IDLE_TASK);
   return 1;
-}*/
+}
+*/
 
 long ImageWindow::onExternalNotify(FXObject*o,FXSelector s,void*p)
 {
@@ -3152,6 +3155,7 @@ long ImageWindow::onExternalNotify(FXObject*o,FXSelector s,void*p)
   }
   return 1;
 }
+
 /*
 // Mirror
 long ImageWindow::onCmdMirror(FXObject*,FXSelector sel,void*){
@@ -3164,7 +3168,6 @@ long ImageWindow::onCmdMirror(FXObject*,FXSelector sel,void*){
   imageview->setImage(image);
   return 1;
 }
-
 
 // Scale
 long ImageWindow::onCmdScale(FXObject*,FXSelector,void*){
@@ -3188,7 +3191,6 @@ long ImageWindow::onCmdScale(FXObject*,FXSelector,void*){
   imageview->setImage(image);
   return 1;
 }
-
 
 // Crop
 long ImageWindow::onCmdCrop(FXObject*,FXSelector,void*){
@@ -3297,7 +3299,6 @@ long ImageWindow::onResize(FXObject*,FXSelector,void*)
   return 1;
 }
 
-
 // Create and show window
 void ImageWindow::create(){
   FXint ww,hh,xx,yy;
@@ -3345,7 +3346,6 @@ void ImageWindow::create(){
 
   FXMainWindow::create();
 
-
   // Settle for polling for now in lieu of getting direct "new image"
   // signalling events from the clients.
   //getApp()->addChore(this, ID_IDLE_TASK);
@@ -3381,8 +3381,8 @@ void ImageWindow::create(){
   show();
 }
 
-
 /***************************************************************************/
+
 /*
 class CustomFXApp : public FXApp
 {
@@ -3421,11 +3421,10 @@ void MakeConsole() {
 }
 */
 
-
 /***************************************************************************/
+
 // Start the whole thing
 int main(int argc,char *argv[]){
-
   // Make application
   FXApp application(IMDBG_REG_KEY_APP, IMDBG_REG_KEY_VENDOR);
 
