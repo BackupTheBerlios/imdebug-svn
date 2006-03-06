@@ -57,7 +57,10 @@
 			<Tool
 				Name="VCPostBuildEventTool"/>
 			<Tool
-				Name="VCPreBuildEventTool"/>
+				Name="VCPreBuildEventTool"
+				Description="Wrapping image file resources..."
+				CommandLine="cd ..\..\res
+reswrap -o &quot;..\imdbgdisplay_fox\imdbgicons.h&quot; autoscale.bmp unityscale.bmp icon16pal.bmp icon64pal.bmp arrowprev.gif arrownext.gif deleteicon.gif arrowprevtag.gif arrownexttag.gif arrowfirst.gif arrowlast.gif blockicon.gif linkicon.gif setdiffbaseicon.gif difficon.gif"/>
 			<Tool
 				Name="VCPreLinkEventTool"/>
 			<Tool
@@ -123,7 +126,10 @@
 			<Tool
 				Name="VCPostBuildEventTool"/>
 			<Tool
-				Name="VCPreBuildEventTool"/>
+				Name="VCPreBuildEventTool"
+				Description="Wrapping image file resources..."
+				CommandLine="cd ..\..\res
+reswrap -o &quot;..\imdbgdisplay_fox\imdbgicons.h&quot; autoscale.bmp unityscale.bmp icon16pal.bmp icon64pal.bmp arrowprev.gif arrownext.gif deleteicon.gif arrowprevtag.gif arrownexttag.gif arrowfirst.gif arrowlast.gif blockicon.gif linkicon.gif setdiffbaseicon.gif difficon.gif"/>
 			<Tool
 				Name="VCPreLinkEventTool"/>
 			<Tool
@@ -176,27 +182,6 @@
 		<Filter
 			Name="res"
 			Filter="">
-			<File
-				RelativePath="..\..\imdbgdisplay_fox\images.list">
-				<FileConfiguration
-					Name="Debug|Win32">
-					<Tool
-						Name="VCCustomBuildTool"
-						CommandLine="cd ..\..\res
-reswrap -o &quot;$(InputDir)\imdbgicons.h&quot; autoscale.bmp unityscale.bmp icon16pal.bmp icon64pal.bmp arrowprev.gif arrownext.gif deleteicon.gif arrowprevtag.gif arrownexttag.gif arrowfirst.gif arrowlast.gif blockicon.gif linkicon.gif setdiffbaseicon.gif difficon.gif
-"
-						Outputs="$(InputDir)imdbgicons.h"/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Release|Win32">
-					<Tool
-						Name="VCCustomBuildTool"
-						CommandLine="cd ..\..\res
-reswrap -o &quot;$(InputDir)\imdbgicons.h&quot; autoscale.bmp unityscale.bmp icon16pal.bmp icon64pal.bmp arrowprev.gif arrownext.gif deleteicon.gif arrowprevtag.gif arrownexttag.gif arrowfirst.gif arrowlast.gif blockicon.gif linkicon.gif setdiffbaseicon.gif difficon.gif
-"
-						Outputs="$(InputDir)imdbgicons.h"/>
-				</FileConfiguration>
-			</File>
 			<File
 				RelativePath="..\..\res\imdbgdisplay.ico">
 			</File>
