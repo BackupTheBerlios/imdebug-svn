@@ -1,25 +1,25 @@
   /*-----------------------------------------------------------*
 
   Copyright (c) 2002-2005 William V. Baxter III
- 
+
   This software is provided 'as-is', without any express or implied
   warranty. In no event will the authors be held liable for any
   damages arising from the use of this software.
- 
+
   Permission is granted to anyone to use this software for any
   purpose, including commercial applications, and to alter it and
   redistribute it freely, subject to the following restrictions:
- 
+
   1. The origin of this software must not be misrepresented; you must
      not claim that you wrote the original software. If you use
      this software in a product, an acknowledgment in the product
      documentation would be appreciated but is not required.
- 
+
   2. Altered source versions must be plainly marked as such, and must
      not be misrepresented as being the original software.
- 
+
   3. This notice may not be removed or altered from any source distribution.
- 
+
   *-----------------------------------------------------------*/
 
 #include "CustomToolTip.h"
@@ -42,10 +42,14 @@ FXIMPLEMENT(CustomToolTip,FXToolTip,CustomToolTipMap,ARRAYNUMBER(CustomToolTipMa
 
 inline int hexval(FXchar c)
 {
-  if (c>='0' && c<='9') return c-'0';
-  else if (c>='a' && c<='f') return 10+c-'a';
-  else if (c>='A' && c<='F') return 10+c-'A';
-  else return 0;
+  if (c>='0' && c<='9')
+    return c-'0';
+  else if (c>='a' && c<='f')
+    return 10+c-'a';
+  else if (c>='A' && c<='F')
+    return 10+c-'A';
+  else
+    return 0;
 }
 
 long CustomToolTip::onPaint(
@@ -75,7 +79,7 @@ long CustomToolTip::onPaint(
   if(!label.empty()){
     FXString swatchcolor=label.section("\t",0);
     FXString thelabel   =label.section("\t",1);
-    if (thelabel.empty()) { 
+    if (thelabel.empty()) {
       thelabel=swatchcolor;
       swatchcolor = "";
     }
@@ -111,7 +115,7 @@ long CustomToolTip::onPaint(
         strend = thelabel.text()+len;
         dc.drawText(tx,ty,strbeg,strend-strbeg);
       }
-      else if (thelabel[pos] == '\n') { 
+      else if (thelabel[pos] == '\n') {
         strend = thelabel.text()+pos;
         dc.drawText(tx,ty,strbeg,strend-strbeg);
         ty+=font->getFontHeight();
@@ -142,8 +146,6 @@ long CustomToolTip::onPaint(
   //  return FXStatusLine::onPaint(o,s,p);
 }
 
-
-
 // Get default width
 FXint CustomToolTip::getDefaultWidth(){
   const FXchar *beg,*end;
@@ -159,7 +161,7 @@ FXint CustomToolTip::getDefaultWidth(){
   // strip label of special <> tags
   while((pos=slabel.find('<',pos))>=0) {
     FXint epos = slabel.find('>',pos);
-    slabel.remove(pos,epos-pos+1);
+    slabel.erase(pos,epos-pos+1);
   }
   beg=slabel.text();
   if(beg){

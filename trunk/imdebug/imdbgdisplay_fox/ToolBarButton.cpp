@@ -2,8 +2,8 @@
      File name    : ToolBarButton.cpp
      Author       : William Baxter
      Created      : 11/2/2003
-  
-     Description  : 
+
+     Description  :
   --------------------------------------------------------------------------*
   Copyright (c) 2002-2005 William V. Baxter III
 
@@ -46,14 +46,14 @@ ToolBarButton::ToolBarButton(
  FXint  pl,
  FXint  pr,
  FXint  pt,
- FXint  pb) 
+ FXint  pb)
  : FXButton(p,text,ic,tgt,sel,opts,
             x,y,w,h,pl,pr,pt,pb)
 
 {
 }
 
-FXbool ToolBarButton::canFocus() const
+bool ToolBarButton::canFocus() const
 {
   return false;
 }

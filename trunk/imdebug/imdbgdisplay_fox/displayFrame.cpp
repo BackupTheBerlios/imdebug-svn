@@ -3,25 +3,25 @@
   *-----------------------------------------------------------*
 
   Copyright (c) 2002-2005 William V. Baxter III
- 
+
   This software is provided 'as-is', without any express or implied
   warranty. In no event will the authors be held liable for any
   damages arising from the use of this software.
- 
+
   Permission is granted to anyone to use this software for any
   purpose, including commercial applications, and to alter it and
   redistribute it freely, subject to the following restrictions:
- 
+
   1. The origin of this software must not be misrepresented; you must
      not claim that you wrote the original software. If you use
      this software in a product, an acknowledgment in the product
      documentation would be appreciated but is not required.
- 
+
   2. Altered source versions must be plainly marked as such, and must
      not be misrepresented as being the original software.
- 
+
   3. This notice may not be removed or altered from any source distribution.
- 
+
  *-----------------------------------------------------------*
 
   Acknowledgements to Jeroen van der Zijp who wrote most of the FOX
@@ -42,19 +42,24 @@
 * $Id: displayFrame.cpp 1916 2005-10-22 02:13:59Z baxter $         *
 ***********************************************************************/
 #ifdef _WIN32
-#include <windows.h>
-#include <assert.h>
+  #include <windows.h>
+  #include <assert.h>
 #endif
+
 #include <fx.h>
+
 #ifdef HAVE_PNG_H
-#include "FXPNGImage.h"
+  #include "FXPNGImage.h"
 #endif
+
 #ifdef HAVE_JPEG_H
-#include "FXJPGImage.h"
+  #include "FXJPGImage.h"
 #endif
+
 #ifdef HAVE_TIFF_H
-#include "FXTIFImage.h"
+  #include "FXTIFImage.h"
 #endif
+
 #include "FXICOImage.h"
 #include "FXTGAImage.h"
 #include "FXRGBImage.h"
@@ -62,8 +67,9 @@
 #include <stdlib.h>
 #include <sys/stat.h>
 #include <signal.h>
+
 #ifndef _WIN32
-#include <unistd.h>
+  #include <unistd.h>
 #endif
 
 #include <list>
@@ -74,13 +80,17 @@
 #include "ToolBarButton.h"
 #include "ToolBarToggleButton.h"
 #include "memorymappedfile.h"
+
 #ifdef _WIN32
-#include "win32event.h"
+  #include "win32event.h"
 #endif
+
 #include "imdebug_priv.h"
+
 #ifndef BYTE
-#define BYTE FXuchar
+  #define BYTE FXuchar
 #endif
+
 #include "blitfuncs.h"
 #include "imdbgicons.h"
 
@@ -89,6 +99,7 @@
 #define ERROR_ZERO_PIXELS -2
 #define ERROR_TOO_BIG -3
 #define ERROR_ALLOC_FAIL -4
+
 enum { BF_STRETCH=0x1, BF_SCALE=0x2, BF_BIAS=0x4 };
 enum { BF_INT_OFFSET=0, BF_FLOAT_OFFSET = 5 };
 
@@ -117,18 +128,18 @@ class DataTarg
     FXDataTarget& operator()() { return targ; }
     bool operator!() { return !val; }
     operator T() { return val; }
-    
+
     FXDataTarget targ;
     T val;
 };
 typedef DataTarg<FXuint> UIntTarget;
 typedef DataTarg<FXint>  IntTarget;
-typedef DataTarg<FXbool> BoolTarget;
+typedef DataTarg<FXuchar> BoolTarget;
 /**********************************************************************/
 
 struct DrawAttribs
 {
-  DrawAttribs() 
+  DrawAttribs()
     :
   stretched       (true),
   flipped         (false),
@@ -150,7 +161,7 @@ struct DrawAttribs
   //int  tx, ty; // xy translation
   //float zoom;  // uniform stretch scaling
   float lastTypeMax;
-  enum { 
+  enum {
     ENABLE_RED   = 0x1,
     ENABLE_GREEN = 0x2,
     ENABLE_BLUE  = 0x4,
@@ -174,11 +185,11 @@ struct ImPropsEx : public ImProps
 
 
 /**********************************************************************/
-static void setScaleAndBias(BlitStats *bs, 
-                            float typeMin, float typeMax, 
+static void setScaleAndBias(BlitStats *bs,
+                            float typeMin, float typeMax,
                             float *scale, float *bias)
 {
-  // Compute global scale and bias across channels. 
+  // Compute global scale and bias across channels.
   // Scaling per-channel is wierd.
 
   int i;
@@ -193,7 +204,7 @@ static void setScaleAndBias(BlitStats *bs,
 
     }
   }
-  
+
   if (fabs(vmin-vmax)<1e-7) {
     fScale = 1.0f;
   }
@@ -207,7 +218,7 @@ static void setScaleAndBias(BlitStats *bs,
     }
   }
 
-} 
+}
 double getTypemax(ImProps *props)
 {
   if (props->type[0] == IMDBG_FLOAT) return 1.0;
@@ -216,9 +227,9 @@ double getTypemax(ImProps *props)
 
 }
 /**********************************************************************/
-static void mapWindowToImage(int xWin, int yWin, int hWin, 
+static void mapWindowToImage(int xWin, int yWin, int hWin,
                              int* xImg, int *yImg,
-                             const DrawAttribs *pAttrs, 
+                             const DrawAttribs *pAttrs,
                              const ImPropsEx *pProps)
 {
   if (pAttrs->flipped) {
@@ -266,7 +277,7 @@ static void initBlitFuncs()
         case 'n': index += 4; break;
         case 'i': index += BF_INT_OFFSET; break;
         case 'f': index += BF_FLOAT_OFFSET; break;
-        default: 
+        default:
           flags = -1; // this one doesn't go in the table
         }
       }
@@ -274,7 +285,7 @@ static void initBlitFuncs()
         g_blitFuncTable[flags][index] = blitFuncs[i].f;
       i++;
     }
-  } 
+  }
 }
 
 
@@ -365,7 +376,7 @@ protected:
   /////////////// DATA TARGETS ///////////////
   UIntTarget itEnabledChannels;           // Channels set
   BoolTarget btBlockUpdates;
-  BoolTarget btPropagateScaleOnTagged;  // propagate scale settings 
+  BoolTarget btPropagateScaleOnTagged;  // propagate scale settings
   BoolTarget btLinkImageProps;
   BoolTarget btCheckerBackground;
   BoolTarget btAutoStretch;
@@ -383,14 +394,14 @@ protected:
 
 protected:
   ImageWindow(){}
-  void drawPixelGridOnImage(FXImage *img); 
+  void drawPixelGridOnImage(FXImage *img);
   bool regenerateDisplayImage();
   void regenerateDiffImage(Byte* &pImage);
   void clearImageToBackground(FXImage *img);
   void copyRawImageData(ImPropsEx *pProp, Byte **rawData);
   static int  computeRawDataSize(ImProps *pProp);
   void writeStatusMessage(
-    char *statusmsg, char *tooltipmsg, int ImgX, int ImgY, 
+    char *statusmsg, char *tooltipmsg, int ImgX, int ImgY,
     Byte*rawptr, ImPropsEx *p, DrawAttribs *pAttr);
   void setImageCountStatus();
   void setHoverImageInfoStatus(int x, int y);
@@ -448,7 +459,7 @@ public:
   long onResize        (FXObject*,FXSelector,void*);
 
   long onExternalNotify(FXObject*,FXSelector,void*);
-  
+
 public:
   enum{
     ID_ABOUT=FXMainWindow::ID_LAST,
@@ -487,7 +498,7 @@ public:
     ID_UNITYSCALE,
     ID_RECENTFILE,
     ID_SET_DIFF_BASE,
-    
+
     ID_SCALE_BIAS_DIAL,
 
     ID_FIRST_TOGGLE,
@@ -521,8 +532,8 @@ public:
 public:
   ImageWindow(FXApp* a);
   virtual void create();
-  FXbool loadimage(const FXString& file);
-  FXbool saveimage(const FXString& file);
+  bool loadimage(const FXString& file);
+  bool saveimage(const FXString& file);
   virtual ~ImageWindow();
 };
 
@@ -566,7 +577,7 @@ FXDEFMAP(ImageWindow) ImageWindowMap[]={
   FXMAPFUNC(SEL_COMMAND, ImageWindow::ID_PASTE,      ImageWindow::onCmdPaste),
   FXMAPFUNC(SEL_COMMAND, ImageWindow::ID_DELETE,     ImageWindow::onCmdDelete),
   FXMAPFUNC(SEL_CLOSE,   ImageWindow::ID_TITLE,      ImageWindow::onCmdQuit),
-  //FXMAPFUNC(SEL_CHORE,   ImageWindow::ID_IDLE_TASK,  ImageWindow::onIdleTask), 
+  //FXMAPFUNC(SEL_CHORE,   ImageWindow::ID_IDLE_TASK,  ImageWindow::onIdleTask),
 
   FXMAPFUNC(SEL_COMMAND, ImageWindow::ID_OPTIONS,    ImageWindow::onCmdOptions),
   FXMAPFUNC(SEL_COMMAND, ImageWindow::ID_NEXT_IMAGE, ImageWindow::onCmdNavigate),
@@ -615,7 +626,7 @@ FXDEFMAP(ImageWindow) ImageWindowMap[]={
   FXMAPFUNC(SEL_COMMAND,            ImageWindow::ID_IMAGE_BIAS,     ImageWindow::onScaleBiasRelease),
   FXMAPFUNC(SEL_COMMAND,            ImageWindow::ID_IMAGE_BIAS_FINE,ImageWindow::onScaleBiasRelease),
   FXMAPFUNC(SEL_COMMAND,            ImageWindow::ID_IMAGE_SCALE,    ImageWindow::onScaleBiasRelease),
-  
+
   FXMAPFUNC(SEL_COMMAND,           ImageWindow::ID_AUTOSCALE,    ImageWindow::onCmdScaleBias),
   FXMAPFUNC(SEL_COMMAND,           ImageWindow::ID_UNITYSCALE,   ImageWindow::onCmdScaleBias),
 
@@ -654,7 +665,7 @@ ImageWindow::ImageWindow(FXApp* a)
 {
   setTarget(this);
   setSelector(ID_TITLE);
-    
+
   {
     FXIcon *big = new FXBMPIcon(getApp(), icon64pal);
     FXIcon *tiny= new FXBMPIcon(getApp(), icon16pal);
@@ -671,13 +682,13 @@ ImageWindow::ImageWindow(FXApp* a)
     table=getAccelTable();
     if(table){
 #ifdef _WIN32
-      // Every good win32 app should respnd to Alt-F4
-      table->addAccel(fxparseAccel("Alt+F4"),this,FXSEL(SEL_COMMAND,ImageWindow::ID_QUIT));
+      // Every good win32 app should respond to Alt-F4
+      table->addAccel(parseAccel("Alt+F4"),this,FXSEL(SEL_COMMAND,ImageWindow::ID_QUIT));
 #endif
     }
   }
 
-  
+
   // Make menu bar
   menubar=new FXMenuBar(this,LAYOUT_SIDE_TOP|LAYOUT_FILL_X|FRAME_RAISED);
 
@@ -693,7 +704,7 @@ ImageWindow::ImageWindow(FXApp* a)
   statusNavLabel = new FXLabel(statusbar,
     "0 / 0  1.0x\tShowing image 0 out of 0.\nCurrent zoom is %100",
     0,FRAME_SUNKEN|LAYOUT_RIGHT|LAYOUT_CENTER_Y|JUSTIFY_RIGHT);
-  
+
   // Add another status text to statusbar
   statusBlockLabel = new FXLabel(statusbar,"BLOCK",0,FRAME_SUNKEN|LAYOUT_RIGHT|LAYOUT_CENTER_Y|JUSTIFY_RIGHT);
   statusBlockLabel->setBackColor(FXRGB(255,0,0));
@@ -761,7 +772,7 @@ ImageWindow::ImageWindow(FXApp* a)
   new ToolBarButton(
     biasframe,"\tReset color scale to 1.0",unityscale_icon,this,
     ID_UNITYSCALE,LAYOUT_SIDE_RIGHT|LAYOUT_SIDE_BOTTOM|FRAME_RAISED|FRAME_THICK|LAYOUT_RIGHT);
-  
+
   scaleframe = new FXVerticalFrame(imagebox,LAYOUT_FILL_Y|LAYOUT_SIDE_RIGHT,0,0,0,0, 0,0,0,0);
   scaledial = new FXDial(scaleframe,this,ID_IMAGE_SCALE,LAYOUT_FILL_Y|LAYOUT_CENTER_X|DIAL_VERTICAL|DIAL_HAS_NOTCH);
   biasdial->setRange(-99999, 99999);
@@ -840,7 +851,7 @@ ImageWindow::ImageWindow(FXApp* a)
     toolbar,*txt,*txt,
     ico,ico,&btDiffImage(),FXDataTarget::ID_VALUE,TOGGLEBUTTON_KEEPSTATE|ICON_ABOVE_TEXT|BUTTON_TOOLBAR|FRAME_RAISED);
   txt++;
-  
+
 /*
   // Color
   new FXButton(toolbar,"&Colors\tColors\tDisplay color dialog.",paletteicon,colordlg,FXWindow::ID_SHOW,ICON_ABOVE_TEXT|BUTTON_TOOLBAR|FRAME_RAISED|LAYOUT_RIGHT);
@@ -854,16 +865,16 @@ ImageWindow::ImageWindow(FXApp* a)
   FXMenuSeparator* sep1=new FXMenuSeparator(filemenu);
   sep1->setTarget(&mrufiles);
   sep1->setSelector(FXRecentFiles::ID_ANYFILES);
-  new FXMenuCommand(filemenu,NULL,NULL,&mrufiles,FXRecentFiles::ID_FILE_1);
-  new FXMenuCommand(filemenu,NULL,NULL,&mrufiles,FXRecentFiles::ID_FILE_2);
-  new FXMenuCommand(filemenu,NULL,NULL,&mrufiles,FXRecentFiles::ID_FILE_3);
-  new FXMenuCommand(filemenu,NULL,NULL,&mrufiles,FXRecentFiles::ID_FILE_4);
-  new FXMenuCommand(filemenu,NULL,NULL,&mrufiles,FXRecentFiles::ID_FILE_5);
-  new FXMenuCommand(filemenu,NULL,NULL,&mrufiles,FXRecentFiles::ID_FILE_6);
-  new FXMenuCommand(filemenu,NULL,NULL,&mrufiles,FXRecentFiles::ID_FILE_7);
-  new FXMenuCommand(filemenu,NULL,NULL,&mrufiles,FXRecentFiles::ID_FILE_8);
-  new FXMenuCommand(filemenu,NULL,NULL,&mrufiles,FXRecentFiles::ID_FILE_9);
-  new FXMenuCommand(filemenu,NULL,NULL,&mrufiles,FXRecentFiles::ID_FILE_10);
+  new FXMenuCommand(filemenu,FXString::null,NULL,&mrufiles,FXRecentFiles::ID_FILE_1);
+  new FXMenuCommand(filemenu,FXString::null,NULL,&mrufiles,FXRecentFiles::ID_FILE_2);
+  new FXMenuCommand(filemenu,FXString::null,NULL,&mrufiles,FXRecentFiles::ID_FILE_3);
+  new FXMenuCommand(filemenu,FXString::null,NULL,&mrufiles,FXRecentFiles::ID_FILE_4);
+  new FXMenuCommand(filemenu,FXString::null,NULL,&mrufiles,FXRecentFiles::ID_FILE_5);
+  new FXMenuCommand(filemenu,FXString::null,NULL,&mrufiles,FXRecentFiles::ID_FILE_6);
+  new FXMenuCommand(filemenu,FXString::null,NULL,&mrufiles,FXRecentFiles::ID_FILE_7);
+  new FXMenuCommand(filemenu,FXString::null,NULL,&mrufiles,FXRecentFiles::ID_FILE_8);
+  new FXMenuCommand(filemenu,FXString::null,NULL,&mrufiles,FXRecentFiles::ID_FILE_9);
+  new FXMenuCommand(filemenu,FXString::null,NULL,&mrufiles,FXRecentFiles::ID_FILE_10);
   new FXMenuCommand(filemenu,"&Clear Recent Files",NULL,&mrufiles,FXRecentFiles::ID_CLEAR);
   FXMenuSeparator* sep2=new FXMenuSeparator(filemenu);
   sep2->setTarget(&mrufiles);
@@ -918,7 +929,7 @@ ImageWindow::ImageWindow(FXApp* a)
   new FXMenuRadio(chanmenu,"Alpha\tCtrl+6\tShow image alpha channel.",&itEnabledChannels.targ,FXDataTarget::ID_OPTION+ID_ALPHA);
   itEnabledChannels().setTarget(this);
   itEnabledChannels().setSelector(ID_RGBA);
-  
+
   // View Menu entries
   new FXMenuCheck(viewmenu,"Show Scale && Bias &Ctrls\t\tShow sliders for image scale and bias",&btShowManipCtrls(),FXDataTarget::ID_VALUE,ID_SHOW_SCALE_BIAS);
   new FXMenuCheck(viewmenu,"Show &Statusbar\t\tShow the statusbar",statusbar,FXWindow::ID_TOGGLESHOWN);
@@ -983,7 +994,7 @@ ImageWindow::~ImageWindow()
 {
   ObjectCleanup::iterator i = garbageMan.begin();
   ObjectCleanup::iterator end = garbageMan.end();
-  for (; i!=end; ++i) 
+  for (; i!=end; ++i)
     delete *i;
 
   if (pDiffData)
@@ -1038,11 +1049,13 @@ void imageToImprops(FXImage *img, ImProps *props, const FXString &name)
   strncpy(props->title,name.text(),MAX_TITLE_LENGTH);
   props->title[MAX_TITLE_LENGTH]=0;
   props->flags = 0;
-  
+
 }
 // Load file
-FXbool ImageWindow::loadimage(const FXString& file){
-  FXString ext=FXFile::extension(file);
+bool ImageWindow::loadimage(const FXString& file){
+  using namespace FXPath
+
+  FXString ext=extension(file);
   FXImage *img=NULL;
   FXImage *old;
   if(comparecase(ext,"gif")==0){
@@ -1100,12 +1113,12 @@ FXbool ImageWindow::loadimage(const FXString& file){
     old=imageview->getImage();
     imageview->setImage(img);
     delete old;
-    
+
     // now copy image into an imdebug buffer
     addNewImageSlotToCircularBuffer();
     ImPropsEx *pProps = &improps[curImage];
     Byte **rawData = &pRawData[curImage];
-    imageToImprops(img, pProps,FXFile::name(file));
+    imageToImprops(img, pProps,name(file));
     int rawSize = computeRawDataSize(pProps);
     // Free old data
     if (*rawData != NULL) {
@@ -1127,19 +1140,19 @@ FXbool ImageWindow::loadimage(const FXString& file){
         memcpy(*rawData, img->getData(), rawSize);
       }
     }
-    pProps->tx = (imageview->getWidth()-img->getWidth())>>1;
-    pProps->ty = (imageview->getHeight()-img->getHeight())>>1;
-    pProps->zoom = 1.0;
+    pProps->tx = float((imageview->getWidth()-img->getWidth())>>1);
+    pProps->ty = float((imageview->getHeight()-img->getHeight())>>1);
+    pProps->zoom = 1.0f;
     pProps->globalImgNum = imagesDisplayed;
     drawAttr.calcZoom = btAutoStretch ? true : false;
     regenerateDisplayImage();
     syncScaleBiasDials();
-    
+
     imagesDisplayed++;
 
     setImageCountStatus();
     setNormalImageInfoStatus();
-    
+
     getApp()->endWaitCursor();
   }
   return true;
@@ -1147,8 +1160,10 @@ FXbool ImageWindow::loadimage(const FXString& file){
 
 
 // Save file
-FXbool ImageWindow::saveimage(const FXString& file){
-  FXString ext=FXFile::extension(file);
+bool ImageWindow::saveimage(const FXString& file){
+  using namespace FXPath;
+
+  FXString ext=extension(file);
   FXImage *img = 0;
   FXImage *old = imageview->getImage();
   FXuint opt = IMAGE_OWNED|IMAGE_KEEP|IMAGE_SHMI|IMAGE_SHMP;
@@ -1202,7 +1217,7 @@ FXbool ImageWindow::saveimage(const FXString& file){
   FXColor *dst = img->getData();
   FXColor *src = old->getData();
   int sz = w*h;
-  for (int i=0;i<sz; ++i ) 
+  for (int i=0;i<sz; ++i )
     *dst++ = *src++;
   img->render();
 
@@ -1254,7 +1269,7 @@ void ImageWindow::setImageCountStatus()
     int disp = improps[cur].globalImgNum+1;
     sprintf(msg, "%d / %d  %1.1fx", disp, total, zoom);
     statusNavLabel->setText(msg);
-    sprintf(msg, 
+    sprintf(msg,
       "Showing image %d out of %d.\n"
       "Current zoom is %1.1fx", disp, total, zoom);
     statusNavLabel->setTipText(msg);
@@ -1269,7 +1284,7 @@ void ImageWindow::setImageCountStatus()
     int disp = improps[cur].globalImgNum+1;
     sprintf(msg, "%d / %d (%d) %1.1fx", disp, total, improps[cur].imgNum+1, zoom);
     statusNavLabel->setText(msg);
-    sprintf(msg, 
+    sprintf(msg,
       "Showing image %d out of %d.\n"
       "(Image #%d with this title)\n"
       "Current zoom is %1.1fx", disp,total, improps[cur].imgNum+1, zoom);
@@ -1278,7 +1293,7 @@ void ImageWindow::setImageCountStatus()
 }
 
 
-static bool getValueOfTypeAndSize(unsigned char *p, char t, int s, int off, 
+static bool getValueOfTypeAndSize(unsigned char *p, char t, int s, int off,
                                   long* lv, double *dv)
 {
   //if (s&7) return false; // eek! non-integral byte width size!
@@ -1289,7 +1304,7 @@ static bool getValueOfTypeAndSize(unsigned char *p, char t, int s, int off,
     case 16:  *lv = *((unsigned short*)p); return true;
     case 32:  *lv = *((unsigned int*)p); return true;
       // case 64:  *lv = *((unsigned long*)p); return true;
-    default: 
+    default:
       *lv = bytePtr2Val_BitOffsets(p, off, s);
       return true;
     }
@@ -1316,7 +1331,7 @@ static bool getValueOfTypeAndSize(unsigned char *p, char t, int s, int off,
 
 
 void ImageWindow::writeStatusMessage(
-  char *msg, char *tmsg, int ImgX, int ImgY, 
+  char *msg, char *tmsg, int ImgX, int ImgY,
   Byte*rawptr, ImPropsEx *p, DrawAttribs *pAttr)
 {
   int l = sprintf(msg,"(%d,%d)", ImgX, ImgY);
@@ -1335,9 +1350,9 @@ void ImageWindow::writeStatusMessage(
 
   Byte *base = rawptr;
   base += (p->rowstride>>3)*ImgY + (p->colstride>>3)*ImgX;
-  assert(base - rawptr < p->rawImageSize);
+  assert(size_t(base - rawptr) < p->rawImageSize);
 
-  if (!(p->rowstride&7)&&!(p->colstride&7) && p->nchan>0) 
+  if (!(p->rowstride&7)&&!(p->colstride&7) && p->nchan>0)
   {
     const char *colormap[] = {
       "<R>","<G>","<B>","<A>","<0>",
@@ -1374,7 +1389,7 @@ void ImageWindow::writeStatusMessage(
     }
 
 
-    isGrayScale = p->nchan == 1 && 
+    isGrayScale = p->nchan == 1 &&
       effectiveChanmap[0] == effectiveChanmap[1] &&
       effectiveChanmap[1] == effectiveChanmap[2];
 
@@ -1383,7 +1398,7 @@ void ImageWindow::writeStatusMessage(
     tl += sprintf(tmsg+tl, "  [");
     base = rawptr;
     base += (p->rowstride>>3)*ImgY + (p->colstride>>3)*ImgX;
-    assert(base - rawptr < p->rawImageSize);
+    assert(size_t(base - rawptr) < p->rawImageSize);
     double typemax = getTypemax(p);
     Byte swatchrgb[4]={0,0,0,0};
     int swatchval;
@@ -1393,7 +1408,7 @@ void ImageWindow::writeStatusMessage(
       double dv;
       double scale = p->scale[0];
       double bias  = p->bias[0];
-      assert(base - rawptr + (p->bitoffset[c]>>3) < p->rawImageSize);
+      assert(size_t(base - rawptr + (p->bitoffset[c]>>3)) < p->rawImageSize);
       if (getValueOfTypeAndSize( base+(p->bitoffset[c]>>3),
                                  p->type[c],p->bpc[c],
                                  p->bitoffset[c]&0x7, &lv, &dv )
@@ -1410,8 +1425,8 @@ void ImageWindow::writeStatusMessage(
         if (c == effectiveChanmap[2]) {
           colors[numcolors++] = 2; //blue
         }
-        if (c == effectiveChanmap[3] //|| 
-            /*(pAttr->enabledChannels == pAttr->ENABLE_ALPHA 
+        if (c == effectiveChanmap[3] //||
+            /*(pAttr->enabledChannels == pAttr->ENABLE_ALPHA
               && c==p->chanmap[3] )*/ )
         {
           colors[numcolors++] = 3; //alpha
@@ -1443,12 +1458,12 @@ void ImageWindow::writeStatusMessage(
         if (p->type[c]==IMDBG_UINT||p->type[c]==IMDBG_INT) {
           l += sprintf(msg+l, "%ld, ", lv);
           tl += sprintf(tmsg+tl, "%ld, ", lv);
-          swatchval = (lv*scale+bias)/( typemax/255.0f);
+          swatchval = int((lv*scale+bias)/(typemax/255.0));
         }
         else if (p->type[c]==IMDBG_FLOAT) {
           l += sprintf(msg+l, "%g, ", dv);
           tl += sprintf(tmsg+tl, "%g, ", dv);
-          swatchval = 255.0*(dv*scale+bias)/typemax;
+          swatchval = int(255.0*(dv*scale+bias)/typemax);
         }
         else {
           l += sprintf(msg+l, "?, ");
@@ -1490,7 +1505,7 @@ void ImageWindow::writeStatusMessage(
     sprintf(numtmp,"%02x%02x%02x", swatchrgb[0],swatchrgb[1],swatchrgb[2]);
     strncpy(tmsg+2, numtmp,6);
   }
-  
+
 }
 
 void ImageWindow::setHoverImageInfoStatus(int PtrX, int PtrY)
@@ -1501,11 +1516,11 @@ void ImageWindow::setHoverImageInfoStatus(int PtrX, int PtrY)
   int xImg, yImg;
   int WinW = imageview->getWidth();
   int WinH = imageview->getHeight();
-  
+
   ImPropsEx *pprops = &improps[curImage];
 
   Byte *pImage = 0;
-  
+
   if (btDiffImage && bDiffValid && (pDiffData != 0) && (improps != 0)) {
       pImage = pDiffData;
       pprops = &improps[diffImage];
@@ -1517,15 +1532,15 @@ void ImageWindow::setHoverImageInfoStatus(int PtrX, int PtrY)
 
   mapWindowToImage(PtrX,PtrY,WinH,&xImg,&yImg,&drawAttr,pprops);
   if (PtrX > 0 && xImg>=0 && xImg < pprops->width &&
-      PtrY > 0 && yImg>=0 && yImg < pprops->height && pImage != 0)//*/pRawData!=0) 
-  { 
+      PtrY > 0 && yImg>=0 && yImg < pprops->height && pImage != 0)//*/pRawData!=0)
+  {
     writeStatusMessage(
-      msg,tipmsg,xImg,yImg,pImage/*pRawData[curImage]*/,pprops/*&improps[curImage]*/,&drawAttr      
+      msg,tipmsg,xImg,yImg,pImage/*pRawData[curImage]*/,pprops/*&improps[curImage]*/,&drawAttr
       );
     imageview->setHelpText(msg);
     imageview->setTipText(tipmsg);
     tooltip->setStyle( TOOLTIP_PERMANENT );
-  }        
+  }
   else {
     onLeave(this,0,0);
   }
@@ -1541,7 +1556,7 @@ void ImageWindow::setNormalImageInfoStatus()
 {
   char msg[100] = "Ready";
   // when there's nothing particular to show... show image stats
-    
+
   int l=0,i;
   ImProps *pprops = &improps[curImage];
   int bpc=pprops->bpc[0];
@@ -1573,7 +1588,7 @@ void ImageWindow::setNormalImageInfoStatus()
   else
   {
     l += sprintf(msg+l, "%dx%d, %d-channel, ", pprops->width, pprops->height, pprops->nchan);
-    
+
     for (i=0;i<pprops->nchan; i++) {
       if (pprops->bpc[i] != bpc) bpc = -1;
       if (pprops->type[i] != type) type = -1;
@@ -1624,7 +1639,7 @@ long ImageWindow::onCmdSaveAs(FXObject*,FXSelector,void*){
   savedialog.setFilename(filename);
   savedialog.setIcon(appIcon);
   if(savedialog.execute()){
-    if(FXFile::exists(savedialog.getFilename())){
+    if(FXStat::exists(savedialog.getFilename())){
       if(MBOX_CLICKED_NO==FXMessageBox::question(this,MBOX_YES_NO,"Overwrite Image","Overwrite existing image?")) return 1;
       }
     filename=savedialog.getFilename();
@@ -1649,7 +1664,7 @@ long ImageWindow::onCmdQuit(FXObject*,FXSelector,void*){
   reg.writeIntEntry("SETTINGS","history",historySize);
   reg.writeIntEntry("SETTINGS","copyscale",btPropagateScaleOnTagged);
   reg.writeIntEntry("SETTINGS","linkprops",btLinkImageProps);
-  
+
   reg.writeIntEntry("SETTINGS","check",       btCheckerBackground  );
   reg.writeIntEntry("SETTINGS","stretch",     btAutoStretch        );
   reg.writeIntEntry("SETTINGS","grid",        btShowPixelGrid      );
@@ -1696,11 +1711,11 @@ long ImageWindow::onCmdCopy(FXObject* sender,FXSelector,void*)
     // It seems to help to pad the data some, and to
     // not use the negative height value.  dunno why.
     // this clipboard stuff is baffling.
-    
+
     clipHandle = SetClipboardData(CF_DIB, GetDC);
     CloseClipboard();
   }
-*/  
+*/
 #endif
   return 1;
 }
@@ -1802,8 +1817,8 @@ long ImageWindow::onCmdOptions(FXObject* sender,FXSelector sel,void* ptr)
   FXGroupBox *gbox=new FXGroupBox(vframe,"Options",FRAME_GROOVE|LAYOUT_FILL_X|LAYOUT_FILL_Y);
 
   FXVerticalFrame*frame1=new FXVerticalFrame(gbox,LAYOUT_FILL_X|LAYOUT_FILL_Y,0,0,0,0,0,0,0,0);
- 
-  // HISTORY 
+
+  // HISTORY
   FXHorizontalFrame*hframe=new FXHorizontalFrame(frame1,LAYOUT_FILL_X);
   FXString histTip( "Number of images kept in history buffer" );
   new FXLabel(hframe,FXString("Image &history:\t")+histTip,NULL,LAYOUT_SIDE_LEFT|LAYOUT_CENTER_Y);
@@ -1842,7 +1857,7 @@ long ImageWindow::onCmdOptions(FXObject* sender,FXSelector sel,void* ptr)
       memset(pRawData, 0, nhist*sizeof(BYTE*));
       memset(improps, 0, nhist*sizeof(ImProps));
       historySize = nhist;
-      
+
       // reset all history parameters
       imagesDisplayed = 0;
       numImages = 0;
@@ -1851,7 +1866,7 @@ long ImageWindow::onCmdOptions(FXObject* sender,FXSelector sel,void* ptr)
       lastImage = 0;
 
       diffImage = 0;
-      
+
       setImageCountStatus();
       regenerateDisplayImage();
     }
@@ -1860,7 +1875,7 @@ long ImageWindow::onCmdOptions(FXObject* sender,FXSelector sel,void* ptr)
       btPropagateScaleOnTagged = prop->getCheck();
     }
   }
-  
+
   /*
   OptionsDialog::Options opt;
   opt.historySize = historySize;
@@ -1878,12 +1893,12 @@ long ImageWindow::onCmdNavigate(FXObject* sender,FXSelector sel,void* ptr)
   if (numImages<0) return 0;
   int idx;
   switch(FXSELID(sel)){
-  case ID_NEXT_IMAGE: 
+  case ID_NEXT_IMAGE:
     // switch to next output image
     if ( curImage != lastImage )
       ++curImage; curImage%=historySize;
     break;
-  case ID_PREV_IMAGE: 
+  case ID_PREV_IMAGE:
       // switch to previously output image
       if ( curImage!=firstImage ) --curImage;
       if (curImage<0) curImage = historySize-1;
@@ -1976,7 +1991,7 @@ long ImageWindow::onCmdToggles(FXObject* sender,FXSelector sel,void* ptr)
             b->setText(label);
             //b->setButtonStyle(ICON_ABOVE_TEXT|BUTTON_TOOLBAR|FRAME_RAISED);
           } else {
-            b->setText(0);
+            b->setText(FXString::null);
             //b->setButtonStyle(TEXT_OVER_ICON|BUTTON_TOOLBAR|FRAME_RAISED);
           }
         }
@@ -2195,18 +2210,18 @@ void ImageWindow::doZoom(int dirn, int xWin, int yWin)
       pAttrs->stretched = TRUE;
     }
   }
-  setImageTranslationProp((int)(xWin + (pProps->tx-xWin)*z),
-                          (int)(yWin + (pProps->ty-yWin)*z));
+  setImageTranslationProp(floor(xWin + (pProps->tx-xWin)*z),
+                          floor(yWin + (pProps->ty-yWin)*z));
   setImageZoomProp( pProps->zoom * z );
 }
 
 long ImageWindow::onCmdZoom(FXObject* sender,FXSelector sel,void* ptr)
 {
   switch(FXSELID(sel)){
-  case ID_ZOOM_IN: 
+  case ID_ZOOM_IN:
     doZoom(1,imageview->getWidth()>>1,imageview->getHeight()>>1);
     break;
-  case ID_ZOOM_OUT: 
+  case ID_ZOOM_OUT:
     doZoom(-1,imageview->getWidth()>>1,imageview->getHeight()>>1);
     break;
   case ID_ZOOM_100: case ID_ZOOM_200: case ID_ZOOM_300: case ID_ZOOM_400: case ID_ZOOM_500:
@@ -2230,7 +2245,7 @@ void ImageWindow::clearScaleBiasHelpText()
 void ImageWindow::setScaleBiasHelpText()
 {
   FXString dialHelp;
-  dialHelp.format("Color scale: %f, bias %f", 
+  dialHelp.format("Color scale: %f, bias %f",
     improps[curImage].scale[0],
     improps[curImage].bias[0]
     );
@@ -2243,7 +2258,7 @@ void ImageWindow::setScaleBiasHelpText()
 void ImageWindow::setNormalDialDraggingStatus()
 {
   FXString dialHelp;
-  dialHelp.format("Color scale: %f, bias %f", 
+  dialHelp.format("Color scale: %f, bias %f",
     improps[curImage].scale[0],
     improps[curImage].bias[0]
     );
@@ -2265,10 +2280,10 @@ void ImageWindow::syncScaleBiasDials( bool doScale, bool doBias )
     if (doBias)  biasdial->setValue( 0 );
   } else {
     if (doScale)
-      scaledial->setValue( (log10f(s)/log10f(2.0f)) * scaleinc );
+      scaledial->setValue( int((log10f(s)/log10f(2.0f)) * scaleinc) );
     if (doBias) {
       double tmax = getTypemax(&improps[curImage]);
-      int v = b*float(biasinc)*2.0f/(s*tmax);
+      int v = int(b*float(biasinc)*2.0f/(s*tmax));
       biasdial->setValue( v );
     }
   }
@@ -2301,10 +2316,10 @@ long ImageWindow::onScaleBias(FXObject*sender,FXSelector sel,void*)
       float scaleinc = float(scaledial->getRevolutionIncrement()>>2);
       float biasinc  = float(biasdial->getRevolutionIncrement()>>2);
       float biasincf = float(finebiasdial->getRevolutionIncrement()>>2);
-      // one-half revolution should go 1/2 the current mag scale 
+      // one-half revolution should go 1/2 the current mag scale
       // so you're never more than two spins from zero
       // one-half rev of fine dial goes 1/200 the current mag scale.
-      b[0] = ((0.5f/biasinc)*v + (0.01f/biasincf)*vf ) * s * tmax;
+      b[0] = ((0.5f/biasinc)*v + (0.01f/biasincf)*vf ) * s * float(tmax);
       setImageScaleBiasProp(s,b[0]);
     }
     break;
@@ -2405,7 +2420,7 @@ void ImageWindow::clearImageToBackground(FXImage *img)
     {
       int v = ( !btCheckerBackground || (((y>>4)&1)^((x>>4)&1)) ) ? 127 : 255;
 
-      // fill with GRAY or WHITE/GRAY checker 
+      // fill with GRAY or WHITE/GRAY checker
       FXColor color = FXRGBA(v,v,v,255);
       *dst++ = color;
       //img->setPixel(x,y,color);
@@ -2417,7 +2432,7 @@ void ImageWindow::drawPixelGridOnImage(FXImage *img)
 {
   FXColor *pData = img->getData();
   int WinW = img->getWidth();
-  int WinH = img->getHeight(); 
+  int WinH = img->getHeight();
   ImPropsEx* pProps = &improps[curImage];
   DrawAttribs*pAttrs = &drawAttr;
   int i,j;
@@ -2433,7 +2448,7 @@ void ImageWindow::drawPixelGridOnImage(FXImage *img)
 
   // horizontal lines
   const FXColor black = FXRGB(0,0,0);
-  for (j=0; j<=pProps->height; j++) 
+  for (j=0; j<=pProps->height; j++)
   {
     mapImageToWindow(0,j,&CurX,&CurY,pAttrs, pProps);
     if (CurY<0 || CurY >= WinH) continue;
@@ -2479,9 +2494,9 @@ void ImageWindow::regenerateDiffImage(Byte* &pImage)
   bDiffValid = bDiffValid && (pProps->nchan > 0);
 
   for (int c = 0; c < pPropsBase->nchan; ++c) {
-    // channel bpc must match, and all channels must be 
+    // channel bpc must match, and all channels must be
     // 8, 16, 32, or 64 bits (i.e. native C types)
-    bDiffValid = bDiffValid && 
+    bDiffValid = bDiffValid &&
       (pPropsBase->bpc[c] == pProps->bpc[c]) &&
       (pPropsBase->bpc[c] > 4 && pPropsBase->bpc[c] <= 64 &&
       ((pPropsBase->bpc[c] & (pPropsBase->bpc[c]-1))==0) );
@@ -2492,7 +2507,7 @@ void ImageWindow::regenerateDiffImage(Byte* &pImage)
   }
 
   if (bDiffValid) {
-    // If all of the above match, then we can do a valid diff, 
+    // If all of the above match, then we can do a valid diff,
     // so we need to create the diff image
     if (pDiffData)
       delete [] pDiffData;
@@ -2559,11 +2574,11 @@ bool ImageWindow::regenerateDisplayImage()
   // here's where we turn the current raw imdebug data into a displayable
   // image based on the current selected channel mappings, etc
   FXImage *img = imageview->getImage();
-  if (!img) { 
+  if (!img) {
     img = new FXImage(getApp(),NULL,IMAGE_OWNED|IMAGE_KEEP|IMAGE_SHMI|IMAGE_SHMP,
                       imageview->getWidth(),imageview->getHeight());
     img->create();
-    imageview->setImage(img); 
+    imageview->setImage(img);
   }
   int WinW = imageview->getWidth();
   int WinH = imageview->getHeight();
@@ -2571,8 +2586,8 @@ bool ImageWindow::regenerateDisplayImage()
      img->resize(WinW, WinH);
 
   clearImageToBackground(img);
-  
-  Byte *pbDisplayImage = (Byte*)img->getData(); 
+
+  Byte *pbDisplayImage = (Byte*)img->getData();
   Byte  *pbRawImage = pRawData[curImage];
   ImPropsEx *pProps = &improps[curImage];
   DrawAttribs *pAttrs = &drawAttr;
@@ -2588,11 +2603,11 @@ bool ImageWindow::regenerateDisplayImage()
     if (btAutoStretch) pAttrs->calcZoom = true;
     else {
       pProps->zoom=1.0f;
-      pProps->tx = (WinW-pProps->width)>>1;
-      pProps->ty = (WinH-pProps->height)>>1;
+      pProps->tx = float((WinW-pProps->width)>>1);
+      pProps->ty = float((WinH-pProps->height)>>1);
     }
   }
-  
+
   int NewW, NewH;
   int cxImgPos, cyImgPos;
 
@@ -2729,8 +2744,8 @@ bool ImageWindow::regenerateDisplayImage()
 
   if (!pAttrs->calcZoom) {
     // use given tx, ty and zoom
-    cxImgPos = pProps->tx;
-    cyImgPos = pProps->ty;
+    cxImgPos = int(pProps->tx);
+    cyImgPos = int(pProps->ty);
     NewW = (int)(pProps->zoom * cxImgSize);
     NewH = (int)(pProps->zoom * cyImgSize);
   }
@@ -2758,8 +2773,8 @@ bool ImageWindow::regenerateDisplayImage()
     }
     // stash scale and translate parameters
     if (pAttrs->calcZoom) {
-      pProps->tx = cxImgPos;
-      pProps->ty = cyImgPos;
+      pProps->tx = float(cxImgPos);
+      pProps->ty = float(cyImgPos);
       pProps->zoom = NewW / (float)cxImgSize;
     }
   }
@@ -2782,9 +2797,9 @@ bool ImageWindow::regenerateDisplayImage()
 
     // stash calculated zoom and translate parameters
     if (pAttrs->calcZoom) {
-      pProps->tx = cxImgPos;
-      pProps->ty = cyImgPos;
-      pProps->zoom = 1.0;
+      pProps->tx = float(cxImgPos);
+      pProps->ty = float(cyImgPos);
+      pProps->zoom = 1.0f;
     }
 
   }
@@ -2801,7 +2816,7 @@ bool ImageWindow::regenerateDisplayImage()
   if (!pBlitFunc)
   {
     // try to find other backup blit functions here...
-  }  
+  }
 
   // blit image to DIB
   if (pBlitFunc) {
@@ -2810,12 +2825,12 @@ bool ImageWindow::regenerateDisplayImage()
     float saveScale[4];
     float saveBias[4];
 
-    if (computeScaleAndBias) 
+    if (computeScaleAndBias)
     {
       // compute the scaling first with a trial blitting w/ stats
       BlitStats bs;
       initBlitStats(&bs);
-      // blitfuncs don't write to dst when passed a BlitStats, 
+      // blitfuncs don't write to dst when passed a BlitStats,
       // so it's safe & convenient to pretend dest "buffer" is same
       // size as src.
       pBlitNoStretchFunc(
@@ -2832,7 +2847,7 @@ bool ImageWindow::regenerateDisplayImage()
       /*
        (actually this is really counterproductive.
        once we compute a good scale & bias we should continue to use it.
-       no reason to recompute every time, since the image data isn't 
+       no reason to recompute every time, since the image data isn't
        changing.)
       restoreScaleAndBias = true;
       for (i=0; i<4; i++) {
@@ -3002,7 +3017,7 @@ int ImageWindow::findNextImageIndexByTag(const char *title, int start)
   idx++; // we don't check start, but the one after it.
   idx %= historySize;
   int lastPlusOne = (lastImage+1)%historySize;
-  
+
   while( idx != lastPlusOne) {
     if ( !strcmp(improps[idx].title, title) )
     {
@@ -3034,7 +3049,7 @@ long ImageWindow::onNewImage(FXObject*,FXSelector , void* )
     addNewImageSlotToCircularBuffer();
     newImage = lastImage;
   }
-  
+
   copyRawImageData(&improps[newImage], &pRawData[newImage]);
   if (improps[newImage].VERSION != IMDBG_PROTOCOL_VERSION)
   {
@@ -3058,24 +3073,24 @@ long ImageWindow::onNewImage(FXObject*,FXSelector , void* )
     mappedFile = 0;
     getApp()->exit(0);
   }
-  
+
   improps[newImage].globalImgNum = imagesDisplayed;
   if (overwritten) {
     improps[newImage].imgNum++;
   }
-  else 
+  else
     improps[newImage].imgNum = 0;
 
   // possibly copy scale bias and zooms
   // from previous tagged image of same tag
   bool match = false;
-  if (!overwritten && 
+  if (!overwritten &&
       (btPropagateScaleOnTagged || btLinkImageProps) &&
       improps[newImage].title[0] != 0 &&
       !(improps[newImage].flags & (IMDBG_FLAG_AUTOSCALE|IMDBG_FLAG_SCALE_SET|IMDBG_FLAG_BIAS_SET)) )
   {
     int idx = findPreviousImageIndexByTag(improps[lastImage].title);
-    
+
     if (idx>=0) {
       match = true;
       // copy scale and bias settings of that image
@@ -3089,16 +3104,16 @@ long ImageWindow::onNewImage(FXObject*,FXSelector , void* )
       improps[lastImage].ty   = improps[idx].ty;
     }
   }
-  
+
   drawAttr.calcZoom = (!match&&btAutoStretch) ? true : false;
   regenerateDisplayImage();
   syncScaleBiasDials();
 
   imagesDisplayed++;
-  
+
   setImageCountStatus();
   setNormalImageInfoStatus();
-  
+
 #ifdef _WIN32
   if (win32ImageReceivedSignal)
     SetEvent(win32ImageReceivedSignal);
@@ -3109,7 +3124,7 @@ long ImageWindow::onNewImage(FXObject*,FXSelector , void* )
 long ImageWindow::onIdleTask(FXObject*o,FXSelector s,void* p)
 {
   // check for new image in the mmap file if we are listening for updates
-  if (!btBlockUpdates && mappedFile && mappedFile->data()) 
+  if (!btBlockUpdates && mappedFile && mappedFile->data())
   {
     ImProps props;
     memcpy(&props, mapProps(mappedFile->data()), sizeof(ImProps));
@@ -3297,7 +3312,7 @@ void ImageWindow::create(){
 
   historySize = reg.readIntEntry("SETTINGS","history",40);
   btPropagateScaleOnTagged = reg.readIntEntry("SETTINGS","copyscale",1);
-  
+
   btCheckerBackground = reg.readIntEntry("SETTINGS","check",       1);
   btAutoStretch       = reg.readIntEntry("SETTINGS","stretch",     1);
   btShowPixelGrid     = reg.readIntEntry("SETTINGS","grid",        1);
@@ -3307,9 +3322,9 @@ void ImageWindow::create(){
   btOverwriteImages   = reg.readIntEntry("SETTINGS","overwrite",   0);
   btHoldOnImage       = reg.readIntEntry("SETTINGS","holdonimage", 0);
   btShowManipCtrls    = reg.readIntEntry("SETTINGS","sbControls",  1);
-  FXbool bShowToolbar  = reg.readIntEntry("SETTINGS","toolbar",     1);
+  bool bShowToolbar  = reg.readIntEntry("SETTINGS","toolbar",     1) != 0;
   btShowToolbarText    = reg.readIntEntry("SETTINGS","toolbartext", 1);
-  FXbool bShowStatusbar= reg.readIntEntry("SETTINGS","statusbar",   1);
+  bool bShowStatusbar= reg.readIntEntry("SETTINGS","statusbar",   1) != 0;
   FXString dockingSide = reg.readStringEntry("SETTINGS","tbdockside","top");
   //dir=getApp()->reg().readStringEntry("SETTINGS","directory","~");
   //filelist->setDirectory(dir);
@@ -3331,7 +3346,7 @@ void ImageWindow::create(){
   FXMainWindow::create();
 
 
-  // Settle for polling for now in lieu of getting direct "new image" 
+  // Settle for polling for now in lieu of getting direct "new image"
   // signalling events from the clients.
   //getApp()->addChore(this, ID_IDLE_TASK);
 #ifdef _WIN32
@@ -3377,13 +3392,13 @@ public:
               : FXApp(name,vendor)
   {}
 #ifdef _WIN32
-  // For win32, watch for the WM_APP message coming to tell us that a 
+  // For win32, watch for the WM_APP message coming to tell us that a
   // new image is ready.  Unfortunately this doesn't seem to work unless
   // the app sends the WM_APP message with PostMessage instead of SendMessage.
   // But we need the synchronous behavior of SendMessage for it to work
   // right.
-  FXbool getNextEvent(FXRawEvent& msg,FXbool blocking){
-    FXbool ret = FXApp::getNextEvent(msg,blocking);
+  bool getNextEvent(FXRawEvent& msg,bool blocking){
+    bool ret = FXApp::getNextEvent(msg,blocking);
     fxmessage("msg: 0x%x\t0x%x\t0x%x\n",msg.message, msg.lParam, msg.wParam);
     if (imageReadyTarget && msg.message >= WM_APP && msg.message <= 0xBFFF) {
        imageReadyTarget->handle(0,FXSEL(SEL_IO_READ,0),0);
@@ -3419,7 +3434,7 @@ int main(int argc,char *argv[]){
 
   // Make window
   ImageWindow* window=new ImageWindow(&application);
-  
+
   // Handle interrupt to save stuff nicely
   application.addSignal(SIGINT,window,ImageWindow::ID_QUIT);
 
@@ -3429,5 +3444,3 @@ int main(int argc,char *argv[]){
   // Run It!
   return application.run();
 }
-
-

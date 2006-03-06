@@ -2,8 +2,8 @@
      File name    : ToolBarToggleButton.h
      Author       : William Baxter
      Created      : 11/2/2003
-  
-     Description  : 
+
+     Description  :
   --------------------------------------------------------------------------*
   Copyright (c) 2002-2005 William V. Baxter III
 
@@ -42,7 +42,7 @@ public:
   ToolBarToggleButton(FXComposite* p,const FXString& text1,const FXString& text2,FXIcon* icon1=NULL,FXIcon* icon2=NULL,FXObject* tgt=NULL,FXSelector sel=0,FXuint opts=TOGGLEBUTTON_NORMAL,FXint x=0,FXint y=0,FXint w=0,FXint h=0,FXint pl=DEFAULT_PAD,FXint pr=DEFAULT_PAD,FXint pt=DEFAULT_PAD,FXint pb=DEFAULT_PAD);
 
   /// Returns false because a toggle button can't receive focus
-  virtual FXbool canFocus() const;
+  virtual bool canFocus() const;
 };
 
 #endif // _TOOLBARTOGGLEBUTTON_H

@@ -2,8 +2,8 @@
      File name    : ToolBarToggleButton.cpp
      Author       : William Baxter
      Created      : 11/2/2003
-  
-     Description  : 
+
+     Description  :
   --------------------------------------------------------------------------*
   Copyright (c) 2002-2005 William V. Baxter III
 
@@ -54,7 +54,7 @@ ToolBarToggleButton::ToolBarToggleButton()
 {
 }
 
-FXbool ToolBarToggleButton::canFocus() const
+bool ToolBarToggleButton::canFocus() const
 {
   return false;
 }

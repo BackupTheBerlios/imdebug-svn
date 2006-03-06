@@ -2,8 +2,8 @@
      File name    : ToolBarButton.h
      Author       : William Baxter
      Created      : 11/2/2003
-  
-     Description  : 
+
+     Description  :
   --------------------------------------------------------------------------*
   Copyright (c) 2002-2005 William V. Baxter III
 
@@ -30,7 +30,7 @@
 
 #include <FXButton.h>
 
-class ToolBarButton : public FXButton 
+class ToolBarButton : public FXButton
 {
   //FXDECLARE(ToolBarButton)
 protected:
@@ -41,8 +41,8 @@ public:
   ToolBarButton(FXComposite* p,const FXString& text,FXIcon* ic=NULL,FXObject* tgt=NULL,FXSelector sel=0,FXuint opts=BUTTON_NORMAL,FXint x=0,FXint y=0,FXint w=0,FXint h=0,FXint pl=DEFAULT_PAD,FXint pr=DEFAULT_PAD,FXint pt=DEFAULT_PAD,FXint pb=DEFAULT_PAD);
 
   /// Returns false because a toolbar button cannot receive focus
-  virtual FXbool canFocus() const;
- 
+  virtual bool canFocus() const;
+
 };
 
 #endif // _TOOLBARBUTTON_H
