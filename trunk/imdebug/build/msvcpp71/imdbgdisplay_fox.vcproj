@@ -22,7 +22,7 @@
 				Name="VCCLCompilerTool"
 				Optimization="0"
 				AdditionalIncludeDirectories="$(FOXDIR)/include,../../include,../../imdebug,../../imdbgdisplay_blit"
-				PreprocessorDefinitions="_DEBUG;WIN32;_WINDOWS"
+				PreprocessorDefinitions="HAVE_PNG_H;_DEBUG;WIN32;_WINDOWS"
 				RuntimeLibrary="3"
 				RuntimeTypeInfo="TRUE"
 				PrecompiledHeaderFile=".\Debug/imdbgdisplay_fox.pch"
@@ -36,7 +36,7 @@
 				Name="VCCustomBuildTool"/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="FOXD-1.6.lib ws2_32.lib comctl32.lib wsock32.lib mpr.lib"
+				AdditionalDependencies="FOXD-1.6.lib libpng.lib ws2_32.lib comctl32.lib wsock32.lib mpr.lib"
 				OutputFile="../../lib/imdbgdisplay_fox.exe"
 				LinkIncremental="0"
 				SuppressStartupBanner="TRUE"
@@ -60,7 +60,8 @@
 				Name="VCPreBuildEventTool"
 				Description="Wrapping image file resources..."
 				CommandLine="cd ..\..\res
-reswrap -o &quot;..\imdbgdisplay_fox\imdbgicons.h&quot; autoscale.bmp unityscale.bmp icon16pal.bmp icon64pal.bmp arrowprev.gif arrownext.gif deleteicon.gif arrowprevtag.gif arrownexttag.gif arrowfirst.gif arrowlast.gif blockicon.gif linkicon.gif setdiffbaseicon.gif difficon.gif"/>
+reswrap -o &quot;..\imdbgdisplay_fox\imdbgicons.h&quot; autoscale.bmp unityscale.bmp icon16pal.png icon64pal.png arrowprev.gif arrownext.gif deleteicon.gif arrowprevtag.gif arrownexttag.gif arrowfirst.gif arrowlast.gif blockicon.gif linkicon.gif setdiffbaseicon.gif difficon.gif
+"/>
 			<Tool
 				Name="VCPreLinkEventTool"/>
 			<Tool
@@ -90,7 +91,7 @@ reswrap -o &quot;..\imdbgdisplay_fox\imdbgicons.h&quot; autoscale.bmp unityscale
 				Optimization="2"
 				InlineFunctionExpansion="1"
 				AdditionalIncludeDirectories="$(FOXDIR)/include,../../include,../../imdebug,../../imdbgdisplay_blit"
-				PreprocessorDefinitions="NDEBUG;WIN32;_WINDOWS"
+				PreprocessorDefinitions="HAVE_PNG_H;NDEBUG;WIN32;_WINDOWS"
 				StringPooling="TRUE"
 				RuntimeLibrary="2"
 				EnableFunctionLevelLinking="TRUE"
@@ -106,7 +107,7 @@ reswrap -o &quot;..\imdbgdisplay_fox\imdbgicons.h&quot; autoscale.bmp unityscale
 				Name="VCCustomBuildTool"/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="FOX-1.6.lib comctl32.lib wsock32.lib mpr.lib"
+				AdditionalDependencies="FOX-1.6.lib libpng.lib comctl32.lib wsock32.lib mpr.lib"
 				OutputFile="../../lib/imdbgdisplay_fox.exe"
 				LinkIncremental="0"
 				SuppressStartupBanner="TRUE"
@@ -129,7 +130,8 @@ reswrap -o &quot;..\imdbgdisplay_fox\imdbgicons.h&quot; autoscale.bmp unityscale
 				Name="VCPreBuildEventTool"
 				Description="Wrapping image file resources..."
 				CommandLine="cd ..\..\res
-reswrap -o &quot;..\imdbgdisplay_fox\imdbgicons.h&quot; autoscale.bmp unityscale.bmp icon16pal.bmp icon64pal.bmp arrowprev.gif arrownext.gif deleteicon.gif arrowprevtag.gif arrownexttag.gif arrowfirst.gif arrowlast.gif blockicon.gif linkicon.gif setdiffbaseicon.gif difficon.gif"/>
+reswrap -o &quot;..\imdbgdisplay_fox\imdbgicons.h&quot; autoscale.bmp unityscale.bmp icon16pal.png icon64pal.png arrowprev.gif arrownext.gif deleteicon.gif arrowprevtag.gif arrownexttag.gif arrowfirst.gif arrowlast.gif blockicon.gif linkicon.gif setdiffbaseicon.gif difficon.gif
+"/>
 			<Tool
 				Name="VCPreLinkEventTool"/>
 			<Tool

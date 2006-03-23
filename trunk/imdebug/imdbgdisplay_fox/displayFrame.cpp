@@ -49,14 +49,17 @@
 #include <fx.h>
 
 #ifdef HAVE_PNG_H
+  #include "FXPNGIcon.h"
   #include "FXPNGImage.h"
 #endif
 
 #ifdef HAVE_JPEG_H
+  #include "FXJPGIcon.h"
   #include "FXJPGImage.h"
 #endif
 
 #ifdef HAVE_TIFF_H
+  #include "FXTIFIcon.h"
   #include "FXTIFImage.h"
 #endif
 
@@ -94,11 +97,11 @@
 #include "blitfuncs.h"
 #include "imdbgicons.h"
 
-#define ERROR_NO_IMAGE 0
-#define ERROR_NULL_POINTER -1
-#define ERROR_ZERO_PIXELS -2
-#define ERROR_TOO_BIG -3
-#define ERROR_ALLOC_FAIL -4
+#define ERROR_NO_IMAGE       0
+#define ERROR_NULL_POINTER  -1
+#define ERROR_ZERO_PIXELS   -2
+#define ERROR_TOO_BIG       -3
+#define ERROR_ALLOC_FAIL    -4
 
 enum { BF_STRETCH=0x1, BF_SCALE=0x2, BF_BIAS=0x4 };
 enum { BF_INT_OFFSET=0, BF_FLOAT_OFFSET = 5 };
@@ -675,8 +678,8 @@ ImageWindow::ImageWindow(FXApp* a)
   setSelector(ID_TITLE);
 
   {
-    FXIcon *big = new FXBMPIcon(getApp(), icon64pal);
-    FXIcon *tiny= new FXBMPIcon(getApp(), icon16pal);
+    FXIcon *big = new FXPNGIcon(getApp(), icon64pal);
+    FXIcon *tiny= new FXPNGIcon(getApp(), icon16pal);
     setIcon(big);
     setMiniIcon(tiny);
     garbageMan.push_back( big );
