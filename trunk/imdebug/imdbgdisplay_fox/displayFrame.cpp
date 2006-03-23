@@ -822,40 +822,62 @@ ImageWindow::ImageWindow(FXApp* a)
   //new FXButton(toolbar,"&Open\tOpen Image\tOpen an image file.",NULL/*fileopenicon*/,this,ID_OPEN,ICON_ABOVE_TEXT|BUTTON_TOOLBAR|FRAME_RAISED);
   //new FXButton(toolbar,"&Save\tSave Image\tSave current image to file.",NULL/*filesaveicon*/,this,ID_SAVE_AS,ICON_ABOVE_TEXT|BUTTON_TOOLBAR|FRAME_RAISED);
   //new FXButton(toolbar,"&Copy\tCopy Image\tCopy current image to clipboard.",NULL,this,ID_COPY,ICON_ABOVE_TEXT|BUTTON_TOOLBAR|FRAME_RAISED);
-  FXIcon *ico = new FXGIFIcon(getApp(), deleteicon);  garbageMan.push_back(ico);
+  FXIcon *ico = new FXPNGIcon(getApp(), deleteicon);  garbageMan.push_back(ico);
   const char **txt = g_toolbarButtonText;
+
   new ToolBarButton(toolbar,*txt++,ico,this,ID_DELETE,ICON_ABOVE_TEXT|BUTTON_TOOLBAR|FRAME_RAISED);
-  //////
+
   new FXToolBarGrip(toolbar,NULL,0,TOOLBARGRIP_SINGLE);
-  ico = new FXGIFIcon(getApp(), arrowfirst);  garbageMan.push_back(ico);
+  ico = new FXPNGIcon(getApp(), arrowfirst);
+  garbageMan.push_back(ico);
+
   new ToolBarButton(toolbar,*txt++,ico,this,ID_FIRST_IMAGE,ICON_ABOVE_TEXT|BUTTON_TOOLBAR|FRAME_RAISED);
-  ico = new FXGIFIcon(getApp(), arrowprev);  garbageMan.push_back(ico);
+  ico = new FXPNGIcon(getApp(), arrowprev);
+  garbageMan.push_back(ico);
+
   new ToolBarButton(toolbar,*txt++,ico,this,ID_PREV_IMAGE,ICON_ABOVE_TEXT|BUTTON_TOOLBAR|FRAME_RAISED);
-  ico = new FXGIFIcon(getApp(), arrownext);  garbageMan.push_back(ico);
+  ico = new FXPNGIcon(getApp(), arrownext);
+  garbageMan.push_back(ico);
+
   new ToolBarButton(toolbar,*txt++,ico,this,ID_NEXT_IMAGE,ICON_ABOVE_TEXT|BUTTON_TOOLBAR|FRAME_RAISED);
-  ico = new FXGIFIcon(getApp(), arrowlast);  garbageMan.push_back(ico);
+  ico = new FXPNGIcon(getApp(), arrowlast);
+  garbageMan.push_back(ico);
+
   new ToolBarButton(toolbar,*txt++,ico,this,ID_LAST_IMAGE,ICON_ABOVE_TEXT|BUTTON_TOOLBAR|FRAME_RAISED);
-  ico = new FXGIFIcon(getApp(), arrowprevtag);  garbageMan.push_back(ico);
+  ico = new FXPNGIcon(getApp(), arrowprevtag);
+  garbageMan.push_back(ico);
+
   new ToolBarButton(toolbar,*txt++,ico,this,ID_PREV_OF_TITLE,ICON_ABOVE_TEXT|BUTTON_TOOLBAR|FRAME_RAISED);
-  ico = new FXGIFIcon(getApp(), arrownexttag);  garbageMan.push_back(ico);
+  ico = new FXPNGIcon(getApp(), arrownexttag);
+  garbageMan.push_back(ico);
+
   new ToolBarButton(toolbar,*txt++,ico,this,ID_NEXT_OF_TITLE,ICON_ABOVE_TEXT|BUTTON_TOOLBAR|FRAME_RAISED);
 
   new FXToolBarGrip(toolbar,NULL,0,TOOLBARGRIP_SINGLE);
-  ico = new FXGIFIcon(getApp(), linkicon);  garbageMan.push_back(ico);
+  ico = new FXPNGIcon(getApp(), linkicon);
+  garbageMan.push_back(ico);
+
   new ToolBarToggleButton(
     toolbar,*txt,*txt,
     ico,ico,&btLinkImageProps(),FXDataTarget::ID_VALUE,TOGGLEBUTTON_KEEPSTATE|ICON_ABOVE_TEXT|BUTTON_TOOLBAR|FRAME_RAISED);
   txt++;
-  ico = new FXGIFIcon(getApp(), blockicon);  garbageMan.push_back(ico);
+
+  ico = new FXPNGIcon(getApp(), blockicon);
+  garbageMan.push_back(ico);
+
   new ToolBarToggleButton(
     toolbar,*txt,*txt,
     ico,ico,&btBlockUpdates(),FXDataTarget::ID_VALUE,TOGGLEBUTTON_KEEPSTATE|ICON_ABOVE_TEXT|BUTTON_TOOLBAR|FRAME_RAISED);
   txt++;
 
   new FXToolBarGrip(toolbar,NULL,0,TOOLBARGRIP_SINGLE);
-  ico = new FXGIFIcon(getApp(), setdiffbaseicon);  garbageMan.push_back(ico);
+  ico = new FXPNGIcon(getApp(), setdiffbaseicon);
+  garbageMan.push_back(ico);
+
   new ToolBarButton(toolbar,*txt++,ico,this,ID_SET_DIFF_BASE,ICON_ABOVE_TEXT|BUTTON_TOOLBAR|FRAME_RAISED);
-  ico = new FXGIFIcon(getApp(), difficon);  garbageMan.push_back(ico);
+  ico = new FXPNGIcon(getApp(), difficon);
+  garbageMan.push_back(ico);
+
   new ToolBarToggleButton(
     toolbar,*txt,*txt,
     ico,ico,&btDiffImage(),FXDataTarget::ID_VALUE,TOGGLEBUTTON_KEEPSTATE|ICON_ABOVE_TEXT|BUTTON_TOOLBAR|FRAME_RAISED);

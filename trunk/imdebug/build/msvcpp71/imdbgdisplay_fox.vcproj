@@ -60,7 +60,7 @@
 				Name="VCPreBuildEventTool"
 				Description="Wrapping image file resources..."
 				CommandLine="cd ..\..\res
-reswrap -o &quot;..\imdbgdisplay_fox\imdbgicons.h&quot; autoscale.bmp unityscale.bmp icon16pal.png icon64pal.png arrowprev.gif arrownext.gif deleteicon.gif arrowprevtag.gif arrownexttag.gif arrowfirst.gif arrowlast.gif blockicon.gif linkicon.gif setdiffbaseicon.gif difficon.gif
+reswrap -o &quot;..\imdbgdisplay_fox\imdbgicons.h&quot; autoscale.bmp unityscale.bmp icon16pal.png icon64pal.png arrowprev.png arrownext.png deleteicon.png arrowprevtag.png arrownexttag.png arrowfirst.png arrowlast.png blockicon.png linkicon.png setdiffbaseicon.png difficon.png
 "/>
 			<Tool
 				Name="VCPreLinkEventTool"/>
@@ -130,7 +130,7 @@ reswrap -o &quot;..\imdbgdisplay_fox\imdbgicons.h&quot; autoscale.bmp unityscale
 				Name="VCPreBuildEventTool"
 				Description="Wrapping image file resources..."
 				CommandLine="cd ..\..\res
-reswrap -o &quot;..\imdbgdisplay_fox\imdbgicons.h&quot; autoscale.bmp unityscale.bmp icon16pal.png icon64pal.png arrowprev.gif arrownext.gif deleteicon.gif arrowprevtag.gif arrownexttag.gif arrowfirst.gif arrowlast.gif blockicon.gif linkicon.gif setdiffbaseicon.gif difficon.gif
+reswrap -o &quot;..\imdbgdisplay_fox\imdbgicons.h&quot; autoscale.bmp unityscale.bmp icon16pal.png icon64pal.png arrowprev.png arrownext.png deleteicon.png arrowprevtag.png arrownexttag.png arrowfirst.png arrowlast.png blockicon.png linkicon.png setdiffbaseicon.png difficon.png
 "/>
 			<Tool
 				Name="VCPreLinkEventTool"/>
