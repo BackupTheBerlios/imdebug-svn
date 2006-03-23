@@ -3,15 +3,17 @@
 // Used by imdbgdisplay.rc
 //
 #define IDB_AUTOSCALE                   115
-#define IDB_UPARROW                     117
-#define IDB_DNARROW                     118
-#define IDB_LFARROW                     119
-#define IDB_RTARROW                     120
+#define IDB_ARROWUP                     117
+#define IDB_ARROWDN                     118
+#define IDB_ARROWLF                     119
+#define IDB_ARROWRT                     120
 #define IDB_SCROLLBG                    121
 #define IDB_UNITYSCALE                  122
+
 #define IDC_NUMSPIN                     1000
 #define IDC_NUMEDIT                     1001
 #define IDC_COPYSCALE                   1002
+
 #define IDM_FILE_SAVE                   40001
 #define IDM_VIEW_NEXT                   40002
 #define IDM_VIEW_PREV                   40003

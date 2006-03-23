@@ -150,25 +150,25 @@
 			Name="bitmaps"
 			Filter="">
 			<File
+				RelativePath="..\..\res\arrowdn.bmp">
+			</File>
+			<File
+				RelativePath="..\..\res\arrowlf.bmp">
+			</File>
+			<File
+				RelativePath="..\..\res\arrowrt.bmp">
+			</File>
+			<File
+				RelativePath="..\..\res\arrowup.bmp">
+			</File>
+			<File
 				RelativePath="..\..\res\autoscale.bmp">
-			</File>
-			<File
-				RelativePath="..\..\res\dnarrow.bmp">
-			</File>
-			<File
-				RelativePath="..\..\res\lfarrow.bmp">
-			</File>
-			<File
-				RelativePath="..\..\res\rtarrow.bmp">
 			</File>
 			<File
 				RelativePath="..\..\res\scrollbg.bmp">
 			</File>
 			<File
 				RelativePath="..\..\res\unityscale.bmp">
-			</File>
-			<File
-				RelativePath="..\..\res\uparrow.bmp">
 			</File>
 		</Filter>
 		<Filter
@@ -203,7 +203,7 @@
 			Name="res"
 			Filter="">
 			<File
-				RelativePath="..\..\imdbgdisp_res.h">
+				RelativePath="..\..\imdbgdisplay_win32\imdbgdisp_res.h">
 			</File>
 			<File
 				RelativePath="..\..\res\imdbgdisplay.ico">
@@ -217,9 +217,6 @@
 		</File>
 		<File
 			RelativePath="..\..\imdbgdisplay_win32\comcthlp.h">
-		</File>
-		<File
-			RelativePath="..\..\imdbgdisplay_win32\imdbgdisp_res.h">
 		</File>
 		<File
 			RelativePath="..\..\imdbgdisplay_win32\imdbgdispfile.c">

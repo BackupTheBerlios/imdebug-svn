@@ -208,10 +208,10 @@ END
 //
 
 IDB_AUTOSCALE           BITMAP  DISCARDABLE     "../res/autoscale.bmp"
-IDB_UPARROW             BITMAP  DISCARDABLE     "../res/uparrow.bmp"
-IDB_DNARROW             BITMAP  DISCARDABLE     "../res/dnarrow.bmp"
-IDB_LFARROW             BITMAP  DISCARDABLE     "../res/lfarrow.bmp"
-IDB_RTARROW             BITMAP  DISCARDABLE     "../res/rtarrow.bmp"
+IDB_ARROWUP             BITMAP  DISCARDABLE     "../res/arrowup.bmp"
+IDB_ARROWDN             BITMAP  DISCARDABLE     "../res/arrowdn.bmp"
+IDB_ARROWLF             BITMAP  DISCARDABLE     "../res/arrowlf.bmp"
+IDB_ARROWRT             BITMAP  DISCARDABLE     "../res/arrowrt.bmp"
 IDB_SCROLLBG            BITMAP  DISCARDABLE     "../res/scrollbg.bmp"
 IDB_UNITYSCALE          BITMAP  DISCARDABLE     "../res/unityscale.bmp"
 
