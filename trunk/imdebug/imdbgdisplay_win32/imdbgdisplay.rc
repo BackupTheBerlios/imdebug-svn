@@ -27,18 +27,18 @@ LANGUAGE LANG_ENGLISH, SUBLANG_ENGLISH_US
 // TEXTINCLUDE
 //
 
-1 TEXTINCLUDE DISCARDABLE 
+1 TEXTINCLUDE DISCARDABLE
 BEGIN
     "imdbgdisp_res.h\0"
 END
 
-2 TEXTINCLUDE DISCARDABLE 
+2 TEXTINCLUDE DISCARDABLE
 BEGIN
     "#include ""afxres.h""\r\n"
     "\0"
 END
 
-3 TEXTINCLUDE DISCARDABLE 
+3 TEXTINCLUDE DISCARDABLE
 BEGIN
     "\r\n"
     "\0"
@@ -52,7 +52,7 @@ END
 // Menu
 //
 
-IMDBGDISPLAY MENU DISCARDABLE 
+IMDBGDISPLAY MENU DISCARDABLE
 BEGIN
     POPUP "&File"
     BEGIN
@@ -106,7 +106,7 @@ END
 // Accelerator
 //
 
-IMDBGDISPLAY ACCELERATORS DISCARDABLE 
+IMDBGDISPLAY ACCELERATORS DISCARDABLE
 BEGIN
     "-",            IDM_VIEW_ZOOMOUT,       ASCII,  NOINVERT
     "/",            IDM_VIEW_RESCALE,       ASCII,  NOINVERT
@@ -177,9 +177,9 @@ BEGIN
     DEFPUSHBUTTON   "OK",IDOK,74,74,50,14
     PUSHBUTTON      "Cancel",IDCANCEL,129,74,50,14
     LTEXT           "Image History Buffer &Size:",IDC_STATIC,7,9,82,8
-    CONTROL         "Spin1",IDC_NUMSPIN,"msctls_updown32",UDS_SETBUDDYINT | 
+    CONTROL         "Spin1",IDC_NUMSPIN,"msctls_updown32",UDS_SETBUDDYINT |
                     UDS_ARROWKEYS,138,7,11,14
-    EDITTEXT        IDC_NUMEDIT,97,7,40,14,ES_RIGHT | ES_AUTOHSCROLL | 
+    EDITTEXT        IDC_NUMEDIT,97,7,40,14,ES_RIGHT | ES_AUTOHSCROLL |
                     ES_NUMBER
     CONTROL         "Copy scale && bias of images with same title",
                     IDC_COPYSCALE,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,7,26,
@@ -221,7 +221,7 @@ IDB_UNITYSCALE          BITMAP  DISCARDABLE     "../res/unityscale.bmp"
 //
 
 #ifdef APSTUDIO_INVOKED
-GUIDELINES DESIGNINFO DISCARDABLE 
+GUIDELINES DESIGNINFO DISCARDABLE
 BEGIN
     "OPTIONSBOX", DIALOG
     BEGIN
@@ -247,4 +247,3 @@ END
 
 /////////////////////////////////////////////////////////////////////////////
 #endif    // not APSTUDIO_INVOKED
-
