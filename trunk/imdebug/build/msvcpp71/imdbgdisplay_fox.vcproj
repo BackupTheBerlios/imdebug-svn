@@ -36,7 +36,7 @@
 				Name="VCCustomBuildTool"/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="FOXD-1.6.lib libpng.lib ws2_32.lib comctl32.lib wsock32.lib mpr.lib"
+				AdditionalDependencies="FOXD-1.6.lib libpngd-1.2.5.lib ws2_32.lib comctl32.lib wsock32.lib mpr.lib"
 				OutputFile="../../lib/imdbgdisplay_fox.exe"
 				LinkIncremental="0"
 				SuppressStartupBanner="TRUE"
@@ -107,7 +107,7 @@ reswrap -o &quot;..\imdbgdisplay_fox\imdbgicons.h&quot; autoscale.bmp unityscale
 				Name="VCCustomBuildTool"/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="FOX-1.6.lib libpng.lib comctl32.lib wsock32.lib mpr.lib"
+				AdditionalDependencies="FOX-1.6.lib libpng-1.2.5.lib comctl32.lib wsock32.lib mpr.lib"
 				OutputFile="../../lib/imdbgdisplay_fox.exe"
 				LinkIncremental="0"
 				SuppressStartupBanner="TRUE"
