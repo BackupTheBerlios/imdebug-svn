@@ -93,7 +93,7 @@
 #define GVAL2BYTE(x) ((BYTE)(x))
 #endif
 #if !defined(BVAL2BYTE) && !defined(BVALBITS2BYTE)
-#define BVAL2BYTE(x) ((BYTE)(x)) 
+#define BVAL2BYTE(x) ((BYTE)(x))
 #endif
 #if !defined(AVAL2BYTE) && !defined(AVAL2BITSBYTE)
 #define AVAL2BYTE(x) ((BYTE)(x))
@@ -106,7 +106,7 @@
 
 void BLITNAME
  (
-  BYTE* pDiData, 
+  BYTE* pDiData,
   int dstDataW, // W in pixels of bitmap we're copying into
   int dstDataH, // H in pixels of bitmap we're copying into
   int dstW, int dstH, int dstX, int dstY, // rect of region to copy to
@@ -158,7 +158,7 @@ void BLITNAME
 
 #if STRETCH
   BYTE *srcRowStart;
-  float xInc = (srcW) / (float)(dstW); 
+  float xInc = (srcW) / (float)(dstW);
   float yInc = (srcH) / (float)(dstH);
   float srcXT = (float)srcX;
   float srcYT = (float)srcY;
@@ -180,7 +180,7 @@ void BLITNAME
 #endif
 
   // Compute right and top clipping
-  if (dstX < 0) { 
+  if (dstX < 0) {
     srcXT += (-dstX) * xInc;
     dstX = 0;
   }
@@ -189,7 +189,7 @@ void BLITNAME
     dstY = 0;
   }
 
-  // this >>, << wierdness has to do with DIB alignment I think...
+  // this >>, << wierdness has to do with DIB alignment I think ...
   dstDataRowBytes = ((dstDataColBytes * dstDataW + 3L) >> 2) << 2;
 
   srcDataRowBytes = srcDataW * srcDataColBytes;
@@ -267,7 +267,7 @@ void BLITNAME
 #endif
       }
       // ------------ EXTRACT ALPHA VALUE ---------------
-      if (ao>=0) 
+      if (ao>=0)
       {
 #ifdef PTR2VAL
         ac = PTR2VAL(src,ao);
@@ -296,12 +296,12 @@ void BLITNAME
         if ((float)ac > stat->max[3]) stat->max[3] = (float)ac;
       }
       else {
-        if (ao>=0) 
+        if (ao>=0)
         {
           // compute alpha blend w/ background
           af = a / 255.0f;
           bf = 1.0f - af;
-#ifdef BLITTER_DEST_BGR          
+#ifdef BLITTER_DEST_BGR
           dst[2] = (BYTE)(af * r + bf * dst[2] + 0.5f);
           dst[1] = (BYTE)(af * g + bf * dst[1] + 0.5f);
           dst[0] = (BYTE)(af * b + bf * dst[0] + 0.5f);

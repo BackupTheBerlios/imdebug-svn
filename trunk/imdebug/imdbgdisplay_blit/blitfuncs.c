@@ -140,7 +140,7 @@ unsigned int bytePtr2Val_BitOffsets(BYTE*x, int offset, int width)
   // ^       ^
   // x      x+1
   //
-  // hmmm... something like this anyway:
+  // hmmm ... something like this anyway:
   int bytes=offset>>3;
   int bits=offset&0x7;
   unsigned int ret;
@@ -169,7 +169,7 @@ void stretchBlitCoreRGBA32f(
   char *channelOffsets
   )
 {
-  // this has endian issues... there's an assumption of native
+  // this has endian issues ... there's an assumption of native
   // endian formatting.  Whether or not this is so should really
   // be specifiable from the calling interface.
 
