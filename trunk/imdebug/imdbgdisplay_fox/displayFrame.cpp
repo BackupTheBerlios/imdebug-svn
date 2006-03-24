@@ -376,7 +376,7 @@ protected:
   int      imagesDisplayed;       // total number of images recieved so far
 
   int      diffImage;             // index of base image for image diffs
-  Byte     *pDiffData;            // diff image for diff tooltips...
+  Byte     *pDiffData;            // diff image for diff tooltips ...
   bool     bDiffValid;
 
   DrawAttribs drawAttr;           // attributes for drawing all images
@@ -404,7 +404,7 @@ protected:
   //BoolTarget btShowStatusbar;
 
 protected:
-  ImageWindow(){}
+  ImageWindow() {}
   void drawPixelGridOnImage(FXImage *img);
   bool regenerateDisplayImage();
   void regenerateDiffImage(Byte* &pImage);
@@ -436,7 +436,8 @@ protected:
 
 public:
   long onCmdAbout      (FXObject*,FXSelector,void*);
-  long onCmdOpen       (FXObject*,FXSelector,void*);
+  long onCmdOpenFile   (FXObject*,FXSelector,void*);
+  long onCmdOpenProc   (FXObject*,FXSelector,void*);
   long onCmdSaveAs     (FXObject*,FXSelector,void*);
   long onCmdRecentFile (FXObject*,FXSelector,void*);
   long onCmdQuit       (FXObject*,FXSelector,void*);
@@ -474,7 +475,8 @@ public:
 public:
   enum {
     ID_ABOUT=FXMainWindow::ID_LAST,
-    ID_OPEN,
+    ID_OPEN_FILE,
+    ID_OPEN_PROC,
     ID_SAVE_AS,
     ID_TITLE,
     ID_QUIT,
@@ -580,7 +582,8 @@ const FXchar patterns[]=
 // Map
 FXDEFMAP(ImageWindow) ImageWindowMap[]={
   FXMAPFUNC(SEL_COMMAND, ImageWindow::ID_ABOUT,      ImageWindow::onCmdAbout),
-  FXMAPFUNC(SEL_COMMAND, ImageWindow::ID_OPEN,       ImageWindow::onCmdOpen),
+  FXMAPFUNC(SEL_COMMAND, ImageWindow::ID_OPEN_FILE,  ImageWindow::onCmdOpenFile),
+  FXMAPFUNC(SEL_COMMAND, ImageWindow::ID_OPEN_PROC,  ImageWindow::onCmdOpenProc),
   FXMAPFUNC(SEL_COMMAND, ImageWindow::ID_SAVE_AS,    ImageWindow::onCmdSaveAs),
   FXMAPFUNC(SEL_UPDATE,  ImageWindow::ID_TITLE,      ImageWindow::onUpdTitle),
   //FXMAPFUNC(SEL_UPDATE,  ImageWindow::ID_QUERY_TIP,     ImageWindow::onQueryTip),
@@ -692,7 +695,7 @@ ImageWindow::ImageWindow(FXApp* a)
   {
     FXAccelTable *table;
     table=getAccelTable();
-    if(table){
+    if(table) {
 #ifdef _WIN32
       // Every good win32 app should respond to Alt-F4
       table->addAccel(parseAccel("Alt+F4"),this,FXSEL(SEL_COMMAND,ImageWindow::ID_QUIT));
@@ -888,8 +891,11 @@ ImageWindow::ImageWindow(FXApp* a)
   new FXButton(toolbar,"&Colors\tColors\tDisplay color dialog.",paletteicon,colordlg,FXWindow::ID_SHOW,ICON_ABOVE_TEXT|BUTTON_TOOLBAR|FRAME_RAISED|LAYOUT_RIGHT);
 */
   // File Menu entries
-  new FXMenuCommand(filemenu,"&Open...\tCtrl-O\tOpen an image file.",/*fileopenicon*/0,this,ID_OPEN);
-  new FXMenuCommand(filemenu,"&Save As...\tCtrl-S\tSave current image to file.",/*filesaveicon*/0,this,ID_SAVE_AS);
+  new FXMenuCommand(filemenu,"&Open File ...\tCtrl-O\tOpen an image from file.",0,this,ID_OPEN_FILE);
+#ifdef _WIN32
+  new FXMenuCommand(filemenu,"Open &Process ...\tCtrl-P\tOpen an image from process memory.",0,this,ID_OPEN_PROC);
+#endif
+  new FXMenuCommand(filemenu,"&Save As ...\tCtrl-S\tSave current image to file.",0,this,ID_SAVE_AS);
   //new FXMenuCommand(filemenu,"Dump",NULL,getApp(),FXApp::ID_DUMP);
 
   // Recent file menu; this automatically hides if there are no files
@@ -920,7 +926,7 @@ ImageWindow::ImageWindow(FXApp* a)
   new FXMenuCommand(editmenu,"&Paste\tCtrl-V\tPaste from clipboard.",/*pasteicon*/0,this,ID_PASTE);
   new FXMenuCommand(editmenu,"&Delete\tDel\tDelete current image.",0,this,ID_DELETE);
   new FXMenuSeparator(editmenu);
-  new FXMenuCommand(editmenu,"&Options...\t\tChange imdebug options.",NULL,this,ID_OPTIONS,0);
+  new FXMenuCommand(editmenu,"&Options ...\t\tChange imdebug options.",NULL,this,ID_OPTIONS,0);
 
   // Image Menu entries
   new FXMenuCommand(imagemenu,"&Next Image\tDown\tGo to next image",NULL,this,ID_NEXT_IMAGE);
@@ -975,7 +981,7 @@ ImageWindow::ImageWindow(FXApp* a)
   new FXMenuCheck(viewmenu,"&Hold on Image\tCtrl+J\tDo not automatically jump to the newest images",&btHoldOnImage(),FXDataTarget::ID_VALUE,ID_HOLD_ON_IMAGE);
 
   // Help Menu entries
-  new FXMenuCommand(helpmenu,"&About Imdebug...",NULL,this,ID_ABOUT,0);
+  new FXMenuCommand(helpmenu,"&About Imdebug ...",NULL,this,ID_ABOUT,0);
 
   // Make a tool tip
   //new FXToolTip(getApp(),TOOLTIP_NORMAL);
@@ -1029,7 +1035,7 @@ ImageWindow::~ImageWindow()
 }
 
 // About box
-long ImageWindow::onCmdAbout(FXObject*,FXSelector,void*){
+long ImageWindow::onCmdAbout(FXObject*,FXSelector,void*) {
   FXMessageBox about(
     this,"About the Image Debugger",
     "The Image Debugger " IMDBG_APP_VERSION_STRING " - "
@@ -1078,51 +1084,51 @@ void imageToImprops(FXImage *img, ImProps *props, const FXString &name)
 }
 
 // Load file
-bool ImageWindow::loadimage(const FXString& file){
+bool ImageWindow::loadimage(const FXString& file) {
   using namespace FXPath;
 
   FXString ext=extension(file);
   FXImage *img=NULL;
   FXImage *old;
-  if(comparecase(ext,"gif")==0){
+  if(comparecase(ext,"gif")==0) {
     img=new FXGIFImage(getApp(),NULL,IMAGE_KEEP|IMAGE_SHMI|IMAGE_SHMP);
     }
-  else if(comparecase(ext,"bmp")==0){
+  else if(comparecase(ext,"bmp")==0) {
     img=new FXBMPImage(getApp(),NULL,IMAGE_KEEP|IMAGE_SHMI|IMAGE_SHMP);
     }
-  else if(comparecase(ext,"xpm")==0){
+  else if(comparecase(ext,"xpm")==0) {
     img=new FXXPMImage(getApp(),NULL,IMAGE_KEEP|IMAGE_SHMI|IMAGE_SHMP);
     }
-  else if(comparecase(ext,"pcx")==0){
+  else if(comparecase(ext,"pcx")==0) {
     img=new FXPCXImage(getApp(),NULL,IMAGE_KEEP|IMAGE_SHMI|IMAGE_SHMP);
     }
-  else if(comparecase(ext,"ico")==0){
+  else if(comparecase(ext,"ico")==0) {
     img=new FXICOImage(getApp(),NULL,IMAGE_KEEP|IMAGE_SHMI|IMAGE_SHMP);
     }
-  else if(comparecase(ext,"tga")==0){
+  else if(comparecase(ext,"tga")==0) {
     img=new FXTGAImage(getApp(),NULL,IMAGE_KEEP|IMAGE_SHMI|IMAGE_SHMP);
     }
-  else if(comparecase(ext,"rgb")==0){
+  else if(comparecase(ext,"rgb")==0) {
     img=new FXRGBImage(getApp(),NULL,IMAGE_KEEP|IMAGE_SHMI|IMAGE_SHMP);
     }
 #ifdef HAVE_PNG_H
-  else if(comparecase(ext,"png")==0){
+  else if(comparecase(ext,"png")==0) {
     img=new FXPNGImage(getApp(),NULL,IMAGE_KEEP|IMAGE_SHMI|IMAGE_SHMP);
     }
 #endif
 #ifdef HAVE_JPEG_H
-  else if(comparecase(ext,"jpg")==0){
+  else if(comparecase(ext,"jpg")==0) {
     img=new FXJPGImage(getApp(),NULL,IMAGE_KEEP|IMAGE_SHMI|IMAGE_SHMP);
     }
 #endif
 #ifdef HAVE_TIFF_H
-  else if(comparecase(ext,"tif")==0 || comparecase(ext,"tiff")==0){
+  else if(comparecase(ext,"tif")==0 || comparecase(ext,"tiff")==0) {
     img=new FXTIFImage(getApp(),NULL,IMAGE_KEEP|IMAGE_SHMI|IMAGE_SHMP);
     }
 #endif
 
   // Perhaps failed
-  if(img==NULL){
+  if(img==NULL) {
     FXMessageBox::error(this,MBOX_OK,"Error Loading Image","Unsupported type: %s",ext.text());
     return false;
     }
@@ -1185,7 +1191,7 @@ bool ImageWindow::loadimage(const FXString& file){
 }
 
 // Save file
-bool ImageWindow::saveimage(const FXString& file){
+bool ImageWindow::saveimage(const FXString& file) {
   using namespace FXPath;
 
   FXString ext=extension(file);
@@ -1195,45 +1201,45 @@ bool ImageWindow::saveimage(const FXString& file){
   FXint w = old->getWidth();
   FXint h = old->getHeight();
   FXColor *olddata = old->getData();
-  if(comparecase(ext,"gif")==0){
+  if(comparecase(ext,"gif")==0) {
     img=new FXGIFImage(getApp(),NULL,opt,w,h);
     }
-  else if(comparecase(ext,"bmp")==0){
+  else if(comparecase(ext,"bmp")==0) {
     img=new FXBMPImage(getApp(),NULL,opt,w,h);
     }
-//  else if(comparecase(ext,"xpm")==0){
+//  else if(comparecase(ext,"xpm")==0) {
 //    img=new FXXPMImage(getApp(),old->getData(),opt,w,h);
 //    }
-  else if(comparecase(ext,"pcx")==0){
+  else if(comparecase(ext,"pcx")==0) {
     img=new FXPCXImage(getApp(),NULL,opt,w,h);
     }
-  else if(comparecase(ext,"ico")==0){
+  else if(comparecase(ext,"ico")==0) {
     img=new FXICOImage(getApp(),NULL,opt,w,h);
     }
-  else if(comparecase(ext,"tga")==0){
+  else if(comparecase(ext,"tga")==0) {
     img=new FXTGAImage(getApp(),NULL,opt,w,h);
     }
-  else if(comparecase(ext,"rgb")==0){
+  else if(comparecase(ext,"rgb")==0) {
     img=new FXRGBImage(getApp(),NULL,opt,w,h);
     }
 #ifdef HAVE_PNG_H
-  else if(comparecase(ext,"png")==0){
+  else if(comparecase(ext,"png")==0) {
     img=new FXPNGImage(getApp(),NULL,opt,w,h);
     }
 #endif
 #ifdef HAVE_JPEG_H
-  else if(comparecase(ext,"jpg")==0){
+  else if(comparecase(ext,"jpg")==0) {
     img=new FXJPGImage(getApp(),NULL,opt,w,h);
     }
 #endif
 #ifdef HAVE_TIFF_H
-  else if(comparecase(ext,"tif")==0 || comparecase(ext,"tiff")==0){
+  else if(comparecase(ext,"tif")==0 || comparecase(ext,"tiff")==0) {
     img=new FXTIFImage(getApp(),NULL,opt,w,h);
     }
 #endif
 
   // Perhaps failed
-  if(img==NULL){
+  if(img==NULL) {
     FXMessageBox::error(this,MBOX_OK,"Error Loading Image","Unsupported type: %s",ext.text());
     return false;
   }
@@ -1247,9 +1253,9 @@ bool ImageWindow::saveimage(const FXString& file){
   img->render();
 
   FXFileStream stream;
-  if(stream.open(file,FXStreamSave)){
+  if(stream.open(file,FXStreamSave)) {
     getApp()->beginWaitCursor();
-    //img=imageview->getImage();///// We may want to save in another format...
+    //img=imageview->getImage();///// We may want to save in another format ...
     // crop it to just image part.
     int l,r,t,b;
     ImPropsEx *p = &improps[curImage];
@@ -1278,7 +1284,7 @@ void ImageWindow::setImageCountStatus()
   // But if we're doing image replacement then it's better to set it
   // to show which image this is out of the similar images shown
   char msg[200];
-  if (numImages==0){
+  if (numImages==0) {
     sprintf(msg, "0 / %d      ", imagesDisplayed);
     statusNavLabel->setText(msg);
     sprintf(msg, "A total of %d images have been shown.", imagesDisplayed);
@@ -1576,7 +1582,7 @@ void ImageWindow::setHoverImageInfoStatus()
 void ImageWindow::setNormalImageInfoStatus()
 {
   char msg[100] = "Ready";
-  // when there's nothing particular to show... show image stats
+  // when there's nothing particular to show ... show image stats
 
   int l=0,i;
   ImProps *pprops = &improps[curImage];
@@ -1638,38 +1644,46 @@ void ImageWindow::setNormalImageInfoStatus()
   statusbar->getStatusLine()->setNormalText( FXString(msg) );
 }
 
-// Open
-long ImageWindow::onCmdOpen(FXObject*,FXSelector,void*){
+// Open ...
+long ImageWindow::onCmdOpenFile(FXObject*,FXSelector,void*) {
   FXFileDialog open(this,"Open Image");
   open.setFilename(filename);
   open.setPatternList(patterns);
   open.setIcon(appIcon);
-  if(open.execute()){
+  if(open.execute()) {
     filename=open.getFilename();
     mrufiles.appendFile(filename);
     loadimage(filename);
-    }
+  }
   return 1;
 }
 
-// Save
-long ImageWindow::onCmdSaveAs(FXObject*,FXSelector,void*){
+// Open Process ...
+long ImageWindow::onCmdOpenProc(FXObject*,FXSelector,void*) {
+  FXDialogBox procdialog(this,"Open Process");
+  new FXListBox(&procdialog);
+  procdialog.execute();
+  return 1;
+}
+
+// Save As ...
+long ImageWindow::onCmdSaveAs(FXObject*,FXSelector,void*) {
   FXFileDialog savedialog(this,"Save Image");
   savedialog.setFilename(filename);
   savedialog.setIcon(appIcon);
-  if(savedialog.execute()){
-    if(FXStat::exists(savedialog.getFilename())){
+  if(savedialog.execute()) {
+    if(FXStat::exists(savedialog.getFilename())) {
       if(MBOX_CLICKED_NO==FXMessageBox::question(this,MBOX_YES_NO,"Overwrite Image","Overwrite existing image?")) return 1;
-      }
+    }
     filename=savedialog.getFilename();
     mrufiles.appendFile(filename);
     saveimage(filename);
-    }
+  }
   return 1;
 }
 
 // Quit
-long ImageWindow::onCmdQuit(FXObject*,FXSelector,void*){
+long ImageWindow::onCmdQuit(FXObject*,FXSelector,void*) {
   FXTRACE((100,"Quit\n"));
 
   // Write new window size back to registry
@@ -1766,7 +1780,7 @@ long ImageWindow::onCmdDelete(FXObject* sender,FXSelector,void*)
     lastImage--;
     if (lastImage<0) lastImage=historySize-1;
   }
-  else if (numImages>0){
+  else if (numImages>0) {
     curImage--;
     if (curImage<0) curImage=historySize-1;
     lastImage = curImage;
@@ -1780,7 +1794,7 @@ long ImageWindow::onCmdDelete(FXObject* sender,FXSelector,void*)
 }
 
 // Update title
-long ImageWindow::onUpdTitle(FXObject* sender,FXSelector,void*){
+long ImageWindow::onUpdTitle(FXObject* sender,FXSelector,void*) {
   FXString title;
   if (numImages>0) {
     ImPropsEx *p = &improps[curImage];
@@ -1793,7 +1807,7 @@ long ImageWindow::onUpdTitle(FXObject* sender,FXSelector,void*){
   }
   title += FXString(IMDBG_DISPLAY_WINDOW_TITLE);
 //  FXImage* image=imageview->getImage();
-//  if(image){ title+=" (" + FXStringVal(image->getWidth()) + " x " + FXStringVal(image->getHeight()) + ")"; }
+//  if(image) { title+=" (" + FXStringVal(image->getWidth()) + " x " + FXStringVal(image->getHeight()) + ")"; }
   sender->handle(this,FXSEL(SEL_COMMAND,FXWindow::ID_SETSTRINGVALUE),(void*)&title);
   return 1;
 }
@@ -1801,7 +1815,7 @@ long ImageWindow::onUpdTitle(FXObject* sender,FXSelector,void*){
 /*
 long ImageWindow::onQueryTip(FXObject*sender,FXSelector,void*)
 {
-  if(!tooltipString.empty()){
+  if(!tooltipString.empty()) {
     sender->handle(this,FXSEL(SEL_COMMAND,ID_SETSTRINGVALUE),&tooltipString);
     return 1;
   }
@@ -1810,7 +1824,7 @@ long ImageWindow::onQueryTip(FXObject*sender,FXSelector,void*)
 
 long ImageWindow::onQueryStatus(FXObject*sender,FXSelector,void*)
 {
-  if(!statusHelpString.empty()){
+  if(!statusHelpString.empty()) {
     sender->handle(this,FXSEL(SEL_COMMAND,ID_SETSTRINGVALUE),&statusHelpString);
     return 1;
   }
@@ -1819,7 +1833,7 @@ long ImageWindow::onQueryStatus(FXObject*sender,FXSelector,void*)
 */
 
 // Open recent file
-long ImageWindow::onCmdRecentFile(FXObject*,FXSelector,void* ptr){
+long ImageWindow::onCmdRecentFile(FXObject*,FXSelector,void* ptr) {
   filename=(FXchar*)ptr;
   //filelist->setCurrentFile(filename);
   loadimage(filename);
@@ -1858,7 +1872,7 @@ long ImageWindow::onCmdOptions(FXObject* sender,FXSelector sel,void* ptr)
   FXint oldnr,oldnc;
   oldnr=historySize;
   oldnc=btPropagateScaleOnTagged;
-  if(dlg.execute()){
+  if(dlg.execute()) {
     int nhist = hist->getValue();
     if (historySize != nhist)
     {
@@ -1911,7 +1925,7 @@ long ImageWindow::onCmdNavigate(FXObject* sender,FXSelector sel,void* ptr)
 {
   if (numImages<0) return 0;
   int idx;
-  switch(FXSELID(sel)){
+  switch(FXSELID(sel)) {
   case ID_NEXT_IMAGE:
     // switch to next output image
     if ( curImage != lastImage )
@@ -2239,7 +2253,7 @@ void ImageWindow::doZoom(int dirn, int xWin, int yWin)
 
 long ImageWindow::onCmdZoom(FXObject* sender,FXSelector sel,void* ptr)
 {
-  switch(FXSELID(sel)){
+  switch(FXSELID(sel)) {
   case ID_ZOOM_IN:
     doZoom(1,imageview->getWidth()>>1,imageview->getHeight()>>1);
     break;
@@ -2404,8 +2418,8 @@ long ImageWindow::onCmdSetDiffBase (FXObject*sender,FXSelector sel,void*)
 
 long ImageWindow::onCmdChannels(FXObject* sender,FXSelector sel,void* ptr)
 {
-  //switch(FXSELID(sel)){
-  switch(itEnabledChannels){
+  //switch(FXSELID(sel)) {
+  switch(itEnabledChannels) {
   case ID_RGBA:
     drawAttr.enabledChannels = DrawAttribs::ENABLE_RGBA;
     statusbar->getStatusLine()->setText("Showing RGBA channels.");
@@ -2839,7 +2853,7 @@ bool ImageWindow::regenerateDisplayImage()
 
   if (!pBlitFunc)
   {
-    // try to find other backup blit functions here...
+    // try to find other backup blit functions here ...
   }
 
   // blit image to DIB
@@ -2924,7 +2938,7 @@ bool ImageWindow::regenerateDisplayImage()
 }
 
 // Update image
-long ImageWindow::onUpdImage(FXObject* sender,FXSelector,void*){
+long ImageWindow::onUpdImage(FXObject* sender,FXSelector,void*) {
   if(imageview->getImage())
     sender->handle(this,FXSEL(SEL_COMMAND,FXWindow::ID_ENABLE),NULL);
   else
@@ -3183,10 +3197,10 @@ long ImageWindow::onExternalNotify(FXObject*o,FXSelector s,void*p)
 
 /*
 // Mirror
-long ImageWindow::onCmdMirror(FXObject*,FXSelector sel,void*){
+long ImageWindow::onCmdMirror(FXObject*,FXSelector sel,void*) {
   FXImage* image=imageview->getImage();
   FXASSERT(image);
-  switch(FXSELID(sel)){
+  switch(FXSELID(sel)) {
     case ID_MIRROR_HOR: image->mirror(true,false); break;
     case ID_MIRROR_VER: image->mirror(false,true); break;
     }
@@ -3195,7 +3209,7 @@ long ImageWindow::onCmdMirror(FXObject*,FXSelector sel,void*){
 }
 
 // Scale
-long ImageWindow::onCmdScale(FXObject*,FXSelector,void*){
+long ImageWindow::onCmdScale(FXObject*,FXSelector,void*) {
   FXImage* image=imageview->getImage();
   FXASSERT(image);
   FXint sx=image->getWidth();
@@ -3218,7 +3232,7 @@ long ImageWindow::onCmdScale(FXObject*,FXSelector,void*){
 }
 
 // Crop
-long ImageWindow::onCmdCrop(FXObject*,FXSelector,void*){
+long ImageWindow::onCmdCrop(FXObject*,FXSelector,void*) {
   FXImage* image=imageview->getImage();
   FXASSERT(image);
   FXint cx=0;
@@ -3325,7 +3339,7 @@ long ImageWindow::onResize(FXObject*,FXSelector,void*)
 }
 
 // Create and show window
-void ImageWindow::create(){
+void ImageWindow::create() {
   FXint ww,hh,xx,yy;
   FXString dir;
 
@@ -3422,7 +3436,7 @@ public:
   // the app sends the WM_APP message with PostMessage instead of SendMessage.
   // But we need the synchronous behavior of SendMessage for it to work
   // right.
-  bool getNextEvent(FXRawEvent& msg,bool blocking){
+  bool getNextEvent(FXRawEvent& msg,bool blocking) {
     bool ret = FXApp::getNextEvent(msg,blocking);
     fxmessage("msg: 0x%x\t0x%x\t0x%x\n",msg.message, msg.lParam, msg.wParam);
     if (imageReadyTarget && msg.message >= WM_APP && msg.message <= 0xBFFF) {
@@ -3449,7 +3463,7 @@ void MakeConsole() {
 /***************************************************************************/
 
 // Start the whole thing
-int main(int argc,char *argv[]){
+int main(int argc,char *argv[]) {
   // Make application
   FXApp application(IMDBG_REG_KEY_APP, IMDBG_REG_KEY_VENDOR);
 
